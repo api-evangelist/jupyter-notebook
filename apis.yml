@@ -1,0 +1,90 @@
+name: Jupyter Notebook
+description: 'The Jupyter Notebook is an open-source web application that allows you to create  and share documents that contain live code, equations, visualizations and narrative text.
+
+  '
+image: https://jupyter.org/assets/homepage/main-logo.svg
+tags:
+- jupyter
+- notebook
+- interactive computing
+- python
+- data science
+- machine learning
+created: '2024-01-15'
+modified: '2024-01-15'
+url: https://jupyter.org
+specificationVersion: '0.16'
+apis:
+- name: Jupyter Notebook REST API
+  description: 'REST API for managing and interacting with Jupyter Notebook servers, including kernels, sessions, contents, and terminals.
+
+    '
+  image: https://jupyter.org/assets/homepage/main-logo.svg
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888
+  tags:
+  - kernels
+  - sessions
+  - notebooks
+  - files
+  properties:
+  - type: X-documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: X-openapi
+    url: https://petstore.swagger.io/?url=https://raw.githubusercontent.com/jupyter/notebook/master/notebook/services/api/api.yaml
+  - type: X-github
+    url: https://github.com/jupyter/notebook
+  contact:
+  - FN: Jupyter Project
+    email: jupyter@googlegroups.com
+    X-twitter: ProjectJupyter
+- name: Jupyter Kernel Gateway API
+  description: 'Web server that provides headless access to Jupyter kernels for remote execution of code.
+
+    '
+  image: https://jupyter.org/assets/homepage/main-logo.svg
+  humanURL: https://jupyter-kernel-gateway.readthedocs.io/
+  baseURL: http://localhost:8888
+  tags:
+  - kernel
+  - gateway
+  - execution
+  properties:
+  - type: X-documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: X-github
+    url: https://github.com/jupyter/kernel_gateway
+  contact:
+  - FN: Jupyter Project
+    email: jupyter@googlegroups.com
+- name: JupyterHub REST API
+  description: 'Multi-user server management API for spawning, managing, and proxying multiple instances of single-user Jupyter notebook servers.
+
+    '
+  image: https://jupyter.org/assets/homepage/main-logo.svg
+  humanURL: https://jupyterhub.readthedocs.io/
+  baseURL: http://localhost:8000
+  tags:
+  - hub
+  - multi-user
+  - authentication
+  properties:
+  - type: X-documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: X-openapi
+    url: https://raw.githubusercontent.com/jupyterhub/jupyterhub/master/docs/rest-api.yml
+  - type: X-github
+    url: https://github.com/jupyterhub/jupyterhub
+  contact:
+  - FN: Jupyter Project
+    email: jupyter@googlegroups.com
+maintainers:
+- FN: Project Jupyter
+  email: jupyter@googlegroups.com
+  X-twitter: ProjectJupyter
+  X-github: jupyter
+include:
+- name: Jupyter Kernel Specifications
+  url: https://jupyter-client.readthedocs.io/en/stable/kernels.html
+- name: Jupyter Message Protocol
+  url: https://jupyter-client.readthedocs.io/en/stable/messaging.html
