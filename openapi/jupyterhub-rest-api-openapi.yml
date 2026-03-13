@@ -1,0 +1,1181 @@
+openapi: 3.1.0
+info:
+  title: JupyterHub REST API
+  description: >-
+    REST API for JupyterHub, the multi-user server for Jupyter notebooks.
+    This API provides endpoints for managing users, groups, services,
+    proxy routes, and the hub itself. JupyterHub spawns, manages, and
+    proxies multiple instances of single-user Jupyter notebook servers.
+  version: 5.0.0
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyterhub.readthedocs.io
+    email: jupyter@googlegroups.com
+servers:
+  - url: http://localhost:8000/hub/api
+    description: Local JupyterHub server
+paths:
+  /:
+    get:
+      operationId: getRootInfo
+      summary: Get JupyterHub version
+      description: Returns the version of the running JupyterHub instance.
+      tags:
+        - general
+      responses:
+        '200':
+          description: JupyterHub version information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    description: The version of JupyterHub.
+  /info:
+    get:
+      operationId: getInfo
+      summary: Get detailed server info
+      description: >-
+        Returns detailed information about the JupyterHub instance including
+        version, Python version, spawner, and authenticator information.
+      tags:
+        - general
+      responses:
+        '200':
+          description: Detailed JupyterHub server information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HubInfo'
+  /users:
+    get:
+      operationId: listUsers
+      summary: List users
+      description: >-
+        List all users registered with JupyterHub. Admin access is
+        required. Supports pagination via offset and limit parameters.
+      tags:
+        - users
+      parameters:
+        - name: state
+          in: query
+          required: false
+          description: >-
+            Filter users by server state. Can be 'active', 'inactive',
+            or 'ready'.
+          schema:
+            type: string
+            enum:
+              - active
+              - inactive
+              - ready
+        - name: offset
+          in: query
+          required: false
+          description: Offset for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of users to return.
+          schema:
+            type: integer
+            default: 100
+        - name: include_stopped_servers
+          in: query
+          required: false
+          description: Include stopped server information in results.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: List of users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '403':
+          description: Forbidden. Admin access required.
+    post:
+      operationId: createUsers
+      summary: Create multiple users
+      description: Create one or more new users.
+      tags:
+        - users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usernames:
+                  type: array
+                  description: List of usernames to create.
+                  items:
+                    type: string
+                admin:
+                  type: boolean
+                  description: Whether the new users should be admins.
+                  default: false
+              required:
+                - usernames
+      responses:
+        '201':
+          description: Users created successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '403':
+          description: Forbidden. Admin access required.
+        '409':
+          description: Conflict. One or more users already exist.
+  /users/{name}:
+    get:
+      operationId: getUser
+      summary: Get user details
+      description: Get detailed information about a specific user.
+      tags:
+        - users
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Username.
+          schema:
+            type: string
+        - name: include_stopped_servers
+          in: query
+          required: false
+          description: Include stopped server information.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: User details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '403':
+          description: Forbidden.
+        '404':
+          description: User not found.
+    post:
+      operationId: createUser
+      summary: Create a single user
+      description: Create a new user with the given name.
+      tags:
+        - users
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Username for the new user.
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                admin:
+                  type: boolean
+                  description: Whether the user should be an admin.
+      responses:
+        '201':
+          description: User created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '409':
+          description: User already exists.
+    patch:
+      operationId: updateUser
+      summary: Update user properties
+      description: >-
+        Modify a user's properties such as name or admin status.
+      tags:
+        - users
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Current username.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: New username (for renaming).
+                admin:
+                  type: boolean
+                  description: Admin status.
+      responses:
+        '200':
+          description: User updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request.
+        '404':
+          description: User not found.
+    delete:
+      operationId: deleteUser
+      summary: Delete a user
+      description: >-
+        Delete a user from JupyterHub. This will also stop and remove
+        any running servers for the user.
+      tags:
+        - users
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Username to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User deleted successfully.
+        '404':
+          description: User not found.
+  /users/{name}/activity:
+    post:
+      operationId: notifyUserActivity
+      summary: Notify user activity
+      description: >-
+        Notify the hub of activity for a user. Updates the user's
+        last_activity timestamp and optionally their servers' activity.
+      tags:
+        - users
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Username.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                last_activity:
+                  type: string
+                  format: date-time
+                  description: Timestamp of last activity.
+                servers:
+                  type: object
+                  description: >-
+                    Map of server names to activity timestamps.
+                  additionalProperties:
+                    type: object
+                    properties:
+                      last_activity:
+                        type: string
+                        format: date-time
+      responses:
+        '200':
+          description: Activity recorded successfully.
+  /users/{name}/server:
+    post:
+      operationId: startUserServer
+      summary: Start user's default server
+      description: >-
+        Start the user's default single-user server. The response may
+        be 201 or 202 depending on whether the server starts
+        immediately or is still pending.
+      tags:
+        - users
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Username.
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Spawner options passed to the spawner.
+              additionalProperties: true
+      responses:
+        '201':
+          description: Server started successfully.
+        '202':
+          description: Server start accepted, still pending.
+        '400':
+          description: Bad request.
+    delete:
+      operationId: stopUserServer
+      summary: Stop user's default server
+      description: Stop the user's default single-user server.
+      tags:
+        - users
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Username.
+          schema:
+            type: string
+        - name: remove
+          in: query
+          required: false
+          description: Whether to fully remove the server record.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '202':
+          description: Server stop accepted, still pending.
+        '204':
+          description: Server stopped and removed.
+        '400':
+          description: Bad request.
+  /users/{name}/servers/{server_name}:
+    post:
+      operationId: startNamedServer
+      summary: Start a named server
+      description: >-
+        Start a named server for the user. JupyterHub supports
+        multiple named servers per user.
+      tags:
+        - users
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Username.
+          schema:
+            type: string
+        - name: server_name
+          in: path
+          required: true
+          description: Name for the server.
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Spawner options.
+              additionalProperties: true
+      responses:
+        '201':
+          description: Server started successfully.
+        '202':
+          description: Server start accepted, still pending.
+    delete:
+      operationId: stopNamedServer
+      summary: Stop a named server
+      description: Stop a user's named server.
+      tags:
+        - users
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Username.
+          schema:
+            type: string
+        - name: server_name
+          in: path
+          required: true
+          description: Name of the server.
+          schema:
+            type: string
+        - name: remove
+          in: query
+          required: false
+          description: Whether to fully remove the server record.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '202':
+          description: Server stop accepted, still pending.
+        '204':
+          description: Server stopped and removed.
+  /users/{name}/tokens:
+    get:
+      operationId: listUserTokens
+      summary: List user's API tokens
+      description: List all API tokens for a given user.
+      tags:
+        - users
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Username.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of API tokens.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token'
+        '403':
+          description: Forbidden.
+        '404':
+          description: User not found.
+    post:
+      operationId: createUserToken
+      summary: Create an API token
+      description: Create a new API token for the given user.
+      tags:
+        - users
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Username.
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                expires_in:
+                  type: integer
+                  description: Token lifetime in seconds. 0 means no expiry.
+                note:
+                  type: string
+                  description: Note describing the purpose of this token.
+                roles:
+                  type: array
+                  description: Roles to assign to this token.
+                  items:
+                    type: string
+                scopes:
+                  type: array
+                  description: Scopes to assign to this token.
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Token created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '403':
+          description: Forbidden.
+  /users/{name}/tokens/{token_id}:
+    get:
+      operationId: getUserToken
+      summary: Get token details
+      description: Get details about a specific API token.
+      tags:
+        - users
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Username.
+          schema:
+            type: string
+        - name: token_id
+          in: path
+          required: true
+          description: Token identifier.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Token details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '404':
+          description: Token not found.
+    delete:
+      operationId: deleteUserToken
+      summary: Revoke an API token
+      description: Revoke a specific API token for the user.
+      tags:
+        - users
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Username.
+          schema:
+            type: string
+        - name: token_id
+          in: path
+          required: true
+          description: Token identifier.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Token revoked successfully.
+        '404':
+          description: Token not found.
+  /groups:
+    get:
+      operationId: listGroups
+      summary: List groups
+      description: List all groups.
+      tags:
+        - groups
+      parameters:
+        - name: offset
+          in: query
+          required: false
+          description: Offset for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of groups to return.
+          schema:
+            type: integer
+            default: 100
+      responses:
+        '200':
+          description: List of groups.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Group'
+        '403':
+          description: Forbidden.
+  /groups/{name}:
+    get:
+      operationId: getGroup
+      summary: Get group details
+      description: Get information about a specific group.
+      tags:
+        - groups
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Group name.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Group details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '404':
+          description: Group not found.
+    post:
+      operationId: createGroup
+      summary: Create a group
+      description: Create a new group with the given name.
+      tags:
+        - groups
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Group name.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Group created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '409':
+          description: Group already exists.
+    delete:
+      operationId: deleteGroup
+      summary: Delete a group
+      description: Delete a group. Users in the group are not deleted.
+      tags:
+        - groups
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Group name.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Group deleted successfully.
+        '404':
+          description: Group not found.
+  /groups/{name}/users:
+    post:
+      operationId: addGroupUsers
+      summary: Add users to a group
+      description: Add one or more users to a group.
+      tags:
+        - groups
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Group name.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users:
+                  type: array
+                  description: List of usernames to add.
+                  items:
+                    type: string
+              required:
+                - users
+      responses:
+        '200':
+          description: Users added to group.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '404':
+          description: Group not found.
+    delete:
+      operationId: removeGroupUsers
+      summary: Remove users from a group
+      description: Remove one or more users from a group.
+      tags:
+        - groups
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Group name.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users:
+                  type: array
+                  description: List of usernames to remove.
+                  items:
+                    type: string
+              required:
+                - users
+      responses:
+        '200':
+          description: Users removed from group.
+        '404':
+          description: Group not found.
+  /groups/{name}/properties:
+    put:
+      operationId: setGroupProperties
+      summary: Set group properties
+      description: Set or replace all custom properties for a group.
+      tags:
+        - groups
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Group name.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Properties set successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+  /services:
+    get:
+      operationId: listServices
+      summary: List services
+      description: List all registered JupyterHub services.
+      tags:
+        - services
+      responses:
+        '200':
+          description: List of services.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
+        '403':
+          description: Forbidden.
+  /services/{name}:
+    get:
+      operationId: getService
+      summary: Get service details
+      description: Get information about a specific service.
+      tags:
+        - services
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Service name.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Service details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '404':
+          description: Service not found.
+  /proxy:
+    get:
+      operationId: getProxyTable
+      summary: Get proxy routing table
+      description: Get the current proxy routing table from the configurable HTTP proxy.
+      tags:
+        - proxy
+      responses:
+        '200':
+          description: Proxy routing table.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/ProxyRoute'
+    post:
+      operationId: syncProxy
+      summary: Force proxy sync
+      description: Force the hub to sync the proxy routing table with its database.
+      tags:
+        - proxy
+      responses:
+        '200':
+          description: Proxy synced successfully.
+    patch:
+      operationId: addProxyRoute
+      summary: Add a proxy route
+      description: Add a new entry to the proxy routing table.
+      tags:
+        - proxy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProxyRoute'
+      responses:
+        '201':
+          description: Route added successfully.
+  /authorizations/token/{token}:
+    get:
+      operationId: checkToken
+      summary: Identify a user by token
+      description: >-
+        Identify the user associated with a given API token.
+        Used by services to verify token authentication.
+      tags:
+        - authorization
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: The API token to check.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Token is valid, returns user information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Token not found or invalid.
+  /shutdown:
+    post:
+      operationId: shutdownHub
+      summary: Shut down the hub
+      description: >-
+        Shut down the JupyterHub process. Optionally stop all
+        single-user servers and the proxy.
+      tags:
+        - hub
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                servers:
+                  type: boolean
+                  description: Whether to stop all user servers.
+                  default: false
+                proxy:
+                  type: boolean
+                  description: Whether to stop the proxy.
+                  default: false
+      responses:
+        '200':
+          description: Shutdown initiated.
+        '403':
+          description: Forbidden. Admin access required.
+components:
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        API token passed in the Authorization header as
+        'token <api_token>'.
+    oAuthToken:
+      type: http
+      scheme: bearer
+      description: OAuth2 bearer token.
+  schemas:
+    HubInfo:
+      type: object
+      description: Detailed JupyterHub server information.
+      properties:
+        version:
+          type: string
+          description: JupyterHub version.
+        python:
+          type: string
+          description: Python version.
+        sys_executable:
+          type: string
+          description: Path to the Python executable.
+        authenticator:
+          type: object
+          description: Authenticator information.
+          properties:
+            class:
+              type: string
+              description: Fully qualified class name of the authenticator.
+            version:
+              type: string
+              description: Authenticator version.
+        spawner:
+          type: object
+          description: Spawner information.
+          properties:
+            class:
+              type: string
+              description: Fully qualified class name of the spawner.
+            version:
+              type: string
+              description: Spawner version.
+    User:
+      type: object
+      description: A JupyterHub user.
+      properties:
+        name:
+          type: string
+          description: The username.
+        admin:
+          type: boolean
+          description: Whether the user is an admin.
+        roles:
+          type: array
+          description: Roles assigned to the user.
+          items:
+            type: string
+        groups:
+          type: array
+          description: Groups the user belongs to.
+          items:
+            type: string
+        server:
+          type:
+            - string
+            - 'null'
+          description: URL path of the user's default server, or null if not running.
+        pending:
+          type:
+            - string
+            - 'null'
+          description: >-
+            Pending action for the server, such as 'spawn' or 'stop',
+            or null if no pending action.
+          enum:
+            - spawn
+            - stop
+            - null
+        last_activity:
+          type:
+            - string
+            - 'null'
+          format: date-time
+          description: Timestamp of last activity.
+        created:
+          type: string
+          format: date-time
+          description: Timestamp when the user was created.
+        servers:
+          type: object
+          description: Map of named servers to their details.
+          additionalProperties:
+            $ref: '#/components/schemas/Server'
+        scopes:
+          type: array
+          description: OAuth scopes for the user.
+          items:
+            type: string
+        auth_state:
+          description: >-
+            Authentication state (only included when requested,
+            admin only).
+      required:
+        - name
+        - admin
+    Server:
+      type: object
+      description: A user's single-user notebook server.
+      properties:
+        name:
+          type: string
+          description: Name of the server (empty string for default).
+        ready:
+          type: boolean
+          description: Whether the server is ready to accept connections.
+        pending:
+          type:
+            - string
+            - 'null'
+          description: Pending action for the server.
+        url:
+          type: string
+          description: URL path of the running server.
+        progress_url:
+          type: string
+          description: URL for the server's spawn progress events.
+        started:
+          type: string
+          format: date-time
+          description: Timestamp when the server was started.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of last activity on the server.
+        state:
+          type: object
+          description: Spawner state (admin only).
+          additionalProperties: true
+        user_options:
+          type: object
+          description: User options passed at spawn time.
+          additionalProperties: true
+    Token:
+      type: object
+      description: An API token.
+      properties:
+        token:
+          type: string
+          description: >-
+            The token value. Only included once on creation, not on
+            subsequent retrievals.
+        id:
+          type: string
+          description: Token identifier (not the token value).
+        user:
+          type: string
+          description: Username the token belongs to.
+        service:
+          type:
+            - string
+            - 'null'
+          description: Service the token belongs to, if any.
+        roles:
+          type: array
+          description: Roles assigned to this token.
+          items:
+            type: string
+        scopes:
+          type: array
+          description: OAuth scopes for this token.
+          items:
+            type: string
+        note:
+          type: string
+          description: Note describing the purpose of this token.
+        created:
+          type: string
+          format: date-time
+          description: When the token was created.
+        expires_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+          description: When the token expires, null if no expiry.
+        last_activity:
+          type:
+            - string
+            - 'null'
+          format: date-time
+          description: Last time the token was used.
+      required:
+        - id
+    Group:
+      type: object
+      description: A JupyterHub user group.
+      properties:
+        name:
+          type: string
+          description: The group name.
+        users:
+          type: array
+          description: List of usernames in the group.
+          items:
+            type: string
+        roles:
+          type: array
+          description: Roles assigned to the group.
+          items:
+            type: string
+        properties:
+          type: object
+          description: Custom properties for the group.
+          additionalProperties: true
+      required:
+        - name
+        - users
+    Service:
+      type: object
+      description: A JupyterHub-managed service.
+      properties:
+        name:
+          type: string
+          description: Name of the service.
+        admin:
+          type: boolean
+          description: Whether the service has admin access.
+        url:
+          type:
+            - string
+            - 'null'
+          description: URL where the service is accessible.
+        prefix:
+          type: string
+          description: URL prefix for the service.
+        pid:
+          type: integer
+          description: Process ID if the service is a managed subprocess.
+        command:
+          type: array
+          description: Command to launch the service.
+          items:
+            type: string
+        info:
+          type: object
+          description: Additional service information.
+          additionalProperties: true
+        display:
+          type: boolean
+          description: Whether to display the service in the UI.
+      required:
+        - name
+    ProxyRoute:
+      type: object
+      description: A proxy routing table entry.
+      properties:
+        routespec:
+          type: string
+          description: >-
+            The route specification, e.g., '/user/username/'.
+        target:
+          type: string
+          description: Target URL to proxy to.
+        data:
+          type: object
+          description: Additional data for the route.
+          additionalProperties: true
+        last_activity:
+          type: string
+          format: date-time
+          description: Last activity on this route.
+security:
+  - token: []
+  - oAuthToken: []
+tags:
+  - name: general
+    description: General hub information and status.
+  - name: users
+    description: >-
+      User management including creation, deletion, server management,
+      and token management.
+  - name: groups
+    description: Group management for organizing users.
+  - name: services
+    description: JupyterHub managed and external services.
+  - name: proxy
+    description: Configurable HTTP proxy routing table management.
+  - name: authorization
+    description: Token verification and authorization checks.
+  - name: hub
+    description: Hub lifecycle management.

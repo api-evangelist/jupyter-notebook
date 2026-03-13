@@ -1,0 +1,346 @@
+openapi: 3.1.0
+info:
+  title: Jupyter Kernel Gateway API
+  description: >-
+    REST API for the Jupyter Kernel Gateway, a web server that provides
+    headless access to Jupyter kernels. The Kernel Gateway supports two
+    modes: jupyter-websocket mode (default) which provides a Jupyter
+    Notebook server-compatible API for kernel management, and
+    notebook-http mode which maps notebook cells to HTTP endpoints.
+    This spec covers the jupyter-websocket mode API.
+  version: 3.0.0
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyter-kernel-gateway.readthedocs.io
+    email: jupyter@googlegroups.com
+servers:
+  - url: http://localhost:8888/api
+    description: Local Jupyter Kernel Gateway server
+paths:
+  /api:
+    get:
+      operationId: getApiInfo
+      summary: Get API info
+      description: >-
+        Returns server information including the version of the Kernel
+        Gateway. This is a Jupyter Notebook server-compatible endpoint.
+      tags:
+        - general
+      responses:
+        '200':
+          description: Server API information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    description: API version.
+  /api/kernels:
+    get:
+      operationId: listKernels
+      summary: List running kernels
+      description: List all currently running kernels on the gateway.
+      tags:
+        - kernels
+      responses:
+        '200':
+          description: List of running kernels.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Kernel'
+    post:
+      operationId: startKernel
+      summary: Start a kernel
+      description: >-
+        Start a new kernel. The kernel gateway may enforce a maximum
+        number of kernels via the KG_MAX_KERNELS configuration.
+      tags:
+        - kernels
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: >-
+                    Name of the kernel spec to use. If omitted, the
+                    default kernel spec is used.
+                env:
+                  type: object
+                  description: >-
+                    Environment variables to set for the kernel. Only
+                    variables matching KG_ENV_WHITELIST are allowed.
+                  additionalProperties:
+                    type: string
+      responses:
+        '201':
+          description: Kernel started successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kernel'
+        '402':
+          description: >-
+            Maximum number of kernels reached. No more kernels can
+            be started.
+        '403':
+          description: >-
+            Forbidden. Kernel creation may be disabled via
+            KG_SEED_URI configuration.
+  /api/kernels/{kernel_id}:
+    get:
+      operationId: getKernel
+      summary: Get kernel information
+      description: Get the model for a specific kernel.
+      tags:
+        - kernels
+      parameters:
+        - name: kernel_id
+          in: path
+          required: true
+          description: Unique identifier for the kernel.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Kernel model.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kernel'
+        '404':
+          description: Kernel not found.
+    delete:
+      operationId: shutdownKernel
+      summary: Shut down a kernel
+      description: Shut down a running kernel.
+      tags:
+        - kernels
+      parameters:
+        - name: kernel_id
+          in: path
+          required: true
+          description: Unique identifier for the kernel.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Kernel shut down successfully.
+        '403':
+          description: >-
+            Forbidden. Kernel deletion may be disabled when using
+            a seeded kernel.
+        '404':
+          description: Kernel not found.
+  /api/kernels/{kernel_id}/interrupt:
+    post:
+      operationId: interruptKernel
+      summary: Interrupt a kernel
+      description: Interrupt a running kernel.
+      tags:
+        - kernels
+      parameters:
+        - name: kernel_id
+          in: path
+          required: true
+          description: Unique identifier for the kernel.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Kernel interrupted successfully.
+        '404':
+          description: Kernel not found.
+  /api/kernels/{kernel_id}/restart:
+    post:
+      operationId: restartKernel
+      summary: Restart a kernel
+      description: Restart a running kernel.
+      tags:
+        - kernels
+      parameters:
+        - name: kernel_id
+          in: path
+          required: true
+          description: Unique identifier for the kernel.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Kernel restarted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kernel'
+        '404':
+          description: Kernel not found.
+  /api/kernelspecs:
+    get:
+      operationId: listKernelSpecs
+      summary: List kernel specifications
+      description: >-
+        Get the list of available kernel specifications. The gateway
+        may be configured with KG_DEFAULT_KERNEL_NAME to set a
+        specific default.
+      tags:
+        - kernelspecs
+      responses:
+        '200':
+          description: Kernel specifications.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KernelSpecList'
+  /api/kernelspecs/{kernel_name}:
+    get:
+      operationId: getKernelSpec
+      summary: Get a kernel specification
+      description: Get the specification for a specific kernel by name.
+      tags:
+        - kernelspecs
+      parameters:
+        - name: kernel_name
+          in: path
+          required: true
+          description: Name of the kernel specification.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Kernel specification details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KernelSpec'
+        '404':
+          description: Kernel spec not found.
+components:
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        Authentication token configured via KG_AUTH_TOKEN.
+        Passed as 'token <token_value>' in the Authorization header.
+    tokenQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: Authentication token passed as a query parameter.
+  schemas:
+    Kernel:
+      type: object
+      description: A running kernel instance.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the kernel.
+        name:
+          type: string
+          description: Name of the kernel specification.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of last activity.
+        execution_state:
+          type: string
+          description: Current execution state.
+          enum:
+            - starting
+            - idle
+            - busy
+            - restarting
+            - dead
+        connections:
+          type: integer
+          description: Number of active WebSocket connections.
+      required:
+        - id
+        - name
+        - last_activity
+        - execution_state
+        - connections
+    KernelSpecList:
+      type: object
+      description: List of available kernel specifications.
+      properties:
+        default:
+          type: string
+          description: Name of the default kernel specification.
+        kernelspecs:
+          type: object
+          description: Mapping of kernel spec names to specifications.
+          additionalProperties:
+            $ref: '#/components/schemas/KernelSpec'
+      required:
+        - default
+        - kernelspecs
+    KernelSpec:
+      type: object
+      description: A kernel specification.
+      properties:
+        name:
+          type: string
+          description: Unique name of the kernel specification.
+        spec:
+          type: object
+          description: The kernel specification details.
+          properties:
+            language:
+              type: string
+              description: Programming language of the kernel.
+            display_name:
+              type: string
+              description: Human-readable display name.
+            argv:
+              type: array
+              description: Command line arguments to launch the kernel.
+              items:
+                type: string
+            env:
+              type: object
+              description: Environment variables for the kernel.
+              additionalProperties:
+                type: string
+          required:
+            - language
+            - display_name
+            - argv
+        resources:
+          type: object
+          description: Resource files (logos, icons).
+          additionalProperties:
+            type: string
+      required:
+        - name
+        - spec
+        - resources
+security:
+  - token: []
+  - tokenQuery: []
+tags:
+  - name: general
+    description: General gateway information.
+  - name: kernels
+    description: >-
+      Kernel lifecycle management on the gateway. The gateway may
+      enforce kernel limits and seed kernels.
+  - name: kernelspecs
+    description: Kernel specification listing and retrieval.

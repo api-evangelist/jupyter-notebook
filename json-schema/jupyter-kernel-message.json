@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "jupyter-kernel-message.json",
+  "title": "Jupyter Kernel Message",
+  "description": "Schema for messages in the Jupyter kernel messaging protocol (v5.4). All messages exchanged between frontends and kernels follow this envelope structure.",
+  "type": "object",
+  "properties": {
+    "header": {
+      "$ref": "#/$defs/MessageHeader"
+    },
+    "parent_header": {
+      "description": "Header of the parent message this is a reply to. Empty object for initial requests.",
+      "oneOf": [
+        {"$ref": "#/$defs/MessageHeader"},
+        {"type": "object", "maxProperties": 0}
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Message metadata.",
+      "additionalProperties": true
+    },
+    "content": {
+      "type": "object",
+      "description": "The message content. Structure varies by msg_type.",
+      "additionalProperties": true
+    },
+    "buffers": {
+      "type": "array",
+      "description": "Optional binary buffers for the message.",
+      "items": {
+        "type": "string",
+        "contentEncoding": "base64"
+      }
+    },
+    "channel": {
+      "type": "string",
+      "description": "The messaging channel (used when multiplexed over WebSocket).",
+      "enum": ["shell", "iopub", "stdin", "control"]
+    }
+  },
+  "required": ["header", "parent_header", "metadata", "content"],
+  "$defs": {
+    "MessageHeader": {
+      "type": "object",
+      "description": "The header of a Jupyter kernel message.",
+      "properties": {
+        "msg_id": {
+          "type": "string",
+          "description": "Unique message identifier (typically a UUID)."
+        },
+        "msg_type": {
+          "type": "string",
+          "description": "The type of message.",
+          "enum": [
+            "execute_request",
+            "execute_reply",
+            "execute_input",
+            "execute_result",
+            "inspect_request",
+            "inspect_reply",
+            "complete_request",
+            "complete_reply",
+            "history_request",
+            "history_reply",
+            "is_complete_request",
+            "is_complete_reply",
+            "kernel_info_request",
+            "kernel_info_reply",
+            "shutdown_request",
+            "shutdown_reply",
+            "interrupt_request",
+            "interrupt_reply",
+            "debug_request",
+            "debug_reply",
+            "debug_event",
+            "input_request",
+            "input_reply",
+            "stream",
+            "display_data",
+            "update_display_data",
+            "error",
+            "status",
+            "clear_output",
+            "comm_open",
+            "comm_msg",
+            "comm_close",
+            "comm_info_request",
+            "comm_info_reply"
+          ]
+        },
+        "username": {
+          "type": "string",
+          "description": "Username associated with the message."
+        },
+        "session": {
+          "type": "string",
+          "description": "Session identifier (typically a UUID)."
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when the message was created."
+        },
+        "version": {
+          "type": "string",
+          "description": "Messaging protocol version.",
+          "pattern": "^\\d+\\.\\d+$"
+        }
+      },
+      "required": ["msg_id", "msg_type", "username", "session", "date", "version"]
+    }
+  }
+}

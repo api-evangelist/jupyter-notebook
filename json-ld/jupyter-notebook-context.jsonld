@@ -1,0 +1,199 @@
+{
+  "@context": {
+    "@vocab": "https://jupyter.org/ns/",
+    "jupyter": "https://jupyter.org/ns/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "prov": "http://www.w3.org/ns/prov#",
+
+    "Notebook": {
+      "@id": "jupyter:Notebook",
+      "@type": "@id"
+    },
+    "CodeCell": {
+      "@id": "jupyter:CodeCell",
+      "@type": "@id"
+    },
+    "MarkdownCell": {
+      "@id": "jupyter:MarkdownCell",
+      "@type": "@id"
+    },
+    "RawCell": {
+      "@id": "jupyter:RawCell",
+      "@type": "@id"
+    },
+    "Kernel": {
+      "@id": "jupyter:Kernel",
+      "@type": "@id"
+    },
+    "KernelSpec": {
+      "@id": "jupyter:KernelSpec",
+      "@type": "@id"
+    },
+    "Session": {
+      "@id": "jupyter:Session",
+      "@type": "@id"
+    },
+    "Terminal": {
+      "@id": "jupyter:Terminal",
+      "@type": "@id"
+    },
+    "Contents": {
+      "@id": "jupyter:Contents",
+      "@type": "@id"
+    },
+    "Output": {
+      "@id": "jupyter:Output",
+      "@type": "@id"
+    },
+
+    "name": "schema:name",
+    "description": "schema:description",
+    "version": "schema:version",
+    "url": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "dateCreated": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "dateModified": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    },
+
+    "nbformat": {
+      "@id": "jupyter:nbformat",
+      "@type": "xsd:integer"
+    },
+    "nbformat_minor": {
+      "@id": "jupyter:nbformatMinor",
+      "@type": "xsd:integer"
+    },
+    "cells": {
+      "@id": "jupyter:hasCell",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "cell_type": {
+      "@id": "jupyter:cellType",
+      "@type": "xsd:string"
+    },
+    "source": {
+      "@id": "jupyter:source",
+      "@type": "xsd:string"
+    },
+    "outputs": {
+      "@id": "jupyter:hasOutput",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "execution_count": {
+      "@id": "jupyter:executionCount",
+      "@type": "xsd:integer"
+    },
+    "output_type": {
+      "@id": "jupyter:outputType",
+      "@type": "xsd:string"
+    },
+
+    "kernelspec": {
+      "@id": "jupyter:hasKernelSpec",
+      "@type": "@id"
+    },
+    "display_name": {
+      "@id": "jupyter:displayName",
+      "@type": "xsd:string"
+    },
+    "language": {
+      "@id": "schema:programmingLanguage",
+      "@type": "xsd:string"
+    },
+    "argv": {
+      "@id": "jupyter:argv",
+      "@container": "@list"
+    },
+    "language_info": {
+      "@id": "jupyter:languageInfo",
+      "@type": "@id"
+    },
+    "mimetype": {
+      "@id": "jupyter:mimeType",
+      "@type": "xsd:string"
+    },
+    "file_extension": {
+      "@id": "jupyter:fileExtension",
+      "@type": "xsd:string"
+    },
+
+    "execution_state": {
+      "@id": "jupyter:executionState",
+      "@type": "xsd:string"
+    },
+    "connections": {
+      "@id": "jupyter:connectionCount",
+      "@type": "xsd:integer"
+    },
+    "last_activity": {
+      "@id": "jupyter:lastActivity",
+      "@type": "xsd:dateTime"
+    },
+
+    "path": {
+      "@id": "jupyter:path",
+      "@type": "xsd:string"
+    },
+    "writable": {
+      "@id": "jupyter:writable",
+      "@type": "xsd:boolean"
+    },
+    "format": {
+      "@id": "jupyter:format",
+      "@type": "xsd:string"
+    },
+    "size": {
+      "@id": "jupyter:fileSize",
+      "@type": "xsd:integer"
+    },
+    "content": {
+      "@id": "jupyter:content"
+    },
+
+    "kernel": {
+      "@id": "jupyter:hasKernel",
+      "@type": "@id"
+    },
+
+    "tags": {
+      "@id": "schema:keywords",
+      "@container": "@set"
+    },
+    "metadata": {
+      "@id": "jupyter:metadata"
+    },
+
+    "wasGeneratedBy": {
+      "@id": "prov:wasGeneratedBy",
+      "@type": "@id"
+    },
+    "used": {
+      "@id": "prov:used",
+      "@type": "@id"
+    },
+
+    "author": {
+      "@id": "schema:author",
+      "@type": "@id"
+    },
+    "license": {
+      "@id": "schema:license",
+      "@type": "@id"
+    },
+    "publisher": {
+      "@id": "schema:publisher",
+      "@type": "@id"
+    }
+  }
+}

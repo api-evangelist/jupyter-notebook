@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "jupyter-contents-model.json",
+  "title": "Jupyter Contents Model",
+  "description": "Schema for the Jupyter Contents API model representing files, directories, and notebooks in the Jupyter file system. This is the primary data structure returned by the Contents REST API.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the file or directory (e.g., 'Untitled.ipynb')."
+    },
+    "path": {
+      "type": "string",
+      "description": "Full path relative to the root directory (e.g., 'path/to/Untitled.ipynb')."
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of content.",
+      "enum": ["notebook", "file", "directory"]
+    },
+    "writable": {
+      "type": "boolean",
+      "description": "Whether the requester has write permission."
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp in ISO 8601 format."
+    },
+    "last_modified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last modification timestamp in ISO 8601 format."
+    },
+    "size": {
+      "type": ["integer", "null"],
+      "description": "Size in bytes. Null for directories and notebooks.",
+      "minimum": 0
+    },
+    "mimetype": {
+      "type": ["string", "null"],
+      "description": "MIME type of the content. Null for directories and notebooks."
+    },
+    "content": {
+      "description": "The content itself. For directories, an array of contents models (without content). For notebooks, the notebook JSON object. For files, a string (text) or base64-encoded string."
+    },
+    "format": {
+      "type": ["string", "null"],
+      "description": "Format of the content field.",
+      "enum": ["json", "text", "base64", null]
+    },
+    "hash": {
+      "type": ["string", "null"],
+      "description": "Hash of the file content for change detection."
+    },
+    "hash_algorithm": {
+      "type": ["string", "null"],
+      "description": "Algorithm used to compute the hash (e.g., 'sha256')."
+    }
+  },
+  "required": ["name", "path", "type", "writable", "created", "last_modified"],
+  "if": {
+    "properties": {
+      "type": {"const": "directory"}
+    }
+  },
+  "then": {
+    "properties": {
+      "content": {
+        "type": ["array", "null"],
+        "items": {
+          "$ref": "#"
+        }
+      },
+      "format": {
+        "const": "json"
+      }
+    }
+  }
+}

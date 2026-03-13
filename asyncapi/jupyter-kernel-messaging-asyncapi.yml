@@ -1,0 +1,964 @@
+asyncapi: 2.6.0
+info:
+  title: Jupyter Kernel Messaging Protocol
+  version: 5.4.0
+  description: >-
+    The Jupyter Kernel Messaging Protocol defines the WebSocket-based
+    communication between Jupyter clients (notebooks, consoles) and
+    computational kernels. Messages are exchanged over WebSocket
+    channels for shell requests/replies, IOPub broadcasts, stdin
+    input requests, and control channel operations. This protocol
+    is documented in the Jupyter Client messaging specification.
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyter-client.readthedocs.io/en/stable/messaging.html
+    email: jupyter@googlegroups.com
+servers:
+  local:
+    url: ws://localhost:8888/api/kernels/{kernel_id}/channels
+    protocol: ws
+    description: >-
+      WebSocket endpoint for communicating with a running Jupyter
+      kernel. All messaging channels (shell, iopub, stdin, control)
+      are multiplexed over this single WebSocket connection.
+channels:
+  /api/kernels/{kernel_id}/channels:
+    parameters:
+      kernel_id:
+        description: The unique identifier of the kernel.
+        schema:
+          type: string
+          format: uuid
+    publish:
+      operationId: sendKernelMessage
+      summary: Send a message to the kernel
+      description: >-
+        Send a message to the kernel on the shell, stdin, or control
+        channel. The channel is indicated by the channel field in the
+        message wrapper.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ExecuteRequest'
+          - $ref: '#/components/messages/InspectRequest'
+          - $ref: '#/components/messages/CompleteRequest'
+          - $ref: '#/components/messages/HistoryRequest'
+          - $ref: '#/components/messages/IsCompleteRequest'
+          - $ref: '#/components/messages/KernelInfoRequest'
+          - $ref: '#/components/messages/ShutdownRequest'
+          - $ref: '#/components/messages/InterruptRequest'
+          - $ref: '#/components/messages/InputReply'
+          - $ref: '#/components/messages/CommOpen'
+          - $ref: '#/components/messages/CommMsg'
+          - $ref: '#/components/messages/CommClose'
+    subscribe:
+      operationId: receiveKernelMessage
+      summary: Receive a message from the kernel
+      description: >-
+        Receive messages from the kernel on the shell (reply), iopub
+        (broadcast), or stdin channel.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ExecuteReply'
+          - $ref: '#/components/messages/InspectReply'
+          - $ref: '#/components/messages/CompleteReply'
+          - $ref: '#/components/messages/HistoryReply'
+          - $ref: '#/components/messages/IsCompleteReply'
+          - $ref: '#/components/messages/KernelInfoReply'
+          - $ref: '#/components/messages/ShutdownReply'
+          - $ref: '#/components/messages/ExecuteInput'
+          - $ref: '#/components/messages/ExecuteResult'
+          - $ref: '#/components/messages/StreamOutput'
+          - $ref: '#/components/messages/DisplayData'
+          - $ref: '#/components/messages/UpdateDisplayData'
+          - $ref: '#/components/messages/ErrorOutput'
+          - $ref: '#/components/messages/StatusBroadcast'
+          - $ref: '#/components/messages/ClearOutput'
+          - $ref: '#/components/messages/InputRequest'
+          - $ref: '#/components/messages/CommOpenReply'
+          - $ref: '#/components/messages/CommMsgReply'
+          - $ref: '#/components/messages/CommCloseReply'
+          - $ref: '#/components/messages/DebugReply'
+          - $ref: '#/components/messages/DebugEvent'
+components:
+  messages:
+    ExecuteRequest:
+      name: execute_request
+      title: Execute Request
+      summary: Request to execute code in the kernel.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+      headers:
+        type: object
+        properties:
+          msg_type:
+            type: string
+            const: execute_request
+    ExecuteReply:
+      name: execute_reply
+      title: Execute Reply
+      summary: Reply to an execute request with status and execution count.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    InspectRequest:
+      name: inspect_request
+      title: Inspect Request
+      summary: Request to inspect an object at cursor position.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    InspectReply:
+      name: inspect_reply
+      title: Inspect Reply
+      summary: Reply with object inspection results.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    CompleteRequest:
+      name: complete_request
+      title: Complete Request
+      summary: Request code completion suggestions.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    CompleteReply:
+      name: complete_reply
+      title: Complete Reply
+      summary: Reply with code completion matches.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    HistoryRequest:
+      name: history_request
+      title: History Request
+      summary: Request execution history from the kernel.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    HistoryReply:
+      name: history_reply
+      title: History Reply
+      summary: Reply with execution history entries.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    IsCompleteRequest:
+      name: is_complete_request
+      title: Is Complete Request
+      summary: Check if code is complete and ready to execute.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    IsCompleteReply:
+      name: is_complete_reply
+      title: Is Complete Reply
+      summary: Reply indicating whether code is complete.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    KernelInfoRequest:
+      name: kernel_info_request
+      title: Kernel Info Request
+      summary: Request information about the kernel.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    KernelInfoReply:
+      name: kernel_info_reply
+      title: Kernel Info Reply
+      summary: Reply with kernel implementation and language information.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    ShutdownRequest:
+      name: shutdown_request
+      title: Shutdown Request
+      summary: Request the kernel to shut down.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: control
+    ShutdownReply:
+      name: shutdown_reply
+      title: Shutdown Reply
+      summary: Reply confirming kernel shutdown.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: control
+    InterruptRequest:
+      name: interrupt_request
+      title: Interrupt Request
+      summary: Request to interrupt the kernel.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: control
+    InputRequest:
+      name: input_request
+      title: Input Request
+      summary: >-
+        Kernel requests input from the frontend (e.g., for Python's
+        input() function).
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: stdin
+    InputReply:
+      name: input_reply
+      title: Input Reply
+      summary: Frontend sends user input to the kernel.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: stdin
+    ExecuteInput:
+      name: execute_input
+      title: Execute Input Broadcast
+      summary: Broadcast of code being executed (for all connected clients).
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: iopub
+    ExecuteResult:
+      name: execute_result
+      title: Execute Result
+      summary: >-
+        Result of an execution, equivalent to the Out[] prompt in
+        IPython. Contains rich display data.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: iopub
+    StreamOutput:
+      name: stream
+      title: Stream Output
+      summary: >-
+        Standard output or standard error stream data from
+        code execution.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: iopub
+    DisplayData:
+      name: display_data
+      title: Display Data
+      summary: >-
+        Rich display data output from code execution, supporting
+        multiple MIME types.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: iopub
+    UpdateDisplayData:
+      name: update_display_data
+      title: Update Display Data
+      summary: Update a previous display_data output.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: iopub
+    ErrorOutput:
+      name: error
+      title: Error Output
+      summary: Error output from failed code execution.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: iopub
+    StatusBroadcast:
+      name: status
+      title: Kernel Status
+      summary: >-
+        Kernel execution state broadcast. Published on every state
+        change (busy, idle, starting).
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: iopub
+    ClearOutput:
+      name: clear_output
+      title: Clear Output
+      summary: Request to clear output area in the frontend.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: iopub
+    CommOpen:
+      name: comm_open
+      title: Comm Open
+      summary: Open a comm channel for custom messaging (e.g., widgets).
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    CommMsg:
+      name: comm_msg
+      title: Comm Message
+      summary: Send a message on an open comm channel.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    CommClose:
+      name: comm_close
+      title: Comm Close
+      summary: Close a comm channel.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: shell
+    CommOpenReply:
+      name: comm_open
+      title: Comm Open (from kernel)
+      summary: Kernel opens a comm channel to the frontend.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: iopub
+    CommMsgReply:
+      name: comm_msg
+      title: Comm Message (from kernel)
+      summary: Kernel sends a message on an open comm channel.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: iopub
+    CommCloseReply:
+      name: comm_close
+      title: Comm Close (from kernel)
+      summary: Kernel closes a comm channel.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: iopub
+    DebugReply:
+      name: debug_reply
+      title: Debug Reply
+      summary: Reply to a debug request.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: control
+    DebugEvent:
+      name: debug_event
+      title: Debug Event
+      summary: Debug event broadcast from the kernel.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KernelMessage'
+      x-channel: iopub
+  schemas:
+    KernelMessage:
+      type: object
+      description: >-
+        A Jupyter kernel message envelope. All messages follow this
+        structure with a header, parent_header, metadata, content,
+        and optional buffers.
+      properties:
+        header:
+          $ref: '#/components/schemas/MessageHeader'
+        parent_header:
+          description: >-
+            Header of the message this is a reply to. Empty object
+            for initial requests.
+          oneOf:
+            - $ref: '#/components/schemas/MessageHeader'
+            - type: object
+        metadata:
+          type: object
+          description: Message metadata.
+          additionalProperties: true
+        content:
+          description: >-
+            The message content. Structure depends on the msg_type.
+          oneOf:
+            - $ref: '#/components/schemas/ExecuteRequestContent'
+            - $ref: '#/components/schemas/ExecuteReplyContent'
+            - $ref: '#/components/schemas/InspectRequestContent'
+            - $ref: '#/components/schemas/InspectReplyContent'
+            - $ref: '#/components/schemas/CompleteRequestContent'
+            - $ref: '#/components/schemas/CompleteReplyContent'
+            - $ref: '#/components/schemas/HistoryRequestContent'
+            - $ref: '#/components/schemas/HistoryReplyContent'
+            - $ref: '#/components/schemas/IsCompleteRequestContent'
+            - $ref: '#/components/schemas/IsCompleteReplyContent'
+            - $ref: '#/components/schemas/KernelInfoReplyContent'
+            - $ref: '#/components/schemas/ShutdownContent'
+            - $ref: '#/components/schemas/InputRequestContent'
+            - $ref: '#/components/schemas/InputReplyContent'
+            - $ref: '#/components/schemas/StreamContent'
+            - $ref: '#/components/schemas/DisplayDataContent'
+            - $ref: '#/components/schemas/ExecuteResultContent'
+            - $ref: '#/components/schemas/ErrorContent'
+            - $ref: '#/components/schemas/StatusContent'
+            - $ref: '#/components/schemas/ClearOutputContent'
+            - $ref: '#/components/schemas/CommOpenContent'
+            - $ref: '#/components/schemas/CommMsgContent'
+            - $ref: '#/components/schemas/CommCloseContent'
+        buffers:
+          type: array
+          description: Optional binary buffers (e.g., for comm messages).
+          items:
+            type: string
+            format: byte
+        channel:
+          type: string
+          description: >-
+            The channel this message belongs to when multiplexed
+            over a single WebSocket connection.
+          enum:
+            - shell
+            - iopub
+            - stdin
+            - control
+      required:
+        - header
+        - parent_header
+        - metadata
+        - content
+    MessageHeader:
+      type: object
+      description: Header for a Jupyter kernel message.
+      properties:
+        msg_id:
+          type: string
+          description: Unique message identifier.
+        msg_type:
+          type: string
+          description: >-
+            The type of message (e.g., execute_request,
+            execute_reply, stream, status).
+        username:
+          type: string
+          description: Username of the message sender.
+        session:
+          type: string
+          description: Session identifier.
+        date:
+          type: string
+          format: date-time
+          description: Timestamp when the message was created.
+        version:
+          type: string
+          description: Message protocol version.
+          default: '5.4'
+      required:
+        - msg_id
+        - msg_type
+        - username
+        - session
+        - date
+        - version
+    ExecuteRequestContent:
+      type: object
+      description: Content for an execute_request message.
+      properties:
+        code:
+          type: string
+          description: The code to execute.
+        silent:
+          type: boolean
+          description: >-
+            If true, signals the kernel to execute quietly and
+            not broadcast on IOPub.
+          default: false
+        store_history:
+          type: boolean
+          description: Whether to store this execution in history.
+          default: true
+        user_expressions:
+          type: object
+          description: >-
+            Mapping of names to expressions to evaluate after
+            the code executes.
+          additionalProperties:
+            type: string
+        allow_stdin:
+          type: boolean
+          description: Whether the frontend can provide stdin.
+          default: true
+        stop_on_error:
+          type: boolean
+          description: >-
+            Whether to abort remaining execution queue on error.
+          default: true
+      required:
+        - code
+    ExecuteReplyContent:
+      type: object
+      description: Content for an execute_reply message.
+      properties:
+        status:
+          type: string
+          description: Status of the execution.
+          enum:
+            - ok
+            - error
+            - aborted
+        execution_count:
+          type: integer
+          description: The global execution count.
+        user_expressions:
+          type: object
+          description: Results of user_expressions evaluation.
+          additionalProperties: true
+        payload:
+          type: array
+          description: Deprecated payload for page, set_next_input, etc.
+          items:
+            type: object
+            additionalProperties: true
+        traceback:
+          type: array
+          description: Traceback frames if status is error.
+          items:
+            type: string
+        ename:
+          type: string
+          description: Exception name if status is error.
+        evalue:
+          type: string
+          description: Exception value if status is error.
+      required:
+        - status
+        - execution_count
+    InspectRequestContent:
+      type: object
+      description: Content for an inspect_request message.
+      properties:
+        code:
+          type: string
+          description: The code context for inspection.
+        cursor_pos:
+          type: integer
+          description: Cursor position within the code.
+        detail_level:
+          type: integer
+          description: >-
+            Level of detail (0 for minimal, 1 for full).
+          enum:
+            - 0
+            - 1
+          default: 0
+      required:
+        - code
+        - cursor_pos
+    InspectReplyContent:
+      type: object
+      description: Content for an inspect_reply message.
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+            - error
+        found:
+          type: boolean
+          description: Whether an object was found at the cursor position.
+        data:
+          type: object
+          description: MIME-type keyed dictionary of inspection results.
+          additionalProperties: true
+        metadata:
+          type: object
+          additionalProperties: true
+      required:
+        - status
+        - found
+    CompleteRequestContent:
+      type: object
+      description: Content for a complete_request message.
+      properties:
+        code:
+          type: string
+          description: The code to complete.
+        cursor_pos:
+          type: integer
+          description: Cursor position in the code.
+      required:
+        - code
+        - cursor_pos
+    CompleteReplyContent:
+      type: object
+      description: Content for a complete_reply message.
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+            - error
+        matches:
+          type: array
+          description: List of completion matches.
+          items:
+            type: string
+        cursor_start:
+          type: integer
+          description: Start of the range to replace with completion.
+        cursor_end:
+          type: integer
+          description: End of the range to replace with completion.
+        metadata:
+          type: object
+          additionalProperties: true
+      required:
+        - status
+        - matches
+        - cursor_start
+        - cursor_end
+    HistoryRequestContent:
+      type: object
+      description: Content for a history_request message.
+      properties:
+        output:
+          type: boolean
+          description: Whether to include output.
+          default: false
+        raw:
+          type: boolean
+          description: Whether to return raw input.
+          default: true
+        hist_access_type:
+          type: string
+          description: Type of history access.
+          enum:
+            - range
+            - tail
+            - search
+        session:
+          type: integer
+          description: Session number for range access.
+        start:
+          type: integer
+          description: Start index for range access.
+        stop:
+          type: integer
+          description: Stop index for range access.
+        n:
+          type: integer
+          description: Number of entries for tail access.
+        pattern:
+          type: string
+          description: Pattern for search access.
+        unique:
+          type: boolean
+          description: Whether to return only unique entries.
+          default: false
+      required:
+        - output
+        - raw
+        - hist_access_type
+    HistoryReplyContent:
+      type: object
+      description: Content for a history_reply message.
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+            - error
+        history:
+          type: array
+          description: >-
+            List of history entries as [session, line_number,
+            input] or [session, line_number, [input, output]].
+          items:
+            type: array
+      required:
+        - status
+        - history
+    IsCompleteRequestContent:
+      type: object
+      description: Content for an is_complete_request message.
+      properties:
+        code:
+          type: string
+          description: The code to check for completeness.
+      required:
+        - code
+    IsCompleteReplyContent:
+      type: object
+      description: Content for an is_complete_reply message.
+      properties:
+        status:
+          type: string
+          description: Completeness status of the code.
+          enum:
+            - complete
+            - incomplete
+            - invalid
+            - unknown
+        indent:
+          type: string
+          description: >-
+            Indent string to use if status is incomplete.
+      required:
+        - status
+    KernelInfoReplyContent:
+      type: object
+      description: Content for a kernel_info_reply message.
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+            - error
+        protocol_version:
+          type: string
+          description: Messaging protocol version.
+        implementation:
+          type: string
+          description: Kernel implementation name (e.g., ipython).
+        implementation_version:
+          type: string
+          description: Kernel implementation version.
+        language_info:
+          type: object
+          description: Information about the language the kernel executes.
+          properties:
+            name:
+              type: string
+              description: Language name (e.g., python).
+            version:
+              type: string
+              description: Language version.
+            mimetype:
+              type: string
+              description: MIME type for the language.
+            file_extension:
+              type: string
+              description: File extension for the language.
+            pygments_lexer:
+              type: string
+              description: Pygments lexer name.
+            codemirror_mode:
+              description: CodeMirror mode specification.
+            nbconvert_exporter:
+              type: string
+              description: nbconvert exporter name.
+          required:
+            - name
+            - version
+            - mimetype
+            - file_extension
+        banner:
+          type: string
+          description: Banner text shown on kernel startup.
+        debugger:
+          type: boolean
+          description: Whether the kernel supports debugging.
+        help_links:
+          type: array
+          description: List of help links.
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+              url:
+                type: string
+                format: uri
+      required:
+        - status
+        - protocol_version
+        - implementation
+        - implementation_version
+        - language_info
+        - banner
+    ShutdownContent:
+      type: object
+      description: Content for shutdown_request and shutdown_reply messages.
+      properties:
+        restart:
+          type: boolean
+          description: Whether to restart the kernel after shutdown.
+      required:
+        - restart
+    InputRequestContent:
+      type: object
+      description: Content for an input_request message.
+      properties:
+        prompt:
+          type: string
+          description: Prompt text for the user.
+        password:
+          type: boolean
+          description: Whether the input should be hidden (password).
+          default: false
+      required:
+        - prompt
+        - password
+    InputReplyContent:
+      type: object
+      description: Content for an input_reply message.
+      properties:
+        value:
+          type: string
+          description: The user's input value.
+      required:
+        - value
+    StreamContent:
+      type: object
+      description: Content for a stream message (stdout/stderr).
+      properties:
+        name:
+          type: string
+          description: Stream name.
+          enum:
+            - stdout
+            - stderr
+        text:
+          type: string
+          description: The stream text output.
+      required:
+        - name
+        - text
+    DisplayDataContent:
+      type: object
+      description: Content for display_data and update_display_data messages.
+      properties:
+        data:
+          type: object
+          description: >-
+            MIME-type keyed dictionary of display data
+            (e.g., text/plain, text/html, image/png).
+          additionalProperties: true
+        metadata:
+          type: object
+          description: MIME-type keyed metadata for the display data.
+          additionalProperties: true
+        transient:
+          type: object
+          description: >-
+            Transient data not persisted (e.g., display_id).
+          properties:
+            display_id:
+              type: string
+              description: Display identifier for updating.
+      required:
+        - data
+        - metadata
+    ExecuteResultContent:
+      type: object
+      description: Content for an execute_result message.
+      properties:
+        execution_count:
+          type: integer
+          description: The execution count (Out[] number).
+        data:
+          type: object
+          description: MIME-type keyed result data.
+          additionalProperties: true
+        metadata:
+          type: object
+          description: MIME-type keyed metadata.
+          additionalProperties: true
+      required:
+        - execution_count
+        - data
+        - metadata
+    ErrorContent:
+      type: object
+      description: Content for an error message.
+      properties:
+        ename:
+          type: string
+          description: Exception name.
+        evalue:
+          type: string
+          description: Exception value.
+        traceback:
+          type: array
+          description: Traceback frames as strings.
+          items:
+            type: string
+      required:
+        - ename
+        - evalue
+        - traceback
+    StatusContent:
+      type: object
+      description: Content for a status message.
+      properties:
+        execution_state:
+          type: string
+          description: Current kernel execution state.
+          enum:
+            - busy
+            - idle
+            - starting
+      required:
+        - execution_state
+    ClearOutputContent:
+      type: object
+      description: Content for a clear_output message.
+      properties:
+        wait:
+          type: boolean
+          description: >-
+            Whether to wait for the next display before clearing.
+      required:
+        - wait
+    CommOpenContent:
+      type: object
+      description: Content for a comm_open message.
+      properties:
+        comm_id:
+          type: string
+          description: Unique comm identifier.
+        target_name:
+          type: string
+          description: >-
+            Target name for the comm (e.g., jupyter.widget for
+            ipywidgets).
+        data:
+          type: object
+          description: Initial data for the comm.
+          additionalProperties: true
+      required:
+        - comm_id
+        - target_name
+    CommMsgContent:
+      type: object
+      description: Content for a comm_msg message.
+      properties:
+        comm_id:
+          type: string
+          description: Comm identifier.
+        data:
+          type: object
+          description: Message data.
+          additionalProperties: true
+      required:
+        - comm_id
+        - data
+    CommCloseContent:
+      type: object
+      description: Content for a comm_close message.
+      properties:
+        comm_id:
+          type: string
+          description: Comm identifier to close.
+        data:
+          type: object
+          description: Optional closing data.
+          additionalProperties: true
+      required:
+        - comm_id

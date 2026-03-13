@@ -11,7 +11,7 @@ tags:
 - data science
 - machine learning
 created: '2024-01-15'
-modified: '2024-01-15'
+modified: '2026-03-04'
 url: https://jupyter.org
 specificationVersion: '0.16'
 apis:
@@ -34,6 +34,16 @@ apis:
     url: https://petstore.swagger.io/?url=https://raw.githubusercontent.com/jupyter/notebook/master/notebook/services/api/api.yaml
   - type: X-github
     url: https://github.com/jupyter/notebook
+  - type: openapi
+    url: openapi/jupyter-notebook-rest-api-openapi.yml
+  - type: json-schema
+    url: json-schema/jupyter-notebook-document.json
+  - type: json-schema
+    url: json-schema/jupyter-contents-model.json
+  - type: json-schema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: json-ld-context
+    url: json-ld/jupyter-notebook-context.jsonld
   contact:
   - FN: Jupyter Project
     email: jupyter@googlegroups.com
@@ -54,6 +64,8 @@ apis:
     url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
   - type: X-github
     url: https://github.com/jupyter/kernel_gateway
+  - type: openapi
+    url: openapi/jupyter-kernel-gateway-api-openapi.yml
   contact:
   - FN: Jupyter Project
     email: jupyter@googlegroups.com
@@ -75,14 +87,62 @@ apis:
     url: https://raw.githubusercontent.com/jupyterhub/jupyterhub/master/docs/rest-api.yml
   - type: X-github
     url: https://github.com/jupyterhub/jupyterhub
+  - type: openapi
+    url: openapi/jupyterhub-rest-api-openapi.yml
+  contact:
+  - FN: Jupyter Project
+    email: jupyter@googlegroups.com
+- name: Jupyter Kernel Messaging Protocol
+  description: 'WebSocket-based messaging protocol for communication between Jupyter clients and computational kernels. Supports code execution, introspection, completion, and rich output over shell, IOPub, stdin, and control channels.
+
+    '
+  image: https://jupyter.org/assets/homepage/main-logo.svg
+  humanURL: https://jupyter-client.readthedocs.io/en/stable/messaging.html
+  baseURL: ws://localhost:8888
+  tags:
+  - websocket
+  - kernel
+  - messaging
+  - real-time
+  properties:
+  - type: X-documentation
+    url: https://jupyter-client.readthedocs.io/en/stable/messaging.html
+  - type: X-github
+    url: https://github.com/jupyter/jupyter_client
+  - type: asyncapi
+    url: asyncapi/jupyter-kernel-messaging-asyncapi.yml
+  - type: json-schema
+    url: json-schema/jupyter-kernel-message.json
+  - type: json-ld-context
+    url: json-ld/jupyter-notebook-context.jsonld
   contact:
   - FN: Jupyter Project
     email: jupyter@googlegroups.com
 maintainers:
-- FN: Project Jupyter
-  email: jupyter@googlegroups.com
-  X-twitter: ProjectJupyter
-  X-github: jupyter
+- FN: Kin Lane
+  email: kin@apievangelist.com
+  url: https://apievangelist.com
+common:
+- type: Website
+  url: https://jupyter.org
+- type: Documentation
+  url: https://docs.jupyter.org/en/latest/
+- type: Getting Started
+  url: https://docs.jupyter.org/en/latest/start/index.html
+- type: Blog
+  url: https://blog.jupyter.org/
+- type: GitHub Organization
+  url: https://github.com/jupyter
+- type: Community
+  url: https://jupyter.org/community
+- type: Support
+  url: https://discourse.jupyter.org/
+- type: Security
+  url: https://jupyter.org/security
+- type: YouTube
+  url: https://www.youtube.com/@ProjectJupyter
+- type: Stack Overflow
+  url: https://stackoverflow.com/questions/tagged/jupyter-notebook
 include:
 - name: Jupyter Kernel Specifications
   url: https://jupyter-client.readthedocs.io/en/stable/kernels.html

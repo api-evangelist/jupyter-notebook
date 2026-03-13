@@ -1,0 +1,433 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "jupyter-notebook-document.json",
+  "title": "Jupyter Notebook Document",
+  "description": "Schema for the Jupyter Notebook file format (.ipynb), based on nbformat v4. A notebook document is a JSON file containing an ordered list of cells (code, markdown, raw) along with metadata about the notebook and kernel.",
+  "type": "object",
+  "properties": {
+    "nbformat": {
+      "type": "integer",
+      "description": "The major version of the notebook format. Currently 4.",
+      "const": 4
+    },
+    "nbformat_minor": {
+      "type": "integer",
+      "description": "The minor version of the notebook format (e.g., 5).",
+      "minimum": 0
+    },
+    "metadata": {
+      "$ref": "#/$defs/NotebookMetadata"
+    },
+    "cells": {
+      "type": "array",
+      "description": "Ordered list of cells in the notebook.",
+      "items": {
+        "$ref": "#/$defs/Cell"
+      }
+    }
+  },
+  "required": ["nbformat", "nbformat_minor", "metadata", "cells"],
+  "additionalProperties": false,
+  "$defs": {
+    "NotebookMetadata": {
+      "type": "object",
+      "description": "Notebook-level metadata.",
+      "properties": {
+        "kernelspec": {
+          "$ref": "#/$defs/KernelspecMetadata"
+        },
+        "language_info": {
+          "$ref": "#/$defs/LanguageInfo"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the notebook."
+        },
+        "authors": {
+          "type": "array",
+          "description": "Authors of the notebook.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "KernelspecMetadata": {
+      "type": "object",
+      "description": "Kernel specification metadata embedded in the notebook.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the kernel specification."
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Human-readable name for the kernel."
+        },
+        "language": {
+          "type": "string",
+          "description": "Programming language of the kernel."
+        }
+      },
+      "required": ["name", "display_name"],
+      "additionalProperties": true
+    },
+    "LanguageInfo": {
+      "type": "object",
+      "description": "Information about the programming language.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Language name."
+        },
+        "version": {
+          "type": "string",
+          "description": "Language version."
+        },
+        "mimetype": {
+          "type": "string",
+          "description": "MIME type for the language."
+        },
+        "file_extension": {
+          "type": "string",
+          "description": "File extension for the language."
+        },
+        "pygments_lexer": {
+          "type": "string",
+          "description": "Pygments lexer name for syntax highlighting."
+        },
+        "codemirror_mode": {
+          "description": "CodeMirror mode for editor syntax highlighting. Can be a string or object.",
+          "oneOf": [
+            {"type": "string"},
+            {
+              "type": "object",
+              "properties": {
+                "name": {"type": "string"},
+                "version": {"type": "integer"}
+              },
+              "required": ["name"]
+            }
+          ]
+        },
+        "nbconvert_exporter": {
+          "type": "string",
+          "description": "nbconvert exporter name."
+        }
+      },
+      "required": ["name"],
+      "additionalProperties": true
+    },
+    "Cell": {
+      "description": "A notebook cell. Can be a code cell, markdown cell, or raw cell.",
+      "oneOf": [
+        {"$ref": "#/$defs/CodeCell"},
+        {"$ref": "#/$defs/MarkdownCell"},
+        {"$ref": "#/$defs/RawCell"}
+      ]
+    },
+    "CodeCell": {
+      "type": "object",
+      "description": "A cell containing executable code.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique cell identifier (nbformat 4.5+)."
+        },
+        "cell_type": {
+          "type": "string",
+          "const": "code",
+          "description": "Cell type identifier."
+        },
+        "source": {
+          "$ref": "#/$defs/MultilineString"
+        },
+        "metadata": {
+          "$ref": "#/$defs/CellMetadata"
+        },
+        "outputs": {
+          "type": "array",
+          "description": "Outputs from executing this cell.",
+          "items": {
+            "$ref": "#/$defs/Output"
+          }
+        },
+        "execution_count": {
+          "type": ["integer", "null"],
+          "description": "The execution count for this cell, or null if not executed.",
+          "minimum": 0
+        }
+      },
+      "required": ["cell_type", "source", "metadata", "outputs", "execution_count"],
+      "additionalProperties": false
+    },
+    "MarkdownCell": {
+      "type": "object",
+      "description": "A cell containing Markdown text.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique cell identifier."
+        },
+        "cell_type": {
+          "type": "string",
+          "const": "markdown",
+          "description": "Cell type identifier."
+        },
+        "source": {
+          "$ref": "#/$defs/MultilineString"
+        },
+        "metadata": {
+          "$ref": "#/$defs/CellMetadata"
+        },
+        "attachments": {
+          "type": "object",
+          "description": "MIME-bundle attachments for the cell (e.g., inline images).",
+          "additionalProperties": {
+            "$ref": "#/$defs/MimeBundle"
+          }
+        }
+      },
+      "required": ["cell_type", "source", "metadata"],
+      "additionalProperties": false
+    },
+    "RawCell": {
+      "type": "object",
+      "description": "A raw cell that is not rendered or executed.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique cell identifier."
+        },
+        "cell_type": {
+          "type": "string",
+          "const": "raw",
+          "description": "Cell type identifier."
+        },
+        "source": {
+          "$ref": "#/$defs/MultilineString"
+        },
+        "metadata": {
+          "$ref": "#/$defs/CellMetadata"
+        },
+        "attachments": {
+          "type": "object",
+          "description": "MIME-bundle attachments.",
+          "additionalProperties": {
+            "$ref": "#/$defs/MimeBundle"
+          }
+        }
+      },
+      "required": ["cell_type", "source", "metadata"],
+      "additionalProperties": false
+    },
+    "CellMetadata": {
+      "type": "object",
+      "description": "Cell-level metadata.",
+      "properties": {
+        "collapsed": {
+          "type": "boolean",
+          "description": "Whether the cell is collapsed."
+        },
+        "scrolled": {
+          "description": "Whether the output area is scrolled.",
+          "oneOf": [
+            {"type": "boolean"},
+            {"type": "string", "const": "auto"}
+          ]
+        },
+        "deletable": {
+          "type": "boolean",
+          "description": "Whether the cell can be deleted."
+        },
+        "editable": {
+          "type": "boolean",
+          "description": "Whether the cell can be edited."
+        },
+        "name": {
+          "type": "string",
+          "description": "Optional name for the cell."
+        },
+        "tags": {
+          "type": "array",
+          "description": "Tags for the cell.",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "jupyter": {
+          "type": "object",
+          "description": "Jupyter-specific metadata.",
+          "properties": {
+            "source_hidden": {
+              "type": "boolean",
+              "description": "Whether the source is hidden."
+            },
+            "outputs_hidden": {
+              "type": "boolean",
+              "description": "Whether the outputs are hidden."
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "Output": {
+      "description": "An output from a code cell execution.",
+      "oneOf": [
+        {"$ref": "#/$defs/StreamOutput"},
+        {"$ref": "#/$defs/DisplayDataOutput"},
+        {"$ref": "#/$defs/ExecuteResultOutput"},
+        {"$ref": "#/$defs/ErrorOutput"}
+      ]
+    },
+    "StreamOutput": {
+      "type": "object",
+      "description": "Stream output (stdout or stderr).",
+      "properties": {
+        "output_type": {
+          "type": "string",
+          "const": "stream"
+        },
+        "name": {
+          "type": "string",
+          "description": "The stream name.",
+          "enum": ["stdout", "stderr"]
+        },
+        "text": {
+          "$ref": "#/$defs/MultilineString"
+        }
+      },
+      "required": ["output_type", "name", "text"],
+      "additionalProperties": false
+    },
+    "DisplayDataOutput": {
+      "type": "object",
+      "description": "Rich display data output.",
+      "properties": {
+        "output_type": {
+          "type": "string",
+          "const": "display_data"
+        },
+        "data": {
+          "$ref": "#/$defs/MimeBundle"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Metadata keyed by MIME type.",
+          "additionalProperties": true
+        }
+      },
+      "required": ["output_type", "data", "metadata"],
+      "additionalProperties": false
+    },
+    "ExecuteResultOutput": {
+      "type": "object",
+      "description": "Result of code execution with an execution count.",
+      "properties": {
+        "output_type": {
+          "type": "string",
+          "const": "execute_result"
+        },
+        "execution_count": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "data": {
+          "$ref": "#/$defs/MimeBundle"
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": ["output_type", "execution_count", "data", "metadata"],
+      "additionalProperties": false
+    },
+    "ErrorOutput": {
+      "type": "object",
+      "description": "Error output from a failed execution.",
+      "properties": {
+        "output_type": {
+          "type": "string",
+          "const": "error"
+        },
+        "ename": {
+          "type": "string",
+          "description": "Exception name."
+        },
+        "evalue": {
+          "type": "string",
+          "description": "Exception value."
+        },
+        "traceback": {
+          "type": "array",
+          "description": "Traceback frames as strings.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["output_type", "ename", "evalue", "traceback"],
+      "additionalProperties": false
+    },
+    "MimeBundle": {
+      "type": "object",
+      "description": "A MIME-type keyed dictionary of data representations.",
+      "properties": {
+        "text/plain": {
+          "$ref": "#/$defs/MultilineString"
+        },
+        "text/html": {
+          "$ref": "#/$defs/MultilineString"
+        },
+        "text/latex": {
+          "$ref": "#/$defs/MultilineString"
+        },
+        "text/markdown": {
+          "$ref": "#/$defs/MultilineString"
+        },
+        "application/json": {
+          "description": "JSON data."
+        },
+        "application/javascript": {
+          "$ref": "#/$defs/MultilineString"
+        },
+        "image/png": {
+          "type": "string",
+          "description": "Base64-encoded PNG image data."
+        },
+        "image/jpeg": {
+          "type": "string",
+          "description": "Base64-encoded JPEG image data."
+        },
+        "image/gif": {
+          "type": "string",
+          "description": "Base64-encoded GIF image data."
+        },
+        "image/svg+xml": {
+          "$ref": "#/$defs/MultilineString"
+        }
+      },
+      "additionalProperties": true
+    },
+    "MultilineString": {
+      "description": "A string or array of strings representing multiline text. When an array, each element represents a line.",
+      "oneOf": [
+        {"type": "string"},
+        {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      ]
+    }
+  }
+}

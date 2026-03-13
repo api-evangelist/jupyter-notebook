@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "jupyter-kernel-spec.json",
+  "title": "Jupyter Kernel Specification",
+  "description": "Schema for Jupyter kernel specifications (kernelspecs). A kernelspec defines how to launch a specific type of computational kernel, including the command, language, display name, and associated resources.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique name of the kernel specification (e.g., 'python3', 'ir', 'julia-1.9')."
+    },
+    "spec": {
+      "type": "object",
+      "description": "The kernel specification details.",
+      "properties": {
+        "argv": {
+          "type": "array",
+          "description": "Command and arguments to launch the kernel. The special string '{connection_file}' is replaced with the path to the kernel's connection file.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Human-readable name for the kernel, shown in UIs."
+        },
+        "language": {
+          "type": "string",
+          "description": "The programming language of the kernel (e.g., 'python', 'R', 'julia')."
+        },
+        "interrupt_mode": {
+          "type": "string",
+          "description": "How the kernel handles interrupts.",
+          "enum": ["signal", "message"],
+          "default": "signal"
+        },
+        "env": {
+          "type": "object",
+          "description": "Environment variables to set when launching the kernel.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Additional metadata about the kernel.",
+          "properties": {
+            "debugger": {
+              "type": "boolean",
+              "description": "Whether the kernel supports debugging."
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "required": ["argv", "display_name", "language"],
+      "additionalProperties": true
+    },
+    "resources": {
+      "type": "object",
+      "description": "Resource files associated with the kernel spec, such as logo images.",
+      "properties": {
+        "logo-32x32": {
+          "type": "string",
+          "description": "Path or URL to the 32x32 pixel kernel logo."
+        },
+        "logo-64x64": {
+          "type": "string",
+          "description": "Path or URL to the 64x64 pixel kernel logo."
+        },
+        "logo-svg": {
+          "type": "string",
+          "description": "Path or URL to the SVG kernel logo."
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["name", "spec", "resources"]
+}

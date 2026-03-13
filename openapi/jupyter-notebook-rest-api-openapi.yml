@@ -1,0 +1,1153 @@
+openapi: 3.1.0
+info:
+  title: Jupyter Notebook REST API
+  description: >-
+    REST API for managing and interacting with Jupyter Notebook servers,
+    including kernels, sessions, contents (notebooks and files), terminals,
+    and kernel specifications. This API is served by the Jupyter Notebook
+    server (or Jupyter Server) and provides programmatic access to all
+    notebook server functionality.
+  version: 7.0.0
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyter.org
+    email: jupyter@googlegroups.com
+servers:
+  - url: http://localhost:8888/api
+    description: Local Jupyter Notebook server
+paths:
+  /api:
+    get:
+      operationId: getApiInfo
+      summary: Get API info
+      description: Returns the API version and other server information.
+      tags:
+        - general
+      responses:
+        '200':
+          description: Server API information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiInfo'
+  /api/status:
+    get:
+      operationId: getApiStatus
+      summary: Get server status
+      description: Returns the status of the notebook server including kernel and session counts.
+      tags:
+        - general
+      responses:
+        '200':
+          description: Server status information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerStatus'
+  /api/contents/{path}:
+    get:
+      operationId: getContents
+      summary: Get contents
+      description: >-
+        Get the content of a file or directory at the given path. For
+        directories, returns a listing of contents. For notebooks, returns
+        the notebook document. For files, returns the file content.
+      tags:
+        - contents
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: Path to the file or directory relative to the root directory.
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          description: >-
+            Type of content to return. Can be 'file', 'directory', or
+            'notebook'. If unspecified, the server will determine the type.
+          schema:
+            type: string
+            enum:
+              - file
+              - directory
+              - notebook
+        - name: format
+          in: query
+          required: false
+          description: >-
+            Format of the content field. For files, can be 'text' or
+            'base64'. For notebooks, can be 'json'.
+          schema:
+            type: string
+            enum:
+              - text
+              - base64
+              - json
+        - name: content
+          in: query
+          required: false
+          description: >-
+            Whether to include the content field. Set to 0 to exclude
+            content, which is useful for listing directories.
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+            default: 1
+        - name: hash
+          in: query
+          required: false
+          description: >-
+            Whether to include the hash field. Set to 1 to include
+            a hash of the content.
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+            default: 0
+      responses:
+        '200':
+          description: Contents model for the given path.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contents'
+        '400':
+          description: Bad request, invalid parameters.
+        '404':
+          description: Path not found.
+    post:
+      operationId: createContent
+      summary: Create a new file or directory
+      description: >-
+        Create a new file, directory, or notebook at the given path. If
+        no body is provided, creates a new untitled file or directory.
+      tags:
+        - contents
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: Path where the new content should be created.
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentsCreate'
+      responses:
+        '201':
+          description: Content created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contents'
+        '404':
+          description: Parent path not found.
+    put:
+      operationId: updateContent
+      summary: Save or upload content
+      description: >-
+        Save or upload a file, directory, or notebook at the given path.
+        This replaces the content at the given path entirely.
+      tags:
+        - contents
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: Path of the content to update.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentsSave'
+      responses:
+        '200':
+          description: Content saved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contents'
+        '201':
+          description: Content created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contents'
+        '400':
+          description: Bad request, invalid content.
+    patch:
+      operationId: renameContent
+      summary: Rename a file or directory
+      description: Rename a file or directory by changing its path.
+      tags:
+        - contents
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: Current path of the content.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                path:
+                  type: string
+                  description: New path for the content.
+              required:
+                - path
+      responses:
+        '200':
+          description: Content renamed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contents'
+        '400':
+          description: Bad request.
+        '404':
+          description: Source path not found.
+    delete:
+      operationId: deleteContent
+      summary: Delete a file or directory
+      description: Delete a file or empty directory at the given path.
+      tags:
+        - contents
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: Path of the content to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Content deleted successfully.
+        '400':
+          description: Cannot delete non-empty directory.
+        '404':
+          description: Path not found.
+  /api/contents/{path}/checkpoints:
+    get:
+      operationId: listCheckpoints
+      summary: List checkpoints
+      description: List all checkpoints for the content at the given path.
+      tags:
+        - contents
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: Path to the content.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of checkpoints.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Checkpoint'
+        '404':
+          description: Path not found.
+    post:
+      operationId: createCheckpoint
+      summary: Create a checkpoint
+      description: Create a new checkpoint for the content at the given path.
+      tags:
+        - contents
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: Path to the content.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Checkpoint created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checkpoint'
+        '404':
+          description: Path not found.
+  /api/contents/{path}/checkpoints/{checkpoint_id}:
+    delete:
+      operationId: deleteCheckpoint
+      summary: Delete a checkpoint
+      description: Delete a specific checkpoint for the content at the given path.
+      tags:
+        - contents
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: Path to the content.
+          schema:
+            type: string
+        - name: checkpoint_id
+          in: path
+          required: true
+          description: ID of the checkpoint to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Checkpoint deleted successfully.
+        '404':
+          description: Checkpoint or path not found.
+  /api/sessions:
+    get:
+      operationId: listSessions
+      summary: List running sessions
+      description: List all currently running notebook sessions.
+      tags:
+        - sessions
+      responses:
+        '200':
+          description: List of active sessions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Session'
+    post:
+      operationId: createSession
+      summary: Create a new session
+      description: >-
+        Create a new session by starting a kernel and associating it
+        with a notebook path.
+      tags:
+        - sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionCreate'
+      responses:
+        '201':
+          description: Session created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '501':
+          description: Kernel not available.
+  /api/sessions/{session_id}:
+    get:
+      operationId: getSession
+      summary: Get a session
+      description: Get the details of a specific session by its ID.
+      tags:
+        - sessions
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          description: Unique identifier for the session.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Session details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '404':
+          description: Session not found.
+    patch:
+      operationId: updateSession
+      summary: Update a session
+      description: >-
+        Update a session, for example to change the associated kernel
+        or notebook path.
+      tags:
+        - sessions
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          description: Unique identifier for the session.
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionUpdate'
+      responses:
+        '200':
+          description: Session updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '400':
+          description: Bad request.
+        '404':
+          description: Session not found.
+    delete:
+      operationId: deleteSession
+      summary: Delete a session
+      description: >-
+        Delete a session and shut down its associated kernel.
+      tags:
+        - sessions
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          description: Unique identifier for the session.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Session deleted successfully.
+        '404':
+          description: Session not found.
+  /api/kernels:
+    get:
+      operationId: listKernels
+      summary: List running kernels
+      description: List all currently running kernels.
+      tags:
+        - kernels
+      responses:
+        '200':
+          description: List of running kernels.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Kernel'
+    post:
+      operationId: startKernel
+      summary: Start a kernel
+      description: Start a new kernel with an optional kernel specification name.
+      tags:
+        - kernels
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the kernel spec to use.
+                path:
+                  type: string
+                  description: Working directory for the kernel.
+      responses:
+        '201':
+          description: Kernel started successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kernel'
+  /api/kernels/{kernel_id}:
+    get:
+      operationId: getKernel
+      summary: Get kernel information
+      description: Get the model for a specific kernel by its ID.
+      tags:
+        - kernels
+      parameters:
+        - name: kernel_id
+          in: path
+          required: true
+          description: Unique identifier for the kernel.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Kernel model.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kernel'
+        '404':
+          description: Kernel not found.
+    delete:
+      operationId: shutdownKernel
+      summary: Shut down a kernel
+      description: Shut down a running kernel by its ID.
+      tags:
+        - kernels
+      parameters:
+        - name: kernel_id
+          in: path
+          required: true
+          description: Unique identifier for the kernel.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Kernel shut down successfully.
+        '404':
+          description: Kernel not found.
+  /api/kernels/{kernel_id}/interrupt:
+    post:
+      operationId: interruptKernel
+      summary: Interrupt a kernel
+      description: Interrupt a running kernel, stopping any currently executing code.
+      tags:
+        - kernels
+      parameters:
+        - name: kernel_id
+          in: path
+          required: true
+          description: Unique identifier for the kernel.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Kernel interrupted successfully.
+        '404':
+          description: Kernel not found.
+  /api/kernels/{kernel_id}/restart:
+    post:
+      operationId: restartKernel
+      summary: Restart a kernel
+      description: >-
+        Restart a running kernel. This will kill the current kernel process
+        and start a new one with the same ID.
+      tags:
+        - kernels
+      parameters:
+        - name: kernel_id
+          in: path
+          required: true
+          description: Unique identifier for the kernel.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Kernel restarted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kernel'
+        '404':
+          description: Kernel not found.
+  /api/kernelspecs:
+    get:
+      operationId: listKernelSpecs
+      summary: List kernel specifications
+      description: >-
+        Get the list of available kernel specifications. Returns the
+        default kernel name and a mapping of kernel spec names to their
+        specifications.
+      tags:
+        - kernelspecs
+      responses:
+        '200':
+          description: Kernel specifications listing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KernelSpecList'
+  /api/kernelspecs/{kernel_name}:
+    get:
+      operationId: getKernelSpec
+      summary: Get a kernel specification
+      description: Get the specification for a specific kernel by name.
+      tags:
+        - kernelspecs
+      parameters:
+        - name: kernel_name
+          in: path
+          required: true
+          description: Name of the kernel specification.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Kernel specification details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KernelSpec'
+        '404':
+          description: Kernel spec not found.
+  /api/terminals:
+    get:
+      operationId: listTerminals
+      summary: List running terminals
+      description: Get the list of currently running terminal sessions.
+      tags:
+        - terminals
+      responses:
+        '200':
+          description: List of terminal sessions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Terminal'
+    post:
+      operationId: createTerminal
+      summary: Create a new terminal
+      description: Start a new terminal session.
+      tags:
+        - terminals
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Desired name for the terminal session.
+      responses:
+        '200':
+          description: Terminal session created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Terminal'
+  /api/terminals/{terminal_id}:
+    get:
+      operationId: getTerminal
+      summary: Get terminal information
+      description: Get details about a specific terminal session.
+      tags:
+        - terminals
+      parameters:
+        - name: terminal_id
+          in: path
+          required: true
+          description: Identifier for the terminal session.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Terminal session details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Terminal'
+        '404':
+          description: Terminal not found.
+    delete:
+      operationId: deleteTerminal
+      summary: Shut down a terminal
+      description: Shut down a terminal session by its ID.
+      tags:
+        - terminals
+      parameters:
+        - name: terminal_id
+          in: path
+          required: true
+          description: Identifier for the terminal session.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Terminal shut down successfully.
+        '404':
+          description: Terminal not found.
+  /api/config/{section_name}:
+    get:
+      operationId: getConfig
+      summary: Get configuration section
+      description: Get the configuration values for a specific section.
+      tags:
+        - config
+      parameters:
+        - name: section_name
+          in: path
+          required: true
+          description: Name of the configuration section.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Configuration section values.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+    put:
+      operationId: updateConfig
+      summary: Update configuration section
+      description: >-
+        Update the configuration values for a specific section.
+        The provided values are merged with existing configuration.
+      tags:
+        - config
+      parameters:
+        - name: section_name
+          in: path
+          required: true
+          description: Name of the configuration section.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Configuration updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+    patch:
+      operationId: patchConfig
+      summary: Patch configuration section
+      description: >-
+        Partially update configuration values for a specific section.
+        Only the provided keys are updated.
+      tags:
+        - config
+      parameters:
+        - name: section_name
+          in: path
+          required: true
+          description: Name of the configuration section.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Configuration patched successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+components:
+  securitySchemes:
+    token:
+      type: apiKey
+      in: query
+      name: token
+      description: Authentication token passed as a query parameter.
+    tokenHeader:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        Authentication token passed in the Authorization header
+        as 'token <token_value>'.
+  schemas:
+    ApiInfo:
+      type: object
+      description: Server API information.
+      properties:
+        version:
+          type: string
+          description: API version string.
+      required:
+        - version
+    ServerStatus:
+      type: object
+      description: Notebook server status information.
+      properties:
+        started:
+          type: string
+          format: date-time
+          description: Timestamp when the server was started.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of the last activity on the server.
+        connections:
+          type: integer
+          description: Number of active connections.
+        kernels:
+          type: integer
+          description: Number of running kernels.
+    Contents:
+      type: object
+      description: >-
+        A contents model representing a file, directory, or notebook
+        in the Jupyter file system.
+      properties:
+        name:
+          type: string
+          description: Name of the file or directory.
+        path:
+          type: string
+          description: Full path to the content relative to the root directory.
+        type:
+          type: string
+          description: Type of content.
+          enum:
+            - notebook
+            - file
+            - directory
+        writable:
+          type: boolean
+          description: Whether the content is writable.
+        created:
+          type: string
+          format: date-time
+          description: Creation timestamp in ISO 8601 format.
+        last_modified:
+          type: string
+          format: date-time
+          description: Last modification timestamp in ISO 8601 format.
+        size:
+          type:
+            - integer
+            - 'null'
+          description: Size in bytes for files, null for directories and notebooks.
+        mimetype:
+          type:
+            - string
+            - 'null'
+          description: >-
+            MIME type of the content. Null for directories and notebooks.
+        content:
+          description: >-
+            The content of the file. For directories, this is an array of
+            contents models. For notebooks, this is the notebook JSON. For
+            files, this is a string (text) or base64-encoded string.
+        format:
+          type:
+            - string
+            - 'null'
+          description: >-
+            Format of the content field. 'json' for notebooks, 'text' or
+            'base64' for files, null when content is not included.
+          enum:
+            - json
+            - text
+            - base64
+            - null
+        hash:
+          type:
+            - string
+            - 'null'
+          description: Hash of the content for change detection.
+        hash_algorithm:
+          type:
+            - string
+            - 'null'
+          description: Algorithm used to compute the hash.
+      required:
+        - name
+        - path
+        - type
+        - writable
+        - created
+        - last_modified
+    ContentsCreate:
+      type: object
+      description: Request body for creating new content.
+      properties:
+        copy_from:
+          type: string
+          description: Path to copy from. Creates a copy of the specified content.
+        ext:
+          type: string
+          description: File extension for the new file.
+        type:
+          type: string
+          description: Type of content to create.
+          enum:
+            - notebook
+            - file
+            - directory
+    ContentsSave:
+      type: object
+      description: Request body for saving content.
+      properties:
+        name:
+          type: string
+          description: Name of the file.
+        path:
+          type: string
+          description: Path of the file.
+        type:
+          type: string
+          description: Type of content.
+          enum:
+            - notebook
+            - file
+            - directory
+        format:
+          type: string
+          description: Format of the content field.
+          enum:
+            - json
+            - text
+            - base64
+        content:
+          description: The content to save.
+      required:
+        - type
+    Checkpoint:
+      type: object
+      description: A checkpoint (snapshot) of a file.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the checkpoint.
+        last_modified:
+          type: string
+          format: date-time
+          description: Timestamp of when the checkpoint was created.
+      required:
+        - id
+        - last_modified
+    Session:
+      type: object
+      description: A notebook session, associating a notebook with a kernel.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the session.
+        path:
+          type: string
+          description: Path to the notebook or file associated with the session.
+        name:
+          type: string
+          description: Name of the notebook or activity.
+        type:
+          type: string
+          description: Type of the session (e.g., 'notebook', 'console').
+        kernel:
+          $ref: '#/components/schemas/Kernel'
+      required:
+        - id
+        - path
+        - name
+        - type
+        - kernel
+    SessionCreate:
+      type: object
+      description: Request body for creating a new session.
+      properties:
+        path:
+          type: string
+          description: Path to the notebook.
+        name:
+          type: string
+          description: Name for the session.
+        type:
+          type: string
+          description: Type of the session.
+        kernel:
+          type: object
+          description: Kernel specification for the session.
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: ID of an existing kernel to connect to.
+            name:
+              type: string
+              description: Name of the kernel spec to start.
+      required:
+        - path
+        - type
+        - kernel
+    SessionUpdate:
+      type: object
+      description: Request body for updating a session.
+      properties:
+        path:
+          type: string
+          description: New notebook path for the session.
+        name:
+          type: string
+          description: New name for the session.
+        type:
+          type: string
+          description: New type for the session.
+        kernel:
+          type: object
+          description: Kernel specification update.
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: ID of a kernel to associate with.
+            name:
+              type: string
+              description: Name of the kernel spec.
+    Kernel:
+      type: object
+      description: A running kernel instance.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the kernel.
+        name:
+          type: string
+          description: Name of the kernel specification.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of the last activity on the kernel.
+        execution_state:
+          type: string
+          description: Current execution state of the kernel.
+          enum:
+            - starting
+            - idle
+            - busy
+            - restarting
+            - dead
+        connections:
+          type: integer
+          description: Number of active connections to this kernel.
+      required:
+        - id
+        - name
+        - last_activity
+        - execution_state
+        - connections
+    KernelSpecList:
+      type: object
+      description: List of available kernel specifications.
+      properties:
+        default:
+          type: string
+          description: Name of the default kernel specification.
+        kernelspecs:
+          type: object
+          description: >-
+            Mapping of kernel spec names to their specifications.
+          additionalProperties:
+            $ref: '#/components/schemas/KernelSpec'
+      required:
+        - default
+        - kernelspecs
+    KernelSpec:
+      type: object
+      description: A kernel specification.
+      properties:
+        name:
+          type: string
+          description: Unique name of the kernel specification.
+        spec:
+          type: object
+          description: The kernel specification details.
+          properties:
+            language:
+              type: string
+              description: The programming language of the kernel.
+            display_name:
+              type: string
+              description: Human-readable name for the kernel.
+            argv:
+              type: array
+              description: Command line arguments to launch the kernel.
+              items:
+                type: string
+            env:
+              type: object
+              description: Environment variables for the kernel.
+              additionalProperties:
+                type: string
+            metadata:
+              type: object
+              description: Additional metadata about the kernel.
+              additionalProperties: true
+          required:
+            - language
+            - display_name
+            - argv
+        resources:
+          type: object
+          description: Resource files associated with the kernel spec (e.g., logos).
+          additionalProperties:
+            type: string
+      required:
+        - name
+        - spec
+        - resources
+    Terminal:
+      type: object
+      description: A terminal session running on the server.
+      properties:
+        name:
+          type: string
+          description: Unique name identifier for the terminal session.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of the last activity.
+      required:
+        - name
+security:
+  - token: []
+  - tokenHeader: []
+tags:
+  - name: general
+    description: General server information and status endpoints.
+  - name: contents
+    description: >-
+      File and directory management including notebooks, files,
+      directories, and checkpoints.
+  - name: sessions
+    description: >-
+      Session management for associating notebooks with running
+      kernels.
+  - name: kernels
+    description: >-
+      Kernel lifecycle management including starting, stopping,
+      interrupting, and restarting kernels.
+  - name: kernelspecs
+    description: >-
+      Kernel specification listing and retrieval for available
+      kernel types.
+  - name: terminals
+    description: Terminal session management on the server.
+  - name: config
+    description: Server configuration section management.
