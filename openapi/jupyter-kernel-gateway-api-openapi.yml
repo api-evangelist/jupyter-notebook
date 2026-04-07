@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Jupyter Kernel Gateway API
+  title: Jupyter Notebook Jupyter Kernel Gateway API
   description: >-
     REST API for the Jupyter Kernel Gateway, a web server that provides
     headless access to Jupyter kernels. The Kernel Gateway supports two
@@ -23,7 +23,7 @@ paths:
   /api:
     get:
       operationId: getApiInfo
-      summary: Get API info
+      summary: Jupyter Notebook Get API info
       description: >-
         Returns server information including the version of the Kernel
         Gateway. This is a Jupyter Notebook server-compatible endpoint.
@@ -43,7 +43,7 @@ paths:
   /api/kernels:
     get:
       operationId: listKernels
-      summary: List running kernels
+      summary: Jupyter Notebook List running kernels
       description: List all currently running kernels on the gateway.
       tags:
         - kernels
@@ -58,7 +58,7 @@ paths:
                   $ref: '#/components/schemas/Kernel'
     post:
       operationId: startKernel
-      summary: Start a kernel
+      summary: Jupyter Notebook Start a kernel
       description: >-
         Start a new kernel. The kernel gateway may enforce a maximum
         number of kernels via the KG_MAX_KERNELS configuration.
@@ -101,7 +101,7 @@ paths:
   /api/kernels/{kernel_id}:
     get:
       operationId: getKernel
-      summary: Get kernel information
+      summary: Jupyter Notebook Get kernel information
       description: Get the model for a specific kernel.
       tags:
         - kernels
@@ -124,7 +124,7 @@ paths:
           description: Kernel not found.
     delete:
       operationId: shutdownKernel
-      summary: Shut down a kernel
+      summary: Jupyter Notebook Shut down a kernel
       description: Shut down a running kernel.
       tags:
         - kernels
@@ -148,7 +148,7 @@ paths:
   /api/kernels/{kernel_id}/interrupt:
     post:
       operationId: interruptKernel
-      summary: Interrupt a kernel
+      summary: Jupyter Notebook Interrupt a kernel
       description: Interrupt a running kernel.
       tags:
         - kernels
@@ -168,7 +168,7 @@ paths:
   /api/kernels/{kernel_id}/restart:
     post:
       operationId: restartKernel
-      summary: Restart a kernel
+      summary: Jupyter Notebook Restart a kernel
       description: Restart a running kernel.
       tags:
         - kernels
@@ -192,7 +192,7 @@ paths:
   /api/kernelspecs:
     get:
       operationId: listKernelSpecs
-      summary: List kernel specifications
+      summary: Jupyter Notebook List kernel specifications
       description: >-
         Get the list of available kernel specifications. The gateway
         may be configured with KG_DEFAULT_KERNEL_NAME to set a
@@ -209,7 +209,7 @@ paths:
   /api/kernelspecs/{kernel_name}:
     get:
       operationId: getKernelSpec
-      summary: Get a kernel specification
+      summary: Jupyter Notebook Get a kernel specification
       description: Get the specification for a specific kernel by name.
       tags:
         - kernelspecs

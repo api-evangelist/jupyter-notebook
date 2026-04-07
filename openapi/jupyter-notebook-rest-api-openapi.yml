@@ -22,7 +22,7 @@ paths:
   /api:
     get:
       operationId: getApiInfo
-      summary: Get API info
+      summary: Jupyter Notebook Get API info
       description: Returns the API version and other server information.
       tags:
         - general
@@ -36,7 +36,7 @@ paths:
   /api/status:
     get:
       operationId: getApiStatus
-      summary: Get server status
+      summary: Jupyter Notebook Get server status
       description: Returns the status of the notebook server including kernel and session counts.
       tags:
         - general
@@ -50,7 +50,7 @@ paths:
   /api/contents/{path}:
     get:
       operationId: getContents
-      summary: Get contents
+      summary: Jupyter Notebook Get contents
       description: >-
         Get the content of a file or directory at the given path. For
         directories, returns a listing of contents. For notebooks, returns
@@ -125,7 +125,7 @@ paths:
           description: Path not found.
     post:
       operationId: createContent
-      summary: Create a new file or directory
+      summary: Jupyter Notebook Create a new file or directory
       description: >-
         Create a new file, directory, or notebook at the given path. If
         no body is provided, creates a new untitled file or directory.
@@ -155,7 +155,7 @@ paths:
           description: Parent path not found.
     put:
       operationId: updateContent
-      summary: Save or upload content
+      summary: Jupyter Notebook Save or upload content
       description: >-
         Save or upload a file, directory, or notebook at the given path.
         This replaces the content at the given path entirely.
@@ -191,7 +191,7 @@ paths:
           description: Bad request, invalid content.
     patch:
       operationId: renameContent
-      summary: Rename a file or directory
+      summary: Jupyter Notebook Rename a file or directory
       description: Rename a file or directory by changing its path.
       tags:
         - contents
@@ -227,7 +227,7 @@ paths:
           description: Source path not found.
     delete:
       operationId: deleteContent
-      summary: Delete a file or directory
+      summary: Jupyter Notebook Delete a file or directory
       description: Delete a file or empty directory at the given path.
       tags:
         - contents
@@ -248,7 +248,7 @@ paths:
   /api/contents/{path}/checkpoints:
     get:
       operationId: listCheckpoints
-      summary: List checkpoints
+      summary: Jupyter Notebook List checkpoints
       description: List all checkpoints for the content at the given path.
       tags:
         - contents
@@ -272,7 +272,7 @@ paths:
           description: Path not found.
     post:
       operationId: createCheckpoint
-      summary: Create a checkpoint
+      summary: Jupyter Notebook Create a checkpoint
       description: Create a new checkpoint for the content at the given path.
       tags:
         - contents
@@ -295,7 +295,7 @@ paths:
   /api/contents/{path}/checkpoints/{checkpoint_id}:
     delete:
       operationId: deleteCheckpoint
-      summary: Delete a checkpoint
+      summary: Jupyter Notebook Delete a checkpoint
       description: Delete a specific checkpoint for the content at the given path.
       tags:
         - contents
@@ -320,7 +320,7 @@ paths:
   /api/sessions:
     get:
       operationId: listSessions
-      summary: List running sessions
+      summary: Jupyter Notebook List running sessions
       description: List all currently running notebook sessions.
       tags:
         - sessions
@@ -335,7 +335,7 @@ paths:
                   $ref: '#/components/schemas/Session'
     post:
       operationId: createSession
-      summary: Create a new session
+      summary: Jupyter Notebook Create a new session
       description: >-
         Create a new session by starting a kernel and associating it
         with a notebook path.
@@ -359,7 +359,7 @@ paths:
   /api/sessions/{session_id}:
     get:
       operationId: getSession
-      summary: Get a session
+      summary: Jupyter Notebook Get a session
       description: Get the details of a specific session by its ID.
       tags:
         - sessions
@@ -382,7 +382,7 @@ paths:
           description: Session not found.
     patch:
       operationId: updateSession
-      summary: Update a session
+      summary: Jupyter Notebook Update a session
       description: >-
         Update a session, for example to change the associated kernel
         or notebook path.
@@ -415,7 +415,7 @@ paths:
           description: Session not found.
     delete:
       operationId: deleteSession
-      summary: Delete a session
+      summary: Jupyter Notebook Delete a session
       description: >-
         Delete a session and shut down its associated kernel.
       tags:
@@ -436,7 +436,7 @@ paths:
   /api/kernels:
     get:
       operationId: listKernels
-      summary: List running kernels
+      summary: Jupyter Notebook List running kernels
       description: List all currently running kernels.
       tags:
         - kernels
@@ -451,7 +451,7 @@ paths:
                   $ref: '#/components/schemas/Kernel'
     post:
       operationId: startKernel
-      summary: Start a kernel
+      summary: Jupyter Notebook Start a kernel
       description: Start a new kernel with an optional kernel specification name.
       tags:
         - kernels
@@ -478,7 +478,7 @@ paths:
   /api/kernels/{kernel_id}:
     get:
       operationId: getKernel
-      summary: Get kernel information
+      summary: Jupyter Notebook Get kernel information
       description: Get the model for a specific kernel by its ID.
       tags:
         - kernels
@@ -501,7 +501,7 @@ paths:
           description: Kernel not found.
     delete:
       operationId: shutdownKernel
-      summary: Shut down a kernel
+      summary: Jupyter Notebook Shut down a kernel
       description: Shut down a running kernel by its ID.
       tags:
         - kernels
@@ -521,7 +521,7 @@ paths:
   /api/kernels/{kernel_id}/interrupt:
     post:
       operationId: interruptKernel
-      summary: Interrupt a kernel
+      summary: Jupyter Notebook Interrupt a kernel
       description: Interrupt a running kernel, stopping any currently executing code.
       tags:
         - kernels
@@ -541,7 +541,7 @@ paths:
   /api/kernels/{kernel_id}/restart:
     post:
       operationId: restartKernel
-      summary: Restart a kernel
+      summary: Jupyter Notebook Restart a kernel
       description: >-
         Restart a running kernel. This will kill the current kernel process
         and start a new one with the same ID.
@@ -567,7 +567,7 @@ paths:
   /api/kernelspecs:
     get:
       operationId: listKernelSpecs
-      summary: List kernel specifications
+      summary: Jupyter Notebook List kernel specifications
       description: >-
         Get the list of available kernel specifications. Returns the
         default kernel name and a mapping of kernel spec names to their
@@ -584,7 +584,7 @@ paths:
   /api/kernelspecs/{kernel_name}:
     get:
       operationId: getKernelSpec
-      summary: Get a kernel specification
+      summary: Jupyter Notebook Get a kernel specification
       description: Get the specification for a specific kernel by name.
       tags:
         - kernelspecs
@@ -607,7 +607,7 @@ paths:
   /api/terminals:
     get:
       operationId: listTerminals
-      summary: List running terminals
+      summary: Jupyter Notebook List running terminals
       description: Get the list of currently running terminal sessions.
       tags:
         - terminals
@@ -622,7 +622,7 @@ paths:
                   $ref: '#/components/schemas/Terminal'
     post:
       operationId: createTerminal
-      summary: Create a new terminal
+      summary: Jupyter Notebook Create a new terminal
       description: Start a new terminal session.
       tags:
         - terminals
@@ -646,7 +646,7 @@ paths:
   /api/terminals/{terminal_id}:
     get:
       operationId: getTerminal
-      summary: Get terminal information
+      summary: Jupyter Notebook Get terminal information
       description: Get details about a specific terminal session.
       tags:
         - terminals
@@ -668,7 +668,7 @@ paths:
           description: Terminal not found.
     delete:
       operationId: deleteTerminal
-      summary: Shut down a terminal
+      summary: Jupyter Notebook Shut down a terminal
       description: Shut down a terminal session by its ID.
       tags:
         - terminals
@@ -687,7 +687,7 @@ paths:
   /api/config/{section_name}:
     get:
       operationId: getConfig
-      summary: Get configuration section
+      summary: Jupyter Notebook Get configuration section
       description: Get the configuration values for a specific section.
       tags:
         - config
@@ -708,7 +708,7 @@ paths:
                 additionalProperties: true
     put:
       operationId: updateConfig
-      summary: Update configuration section
+      summary: Jupyter Notebook Update configuration section
       description: >-
         Update the configuration values for a specific section.
         The provided values are merged with existing configuration.
@@ -738,7 +738,7 @@ paths:
                 additionalProperties: true
     patch:
       operationId: patchConfig
-      summary: Patch configuration section
+      summary: Jupyter Notebook Patch configuration section
       description: >-
         Partially update configuration values for a specific section.
         Only the provided keys are updated.
@@ -865,7 +865,7 @@ components:
             - json
             - text
             - base64
-            - null
+            - 
         hash:
           type:
             - string

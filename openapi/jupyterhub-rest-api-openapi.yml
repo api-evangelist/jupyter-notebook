@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: JupyterHub REST API
+  title: Jupyter Notebook JupyterHub REST API
   description: >-
     REST API for JupyterHub, the multi-user server for Jupyter notebooks.
     This API provides endpoints for managing users, groups, services,
@@ -21,7 +21,7 @@ paths:
   /:
     get:
       operationId: getRootInfo
-      summary: Get JupyterHub version
+      summary: Jupyter Notebook Get JupyterHub version
       description: Returns the version of the running JupyterHub instance.
       tags:
         - general
@@ -39,7 +39,7 @@ paths:
   /info:
     get:
       operationId: getInfo
-      summary: Get detailed server info
+      summary: Jupyter Notebook Get detailed server info
       description: >-
         Returns detailed information about the JupyterHub instance including
         version, Python version, spawner, and authenticator information.
@@ -55,7 +55,7 @@ paths:
   /users:
     get:
       operationId: listUsers
-      summary: List users
+      summary: Jupyter Notebook List users
       description: >-
         List all users registered with JupyterHub. Admin access is
         required. Supports pagination via offset and limit parameters.
@@ -108,7 +108,7 @@ paths:
           description: Forbidden. Admin access required.
     post:
       operationId: createUsers
-      summary: Create multiple users
+      summary: Jupyter Notebook Create multiple users
       description: Create one or more new users.
       tags:
         - users
@@ -146,7 +146,7 @@ paths:
   /users/{name}:
     get:
       operationId: getUser
-      summary: Get user details
+      summary: Jupyter Notebook Get user details
       description: Get detailed information about a specific user.
       tags:
         - users
@@ -177,7 +177,7 @@ paths:
           description: User not found.
     post:
       operationId: createUser
-      summary: Create a single user
+      summary: Jupyter Notebook Create a single user
       description: Create a new user with the given name.
       tags:
         - users
@@ -209,7 +209,7 @@ paths:
           description: User already exists.
     patch:
       operationId: updateUser
-      summary: Update user properties
+      summary: Jupyter Notebook Update user properties
       description: >-
         Modify a user's properties such as name or admin status.
       tags:
@@ -247,7 +247,7 @@ paths:
           description: User not found.
     delete:
       operationId: deleteUser
-      summary: Delete a user
+      summary: Jupyter Notebook Delete a user
       description: >-
         Delete a user from JupyterHub. This will also stop and remove
         any running servers for the user.
@@ -268,7 +268,7 @@ paths:
   /users/{name}/activity:
     post:
       operationId: notifyUserActivity
-      summary: Notify user activity
+      summary: Jupyter Notebook Notify user activity
       description: >-
         Notify the hub of activity for a user. Updates the user's
         last_activity timestamp and optionally their servers' activity.
@@ -308,7 +308,7 @@ paths:
   /users/{name}/server:
     post:
       operationId: startUserServer
-      summary: Start user's default server
+      summary: Jupyter Notebook Start user's default server
       description: >-
         Start the user's default single-user server. The response may
         be 201 or 202 depending on whether the server starts
@@ -339,7 +339,7 @@ paths:
           description: Bad request.
     delete:
       operationId: stopUserServer
-      summary: Stop user's default server
+      summary: Jupyter Notebook Stop user's default server
       description: Stop the user's default single-user server.
       tags:
         - users
@@ -367,7 +367,7 @@ paths:
   /users/{name}/servers/{server_name}:
     post:
       operationId: startNamedServer
-      summary: Start a named server
+      summary: Jupyter Notebook Start a named server
       description: >-
         Start a named server for the user. JupyterHub supports
         multiple named servers per user.
@@ -401,7 +401,7 @@ paths:
           description: Server start accepted, still pending.
     delete:
       operationId: stopNamedServer
-      summary: Stop a named server
+      summary: Jupyter Notebook Stop a named server
       description: Stop a user's named server.
       tags:
         - users
@@ -433,7 +433,7 @@ paths:
   /users/{name}/tokens:
     get:
       operationId: listUserTokens
-      summary: List user's API tokens
+      summary: Jupyter Notebook List user's API tokens
       description: List all API tokens for a given user.
       tags:
         - users
@@ -459,7 +459,7 @@ paths:
           description: User not found.
     post:
       operationId: createUserToken
-      summary: Create an API token
+      summary: Jupyter Notebook Create an API token
       description: Create a new API token for the given user.
       tags:
         - users
@@ -505,7 +505,7 @@ paths:
   /users/{name}/tokens/{token_id}:
     get:
       operationId: getUserToken
-      summary: Get token details
+      summary: Jupyter Notebook Get token details
       description: Get details about a specific API token.
       tags:
         - users
@@ -533,7 +533,7 @@ paths:
           description: Token not found.
     delete:
       operationId: deleteUserToken
-      summary: Revoke an API token
+      summary: Jupyter Notebook Revoke an API token
       description: Revoke a specific API token for the user.
       tags:
         - users
@@ -558,7 +558,7 @@ paths:
   /groups:
     get:
       operationId: listGroups
-      summary: List groups
+      summary: Jupyter Notebook List groups
       description: List all groups.
       tags:
         - groups
@@ -591,7 +591,7 @@ paths:
   /groups/{name}:
     get:
       operationId: getGroup
-      summary: Get group details
+      summary: Jupyter Notebook Get group details
       description: Get information about a specific group.
       tags:
         - groups
@@ -613,7 +613,7 @@ paths:
           description: Group not found.
     post:
       operationId: createGroup
-      summary: Create a group
+      summary: Jupyter Notebook Create a group
       description: Create a new group with the given name.
       tags:
         - groups
@@ -635,7 +635,7 @@ paths:
           description: Group already exists.
     delete:
       operationId: deleteGroup
-      summary: Delete a group
+      summary: Jupyter Notebook Delete a group
       description: Delete a group. Users in the group are not deleted.
       tags:
         - groups
@@ -654,7 +654,7 @@ paths:
   /groups/{name}/users:
     post:
       operationId: addGroupUsers
-      summary: Add users to a group
+      summary: Jupyter Notebook Add users to a group
       description: Add one or more users to a group.
       tags:
         - groups
@@ -690,7 +690,7 @@ paths:
           description: Group not found.
     delete:
       operationId: removeGroupUsers
-      summary: Remove users from a group
+      summary: Jupyter Notebook Remove users from a group
       description: Remove one or more users from a group.
       tags:
         - groups
@@ -723,7 +723,7 @@ paths:
   /groups/{name}/properties:
     put:
       operationId: setGroupProperties
-      summary: Set group properties
+      summary: Jupyter Notebook Set group properties
       description: Set or replace all custom properties for a group.
       tags:
         - groups
@@ -751,7 +751,7 @@ paths:
   /services:
     get:
       operationId: listServices
-      summary: List services
+      summary: Jupyter Notebook List services
       description: List all registered JupyterHub services.
       tags:
         - services
@@ -769,7 +769,7 @@ paths:
   /services/{name}:
     get:
       operationId: getService
-      summary: Get service details
+      summary: Jupyter Notebook Get service details
       description: Get information about a specific service.
       tags:
         - services
@@ -792,7 +792,7 @@ paths:
   /proxy:
     get:
       operationId: getProxyTable
-      summary: Get proxy routing table
+      summary: Jupyter Notebook Get proxy routing table
       description: Get the current proxy routing table from the configurable HTTP proxy.
       tags:
         - proxy
@@ -807,7 +807,7 @@ paths:
                   $ref: '#/components/schemas/ProxyRoute'
     post:
       operationId: syncProxy
-      summary: Force proxy sync
+      summary: Jupyter Notebook Force proxy sync
       description: Force the hub to sync the proxy routing table with its database.
       tags:
         - proxy
@@ -816,7 +816,7 @@ paths:
           description: Proxy synced successfully.
     patch:
       operationId: addProxyRoute
-      summary: Add a proxy route
+      summary: Jupyter Notebook Add a proxy route
       description: Add a new entry to the proxy routing table.
       tags:
         - proxy
@@ -832,7 +832,7 @@ paths:
   /authorizations/token/{token}:
     get:
       operationId: checkToken
-      summary: Identify a user by token
+      summary: Jupyter Notebook Identify a user by token
       description: >-
         Identify the user associated with a given API token.
         Used by services to verify token authentication.
@@ -857,7 +857,7 @@ paths:
   /shutdown:
     post:
       operationId: shutdownHub
-      summary: Shut down the hub
+      summary: Jupyter Notebook Shut down the hub
       description: >-
         Shut down the JupyterHub process. Optionally stop all
         single-user servers and the proxy.
@@ -965,7 +965,7 @@ components:
           enum:
             - spawn
             - stop
-            - null
+            - 
         last_activity:
           type:
             - string
