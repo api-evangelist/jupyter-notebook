@@ -28,7 +28,7 @@ paths:
         Returns server information including the version of the Kernel
         Gateway. This is a Jupyter Notebook server-compatible endpoint.
       tags:
-        - general
+        - General
       responses:
         '200':
           description: Server API information.
@@ -46,7 +46,7 @@ paths:
       summary: Jupyter Notebook List running kernels
       description: List all currently running kernels on the gateway.
       tags:
-        - kernels
+        - Kernels
       responses:
         '200':
           description: List of running kernels.
@@ -63,7 +63,7 @@ paths:
         Start a new kernel. The kernel gateway may enforce a maximum
         number of kernels via the KG_MAX_KERNELS configuration.
       tags:
-        - kernels
+        - Kernels
       requestBody:
         required: false
         content:
@@ -104,7 +104,7 @@ paths:
       summary: Jupyter Notebook Get kernel information
       description: Get the model for a specific kernel.
       tags:
-        - kernels
+        - Kernels
       parameters:
         - name: kernel_id
           in: path
@@ -127,7 +127,7 @@ paths:
       summary: Jupyter Notebook Shut down a kernel
       description: Shut down a running kernel.
       tags:
-        - kernels
+        - Kernels
       parameters:
         - name: kernel_id
           in: path
@@ -151,7 +151,7 @@ paths:
       summary: Jupyter Notebook Interrupt a kernel
       description: Interrupt a running kernel.
       tags:
-        - kernels
+        - Kernels
       parameters:
         - name: kernel_id
           in: path
@@ -171,7 +171,7 @@ paths:
       summary: Jupyter Notebook Restart a kernel
       description: Restart a running kernel.
       tags:
-        - kernels
+        - Kernels
       parameters:
         - name: kernel_id
           in: path
@@ -198,7 +198,7 @@ paths:
         may be configured with KG_DEFAULT_KERNEL_NAME to set a
         specific default.
       tags:
-        - kernelspecs
+        - Kernelspecs
       responses:
         '200':
           description: Kernel specifications.
@@ -212,7 +212,7 @@ paths:
       summary: Jupyter Notebook Get a kernel specification
       description: Get the specification for a specific kernel by name.
       tags:
-        - kernelspecs
+        - Kernelspecs
       parameters:
         - name: kernel_name
           in: path
@@ -336,11 +336,11 @@ security:
   - token: []
   - tokenQuery: []
 tags:
-  - name: general
+  - name: General
     description: General gateway information.
-  - name: kernels
+  - name: Kernels
     description: >-
       Kernel lifecycle management on the gateway. The gateway may
       enforce kernel limits and seed kernels.
-  - name: kernelspecs
+  - name: Kernelspecs
     description: Kernel specification listing and retrieval.

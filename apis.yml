@@ -5,12 +5,12 @@ description: >-
   text.
 image: https://jupyter.org/assets/homepage/main-logo.svg
 tags:
-  - jupyter
-  - notebook
-  - interactive computing
-  - python
-  - data science
-  - machine learning
+  - Data Science
+  - Interactive Computing
+  - Jupyter
+  - Machine Learning
+  - Notebook
+  - Python
 created: '2024-01-15'
 modified: '2026-03-16'
 url: https://jupyter.org
@@ -24,16 +24,15 @@ apis:
     humanURL: https://jupyter-notebook.readthedocs.io/
     baseURL: http://localhost:8888
     tags:
-      - kernels
-      - sessions
-      - notebooks
-      - files
+      - Files
+      - Kernels
+      - Notebooks
+      - Sessions
     properties:
       - type: X-documentation
         url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
       - type: X-openapi
-        url: 
-          https://petstore.swagger.io/?url=https://raw.githubusercontent.com/jupyter/notebook/master/notebook/services/api/api.yaml
+        url: https://petstore.swagger.io/?url=https://raw.githubusercontent.com/jupyter/notebook/master/notebook/services/api/api.yaml
       - type: X-github
         url: https://github.com/jupyter/notebook
       - type: openapi
@@ -58,9 +57,9 @@ apis:
     humanURL: https://jupyter-kernel-gateway.readthedocs.io/
     baseURL: http://localhost:8888
     tags:
-      - kernel
-      - gateway
-      - execution
+      - Execution
+      - Gateway
+      - Kernel
     properties:
       - type: X-documentation
         url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
@@ -79,15 +78,14 @@ apis:
     humanURL: https://jupyterhub.readthedocs.io/
     baseURL: http://localhost:8000
     tags:
-      - hub
-      - multi-user
-      - authentication
+      - Authentication
+      - Hub
+      - Multi-User
     properties:
       - type: X-documentation
         url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
       - type: X-openapi
-        url: 
-          https://raw.githubusercontent.com/jupyterhub/jupyterhub/master/docs/rest-api.yml
+        url: https://raw.githubusercontent.com/jupyterhub/jupyterhub/master/docs/rest-api.yml
       - type: X-github
         url: https://github.com/jupyterhub/jupyterhub
       - type: openapi
@@ -104,10 +102,10 @@ apis:
     humanURL: https://jupyter-client.readthedocs.io/en/stable/messaging.html
     baseURL: ws://localhost:8888
     tags:
-      - websocket
-      - kernel
-      - messaging
-      - real-time
+      - Kernel
+      - Messaging
+      - Real-Time
+      - Websocket
     properties:
       - type: X-documentation
         url: https://jupyter-client.readthedocs.io/en/stable/messaging.html

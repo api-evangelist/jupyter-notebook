@@ -25,7 +25,7 @@ paths:
       summary: Jupyter Notebook Get API info
       description: Returns the API version and other server information.
       tags:
-        - general
+        - General
       responses:
         '200':
           description: Server API information.
@@ -39,7 +39,7 @@ paths:
       summary: Jupyter Notebook Get server status
       description: Returns the status of the notebook server including kernel and session counts.
       tags:
-        - general
+        - General
       responses:
         '200':
           description: Server status information.
@@ -56,7 +56,7 @@ paths:
         directories, returns a listing of contents. For notebooks, returns
         the notebook document. For files, returns the file content.
       tags:
-        - contents
+        - Contents
       parameters:
         - name: path
           in: path
@@ -130,7 +130,7 @@ paths:
         Create a new file, directory, or notebook at the given path. If
         no body is provided, creates a new untitled file or directory.
       tags:
-        - contents
+        - Contents
       parameters:
         - name: path
           in: path
@@ -160,7 +160,7 @@ paths:
         Save or upload a file, directory, or notebook at the given path.
         This replaces the content at the given path entirely.
       tags:
-        - contents
+        - Contents
       parameters:
         - name: path
           in: path
@@ -194,7 +194,7 @@ paths:
       summary: Jupyter Notebook Rename a file or directory
       description: Rename a file or directory by changing its path.
       tags:
-        - contents
+        - Contents
       parameters:
         - name: path
           in: path
@@ -230,7 +230,7 @@ paths:
       summary: Jupyter Notebook Delete a file or directory
       description: Delete a file or empty directory at the given path.
       tags:
-        - contents
+        - Contents
       parameters:
         - name: path
           in: path
@@ -251,7 +251,7 @@ paths:
       summary: Jupyter Notebook List checkpoints
       description: List all checkpoints for the content at the given path.
       tags:
-        - contents
+        - Contents
       parameters:
         - name: path
           in: path
@@ -275,7 +275,7 @@ paths:
       summary: Jupyter Notebook Create a checkpoint
       description: Create a new checkpoint for the content at the given path.
       tags:
-        - contents
+        - Contents
       parameters:
         - name: path
           in: path
@@ -298,7 +298,7 @@ paths:
       summary: Jupyter Notebook Delete a checkpoint
       description: Delete a specific checkpoint for the content at the given path.
       tags:
-        - contents
+        - Contents
       parameters:
         - name: path
           in: path
@@ -323,7 +323,7 @@ paths:
       summary: Jupyter Notebook List running sessions
       description: List all currently running notebook sessions.
       tags:
-        - sessions
+        - Sessions
       responses:
         '200':
           description: List of active sessions.
@@ -340,7 +340,7 @@ paths:
         Create a new session by starting a kernel and associating it
         with a notebook path.
       tags:
-        - sessions
+        - Sessions
       requestBody:
         required: true
         content:
@@ -362,7 +362,7 @@ paths:
       summary: Jupyter Notebook Get a session
       description: Get the details of a specific session by its ID.
       tags:
-        - sessions
+        - Sessions
       parameters:
         - name: session_id
           in: path
@@ -387,7 +387,7 @@ paths:
         Update a session, for example to change the associated kernel
         or notebook path.
       tags:
-        - sessions
+        - Sessions
       parameters:
         - name: session_id
           in: path
@@ -419,7 +419,7 @@ paths:
       description: >-
         Delete a session and shut down its associated kernel.
       tags:
-        - sessions
+        - Sessions
       parameters:
         - name: session_id
           in: path
@@ -439,7 +439,7 @@ paths:
       summary: Jupyter Notebook List running kernels
       description: List all currently running kernels.
       tags:
-        - kernels
+        - Kernels
       responses:
         '200':
           description: List of running kernels.
@@ -454,7 +454,7 @@ paths:
       summary: Jupyter Notebook Start a kernel
       description: Start a new kernel with an optional kernel specification name.
       tags:
-        - kernels
+        - Kernels
       requestBody:
         required: false
         content:
@@ -481,7 +481,7 @@ paths:
       summary: Jupyter Notebook Get kernel information
       description: Get the model for a specific kernel by its ID.
       tags:
-        - kernels
+        - Kernels
       parameters:
         - name: kernel_id
           in: path
@@ -504,7 +504,7 @@ paths:
       summary: Jupyter Notebook Shut down a kernel
       description: Shut down a running kernel by its ID.
       tags:
-        - kernels
+        - Kernels
       parameters:
         - name: kernel_id
           in: path
@@ -524,7 +524,7 @@ paths:
       summary: Jupyter Notebook Interrupt a kernel
       description: Interrupt a running kernel, stopping any currently executing code.
       tags:
-        - kernels
+        - Kernels
       parameters:
         - name: kernel_id
           in: path
@@ -546,7 +546,7 @@ paths:
         Restart a running kernel. This will kill the current kernel process
         and start a new one with the same ID.
       tags:
-        - kernels
+        - Kernels
       parameters:
         - name: kernel_id
           in: path
@@ -573,7 +573,7 @@ paths:
         default kernel name and a mapping of kernel spec names to their
         specifications.
       tags:
-        - kernelspecs
+        - Kernelspecs
       responses:
         '200':
           description: Kernel specifications listing.
@@ -587,7 +587,7 @@ paths:
       summary: Jupyter Notebook Get a kernel specification
       description: Get the specification for a specific kernel by name.
       tags:
-        - kernelspecs
+        - Kernelspecs
       parameters:
         - name: kernel_name
           in: path
@@ -610,7 +610,7 @@ paths:
       summary: Jupyter Notebook List running terminals
       description: Get the list of currently running terminal sessions.
       tags:
-        - terminals
+        - Terminals
       responses:
         '200':
           description: List of terminal sessions.
@@ -625,7 +625,7 @@ paths:
       summary: Jupyter Notebook Create a new terminal
       description: Start a new terminal session.
       tags:
-        - terminals
+        - Terminals
       requestBody:
         required: false
         content:
@@ -649,7 +649,7 @@ paths:
       summary: Jupyter Notebook Get terminal information
       description: Get details about a specific terminal session.
       tags:
-        - terminals
+        - Terminals
       parameters:
         - name: terminal_id
           in: path
@@ -671,7 +671,7 @@ paths:
       summary: Jupyter Notebook Shut down a terminal
       description: Shut down a terminal session by its ID.
       tags:
-        - terminals
+        - Terminals
       parameters:
         - name: terminal_id
           in: path
@@ -690,7 +690,7 @@ paths:
       summary: Jupyter Notebook Get configuration section
       description: Get the configuration values for a specific section.
       tags:
-        - config
+        - Config
       parameters:
         - name: section_name
           in: path
@@ -713,7 +713,7 @@ paths:
         Update the configuration values for a specific section.
         The provided values are merged with existing configuration.
       tags:
-        - config
+        - Config
       parameters:
         - name: section_name
           in: path
@@ -743,7 +743,7 @@ paths:
         Partially update configuration values for a specific section.
         Only the provided keys are updated.
       tags:
-        - config
+        - Config
       parameters:
         - name: section_name
           in: path
@@ -1129,25 +1129,25 @@ security:
   - token: []
   - tokenHeader: []
 tags:
-  - name: general
-    description: General server information and status endpoints.
-  - name: contents
+  - name: Config
+    description: Server configuration section management.
+  - name: Contents
     description: >-
       File and directory management including notebooks, files,
       directories, and checkpoints.
-  - name: sessions
-    description: >-
-      Session management for associating notebooks with running
-      kernels.
-  - name: kernels
+  - name: General
+    description: General server information and status endpoints.
+  - name: Kernels
     description: >-
       Kernel lifecycle management including starting, stopping,
       interrupting, and restarting kernels.
-  - name: kernelspecs
+  - name: Kernelspecs
     description: >-
       Kernel specification listing and retrieval for available
       kernel types.
-  - name: terminals
+  - name: Sessions
+    description: >-
+      Session management for associating notebooks with running
+      kernels.
+  - name: Terminals
     description: Terminal session management on the server.
-  - name: config
-    description: Server configuration section management.

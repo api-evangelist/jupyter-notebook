@@ -24,7 +24,7 @@ paths:
       summary: Jupyter Notebook Get JupyterHub version
       description: Returns the version of the running JupyterHub instance.
       tags:
-        - general
+        - General
       responses:
         '200':
           description: JupyterHub version information.
@@ -44,7 +44,7 @@ paths:
         Returns detailed information about the JupyterHub instance including
         version, Python version, spawner, and authenticator information.
       tags:
-        - general
+        - General
       responses:
         '200':
           description: Detailed JupyterHub server information.
@@ -60,7 +60,7 @@ paths:
         List all users registered with JupyterHub. Admin access is
         required. Supports pagination via offset and limit parameters.
       tags:
-        - users
+        - Users
       parameters:
         - name: state
           in: query
@@ -111,7 +111,7 @@ paths:
       summary: Jupyter Notebook Create multiple users
       description: Create one or more new users.
       tags:
-        - users
+        - Users
       requestBody:
         required: true
         content:
@@ -149,7 +149,7 @@ paths:
       summary: Jupyter Notebook Get user details
       description: Get detailed information about a specific user.
       tags:
-        - users
+        - Users
       parameters:
         - name: name
           in: path
@@ -180,7 +180,7 @@ paths:
       summary: Jupyter Notebook Create a single user
       description: Create a new user with the given name.
       tags:
-        - users
+        - Users
       parameters:
         - name: name
           in: path
@@ -213,7 +213,7 @@ paths:
       description: >-
         Modify a user's properties such as name or admin status.
       tags:
-        - users
+        - Users
       parameters:
         - name: name
           in: path
@@ -252,7 +252,7 @@ paths:
         Delete a user from JupyterHub. This will also stop and remove
         any running servers for the user.
       tags:
-        - users
+        - Users
       parameters:
         - name: name
           in: path
@@ -273,7 +273,7 @@ paths:
         Notify the hub of activity for a user. Updates the user's
         last_activity timestamp and optionally their servers' activity.
       tags:
-        - users
+        - Users
       parameters:
         - name: name
           in: path
@@ -314,7 +314,7 @@ paths:
         be 201 or 202 depending on whether the server starts
         immediately or is still pending.
       tags:
-        - users
+        - Users
       parameters:
         - name: name
           in: path
@@ -342,7 +342,7 @@ paths:
       summary: Jupyter Notebook Stop user's default server
       description: Stop the user's default single-user server.
       tags:
-        - users
+        - Users
       parameters:
         - name: name
           in: path
@@ -372,7 +372,7 @@ paths:
         Start a named server for the user. JupyterHub supports
         multiple named servers per user.
       tags:
-        - users
+        - Users
       parameters:
         - name: name
           in: path
@@ -404,7 +404,7 @@ paths:
       summary: Jupyter Notebook Stop a named server
       description: Stop a user's named server.
       tags:
-        - users
+        - Users
       parameters:
         - name: name
           in: path
@@ -436,7 +436,7 @@ paths:
       summary: Jupyter Notebook List user's API tokens
       description: List all API tokens for a given user.
       tags:
-        - users
+        - Users
       parameters:
         - name: name
           in: path
@@ -462,7 +462,7 @@ paths:
       summary: Jupyter Notebook Create an API token
       description: Create a new API token for the given user.
       tags:
-        - users
+        - Users
       parameters:
         - name: name
           in: path
@@ -508,7 +508,7 @@ paths:
       summary: Jupyter Notebook Get token details
       description: Get details about a specific API token.
       tags:
-        - users
+        - Users
       parameters:
         - name: name
           in: path
@@ -536,7 +536,7 @@ paths:
       summary: Jupyter Notebook Revoke an API token
       description: Revoke a specific API token for the user.
       tags:
-        - users
+        - Users
       parameters:
         - name: name
           in: path
@@ -561,7 +561,7 @@ paths:
       summary: Jupyter Notebook List groups
       description: List all groups.
       tags:
-        - groups
+        - Groups
       parameters:
         - name: offset
           in: query
@@ -594,7 +594,7 @@ paths:
       summary: Jupyter Notebook Get group details
       description: Get information about a specific group.
       tags:
-        - groups
+        - Groups
       parameters:
         - name: name
           in: path
@@ -616,7 +616,7 @@ paths:
       summary: Jupyter Notebook Create a group
       description: Create a new group with the given name.
       tags:
-        - groups
+        - Groups
       parameters:
         - name: name
           in: path
@@ -638,7 +638,7 @@ paths:
       summary: Jupyter Notebook Delete a group
       description: Delete a group. Users in the group are not deleted.
       tags:
-        - groups
+        - Groups
       parameters:
         - name: name
           in: path
@@ -657,7 +657,7 @@ paths:
       summary: Jupyter Notebook Add users to a group
       description: Add one or more users to a group.
       tags:
-        - groups
+        - Groups
       parameters:
         - name: name
           in: path
@@ -693,7 +693,7 @@ paths:
       summary: Jupyter Notebook Remove users from a group
       description: Remove one or more users from a group.
       tags:
-        - groups
+        - Groups
       parameters:
         - name: name
           in: path
@@ -726,7 +726,7 @@ paths:
       summary: Jupyter Notebook Set group properties
       description: Set or replace all custom properties for a group.
       tags:
-        - groups
+        - Groups
       parameters:
         - name: name
           in: path
@@ -753,8 +753,7 @@ paths:
       operationId: listServices
       summary: Jupyter Notebook List services
       description: List all registered JupyterHub services.
-      tags:
-        - services
+      tags: []
       responses:
         '200':
           description: List of services.
@@ -771,8 +770,7 @@ paths:
       operationId: getService
       summary: Jupyter Notebook Get service details
       description: Get information about a specific service.
-      tags:
-        - services
+      tags: []
       parameters:
         - name: name
           in: path
@@ -795,7 +793,7 @@ paths:
       summary: Jupyter Notebook Get proxy routing table
       description: Get the current proxy routing table from the configurable HTTP proxy.
       tags:
-        - proxy
+        - Proxy
       responses:
         '200':
           description: Proxy routing table.
@@ -810,7 +808,7 @@ paths:
       summary: Jupyter Notebook Force proxy sync
       description: Force the hub to sync the proxy routing table with its database.
       tags:
-        - proxy
+        - Proxy
       responses:
         '200':
           description: Proxy synced successfully.
@@ -819,7 +817,7 @@ paths:
       summary: Jupyter Notebook Add a proxy route
       description: Add a new entry to the proxy routing table.
       tags:
-        - proxy
+        - Proxy
       requestBody:
         required: true
         content:
@@ -837,7 +835,7 @@ paths:
         Identify the user associated with a given API token.
         Used by services to verify token authentication.
       tags:
-        - authorization
+        - Authorization
       parameters:
         - name: token
           in: path
@@ -862,7 +860,7 @@ paths:
         Shut down the JupyterHub process. Optionally stop all
         single-user servers and the proxy.
       tags:
-        - hub
+        - Hub
       requestBody:
         required: false
         content:
@@ -1163,19 +1161,17 @@ security:
   - token: []
   - oAuthToken: []
 tags:
-  - name: general
+  - name: Authorization
+    description: Token verification and authorization checks.
+  - name: General
     description: General hub information and status.
-  - name: users
+  - name: Groups
+    description: Group management for organizing users.
+  - name: Hub
+    description: Hub lifecycle management.
+  - name: Proxy
+    description: Configurable HTTP proxy routing table management.
+  - name: Users
     description: >-
       User management including creation, deletion, server management,
       and token management.
-  - name: groups
-    description: Group management for organizing users.
-  - name: services
-    description: JupyterHub managed and external services.
-  - name: proxy
-    description: Configurable HTTP proxy routing table management.
-  - name: authorization
-    description: Token verification and authorization checks.
-  - name: hub
-    description: Hub lifecycle management.
