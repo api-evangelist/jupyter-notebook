@@ -1,5 +1,6 @@
 specification: FinOps Framework
 specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
 alignedWith:
   framework: FinOps Foundation Framework
   frameworkUrl: https://www.finops.org/framework/
@@ -8,157 +9,73 @@ alignedWith:
   dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
 provider: Jupyter Notebook
 providerId: jupyter-notebook
-publisherName: Jupyter Notebook
-serviceCategory: API
+publisherName: Project Jupyter
+serviceCategory: Open-Source Data Science / Notebooks
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Data Science
   - Interactive Computing
   - Jupyter
-  - Machine Learning
   - Notebooks
-  - Python
   - FinOps
-  - Cost Management
   - FOCUS
-description: FinOps framework definition for the Jupyter Notebook API surface. Provides a FOCUS-aligned
-  mapping for cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
-principles:
-  - name: Visibility
-    description: Make API consumption costs visible to engineering, product, and finance teams in near
-      real-time.
-  - name: Allocation
-    description: Tag every chargeable API call with the consuming team, environment, application, and
-      feature so cost can be allocated.
-  - name: Optimization
-    description: Continuously evaluate request patterns, caching, batching, and tier selection to reduce
-      cost per useful unit of work.
-  - name: Accountability
-    description: Establish budget owners and chargeback or showback flows for each consuming team.
-domains:
-  - name: Understand Usage and Cost
-    capabilities:
-      - Data Ingestion
-      - Allocation
-      - Reporting and Analytics
-      - Anomaly Management
-  - name: Quantify Business Value
-    capabilities:
-      - Planning and Estimating
-      - Forecasting
-      - Budgeting
-      - Benchmarking
-      - Unit Economics
-  - name: Optimize Usage and Cost
-    capabilities:
-      - Architecting for Cloud
-      - Rate Optimization
-      - Workload Optimization
-      - Cloud Sustainability
-      - Licensing and SaaS
-  - name: Manage the FinOps Practice
-    capabilities:
-      - FinOps Practice Operations
-      - FinOps Education and Enablement
-      - Invoicing and Chargeback
-      - Onboarding Workloads
-      - Intersecting Disciplines
+  - Open Source
+description: FOCUS-aligned FinOps scaffold for Project Jupyter. The software itself has no
+  license cost; the FinOps surface is the underlying compute / storage the operator pays
+  for to run kernels, servers, and JupyterHub.
+sources:
+  - https://jupyter.org/about
+  - https://jupyterhub.readthedocs.io/
+  - https://www.finops.org/framework/
+  - https://focus.finops.org/focus-specification/v1-3/
 billingModel:
-  pricingCategory: Usage-Based
-  billingFrequency: Monthly
+  pricingCategory: Open Source (no project fees)
+  billingFrequency: Not Applicable
   billingCurrency: USD
   chargeCategories:
     - Usage
-    - Purchase
-    - Tax
-    - Credit
-    - Adjustment
-  chargeFrequency: Recurring
 focusColumns:
   ServiceName: Jupyter Notebook
-  ServiceCategory: Developer Tools / API
-  ProviderName: Jupyter Notebook
-  PublisherName: Jupyter Notebook
-  InvoiceIssuerName: Jupyter Notebook
-  PricingCategory: Usage-Based
-  PricingUnit: request
+  ServiceCategory: Open-Source Data Science / Notebooks
+  ProviderName: Project Jupyter
+  PublisherName: Project Jupyter
+  InvoiceIssuerName: Not Applicable (open source)
   BillingCurrency: USD
-  ChargeCategory: Usage
 meters:
-  - name: api_requests
-    description: Count of billable API requests
-    unit: request
+  - name: kernel_runtime_hours
+    unit: instance-hour
     aggregation: sum
     dimensions:
-      - api
-      - endpoint
-      - tier
-      - region
-      - consumer
-  - name: data_egress
-    description: Bytes returned over the network in API responses
-    unit: GB
-    aggregation: sum
+      - kernel_type
+      - user
+      - hub
+  - name: notebook_storage
+    unit: GB-month
+    aggregation: max
     dimensions:
-      - api
-      - region
-      - consumer
-  - name: compute_seconds
-    description: Server-side compute consumed by the request, where applicable
-    unit: second
-    aggregation: sum
+      - user
+      - hub
+  - name: hub_active_users
+    unit: user
+    aggregation: max
     dimensions:
-      - api
-      - endpoint
-      - tier
-apis:
-  - name: Jupyter Notebook REST API
-    baseURL: http://localhost:8888/api
-    tags:
-      - Contents
-      - Files
-      - Kernels
-      - Notebooks
-      - REST API
-      - Sessions
-    serviceName: Jupyter Notebook REST API
-    serviceCategory: API
-  - name: Jupyter Kernel Gateway API
-    baseURL: http://localhost:8888
-    tags:
-      - Execution
-      - Gateway
-      - Headless
-      - Kernels
-    serviceName: Jupyter Kernel Gateway API
-    serviceCategory: API
-  - name: JupyterHub REST API
-    baseURL: http://localhost:8000/hub/api
-    tags:
-      - Authentication
-      - Hub
-      - Multi-User
-      - REST API
-    serviceName: JupyterHub REST API
-    serviceCategory: API
-  - name: Jupyter Kernel Messaging Protocol
-    baseURL: ws://localhost:8888
-    tags:
-      - Kernels
-      - Messaging
-      - Real-Time
-      - WebSocket
-    serviceName: Jupyter Kernel Messaging Protocol
-    serviceCategory: API
-unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
-    target: TBD
+      - hub
+principles:
+  - name: Visibility
+    description: Project Jupyter has no first-party billing; visibility comes from the
+      underlying cloud / on-prem cost data and JupyterHub usage logs (PrometheusMetrics
+      exporter, named-server / named-user telemetry).
+  - name: Allocation
+    description: Allocate the underlying cost by JupyterHub username, named-server, or
+      Kubernetes namespace; tag cloud resources with hub and tenant labels.
+  - name: Optimization
+    description: Idle-server culling (jupyterhub-idle-culler), right-sized kernel images,
+      shared CPU/GPU pools, and sleep-on-idle drastically reduce notebook compute spend.
+  - name: Accountability
+    description: A platform / data-platform team typically owns the JupyterHub deployment;
+      pair with departmental owners who fund the underlying compute.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
-    url: https://apievangelist.com
