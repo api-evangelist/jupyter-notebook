@@ -3,11 +3,11 @@
   "feeds": [
     {
       "source": "https://blog.jupyter.org/",
-      "feed_url": "https://blog.jupyter.org/feed",
-      "saved": 10,
-      "title": "Jupyter Blog - Medium"
+      "feed_url": "https://blog.jupyter.org/feed/",
+      "title": "Jupyter Blog - Medium",
+      "saved": 0
     }
   ],
   "post_count": 10,
-  "fetched": "2026-05-03T23:30:06Z"
+  "fetched": "2026-05-09T20:17:51Z"
 }
