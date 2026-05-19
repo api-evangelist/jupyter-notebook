@@ -1,0 +1,71 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Jupyter Notebook Jupyter Kernel Gateway API
+  description: 'Jupyter Notebook Jupyter Kernel Gateway API. 1 operations. Lead operation: Jupyter Notebook Get API info.
+    Self-contained Naftiko capability covering one Jupyter Notebook business surface.'
+  tags:
+  - Jupyter Notebook
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    JUPYTER_NOTEBOOK_API_KEY: JUPYTER_NOTEBOOK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: jupyter-kernel-gateway-general
+    baseUri: http://localhost:8888/api
+    description: Jupyter Notebook Jupyter Kernel Gateway API business capability. Self-contained, no shared references.
+    resources:
+    - name: api
+      path: /api
+      operations:
+      - name: getapiinfo
+        method: GET
+        description: Jupyter Notebook Get API info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.JUPYTER_NOTEBOOK_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: jupyter-kernel-gateway-general-rest
+    port: 8080
+    description: REST adapter for Jupyter Notebook Jupyter Kernel Gateway API. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/api
+      name: api
+      description: REST surface for api.
+      operations:
+      - method: GET
+        name: getapiinfo
+        description: Jupyter Notebook Get API info
+        call: jupyter-kernel-gateway-general.getapiinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: jupyter-kernel-gateway-general-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Jupyter Notebook Jupyter Kernel Gateway API. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: jupyter-notebook-get-api-info
+      description: Jupyter Notebook Get API info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyter-kernel-gateway-general.getapiinfo
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,114 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Jupyter Notebook REST API — Kernelspecs
+  description: 'Jupyter Notebook REST API — Kernelspecs. 2 operations. Lead operation: Jupyter Notebook List kernel specifications.
+    Self-contained Naftiko capability covering one Jupyter Notebook business surface.'
+  tags:
+  - Jupyter Notebook
+  - Kernelspecs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    JUPYTER_NOTEBOOK_API_KEY: JUPYTER_NOTEBOOK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: rest-kernelspecs
+    baseUri: http://localhost:8888/api
+    description: Jupyter Notebook REST API — Kernelspecs business capability. Self-contained, no shared references.
+    resources:
+    - name: api-kernelspecs
+      path: /api/kernelspecs
+      operations:
+      - name: listkernelspecs
+        method: GET
+        description: Jupyter Notebook List kernel specifications
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-kernelspecs-kernel_name
+      path: /api/kernelspecs/{kernel_name}
+      operations:
+      - name: getkernelspec
+        method: GET
+        description: Jupyter Notebook Get a kernel specification
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: kernel_name
+          in: path
+          type: string
+          description: Name of the kernel specification.
+          required: true
+    authentication:
+      type: apikey
+      key: token
+      value: '{{env.JUPYTER_NOTEBOOK_API_KEY}}'
+      placement: query
+  exposes:
+  - type: rest
+    namespace: rest-kernelspecs-rest
+    port: 8080
+    description: REST adapter for Jupyter Notebook REST API — Kernelspecs. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/kernelspecs
+      name: api-kernelspecs
+      description: REST surface for api-kernelspecs.
+      operations:
+      - method: GET
+        name: listkernelspecs
+        description: Jupyter Notebook List kernel specifications
+        call: rest-kernelspecs.listkernelspecs
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/kernelspecs/{kernel-name}
+      name: api-kernelspecs-kernel-name
+      description: REST surface for api-kernelspecs-kernel_name.
+      operations:
+      - method: GET
+        name: getkernelspec
+        description: Jupyter Notebook Get a kernel specification
+        call: rest-kernelspecs.getkernelspec
+        with:
+          kernel_name: rest.kernel_name
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: rest-kernelspecs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Jupyter Notebook REST API — Kernelspecs. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: jupyter-notebook-list-kernel-specifications
+      description: Jupyter Notebook List kernel specifications
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-kernelspecs.listkernelspecs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jupyter-notebook-get-kernel-specification
+      description: Jupyter Notebook Get a kernel specification
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-kernelspecs.getkernelspec
+      with:
+        kernel_name: tools.kernel_name
+      outputParameters:
+      - type: object
+        mapping: $.

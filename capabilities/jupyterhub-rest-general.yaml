@@ -1,0 +1,111 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Jupyter Notebook JupyterHub REST API
+  description: 'Jupyter Notebook JupyterHub REST API. 2 operations. Lead operation: Jupyter Notebook List services. Self-contained
+    Naftiko capability covering one Jupyter Notebook business surface.'
+  tags:
+  - Jupyter Notebook
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    JUPYTER_NOTEBOOK_API_KEY: JUPYTER_NOTEBOOK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: jupyterhub-rest-general
+    baseUri: http://localhost:8000/hub/api
+    description: Jupyter Notebook JupyterHub REST API business capability. Self-contained, no shared references.
+    resources:
+    - name: services
+      path: /services
+      operations:
+      - name: listservices
+        method: GET
+        description: Jupyter Notebook List services
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: services-name
+      path: /services/{name}
+      operations:
+      - name: getservice
+        method: GET
+        description: Jupyter Notebook Get service details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Service name.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.JUPYTER_NOTEBOOK_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: jupyterhub-rest-general-rest
+    port: 8080
+    description: REST adapter for Jupyter Notebook JupyterHub REST API. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/services
+      name: services
+      description: REST surface for services.
+      operations:
+      - method: GET
+        name: listservices
+        description: Jupyter Notebook List services
+        call: jupyterhub-rest-general.listservices
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services/{name}
+      name: services-name
+      description: REST surface for services-name.
+      operations:
+      - method: GET
+        name: getservice
+        description: Jupyter Notebook Get service details
+        call: jupyterhub-rest-general.getservice
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: jupyterhub-rest-general-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Jupyter Notebook JupyterHub REST API. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: jupyter-notebook-list-services
+      description: Jupyter Notebook List services
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyterhub-rest-general.listservices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jupyter-notebook-get-service-details
+      description: Jupyter Notebook Get service details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyterhub-rest-general.getservice
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.

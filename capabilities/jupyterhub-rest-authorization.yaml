@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Jupyter Notebook JupyterHub REST API — Authorization
+  description: 'Jupyter Notebook JupyterHub REST API — Authorization. 1 operations. Lead operation: Jupyter Notebook Identify
+    a user by token. Self-contained Naftiko capability covering one Jupyter Notebook business surface.'
+  tags:
+  - Jupyter Notebook
+  - Authorization
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    JUPYTER_NOTEBOOK_API_KEY: JUPYTER_NOTEBOOK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: jupyterhub-rest-authorization
+    baseUri: http://localhost:8000/hub/api
+    description: Jupyter Notebook JupyterHub REST API — Authorization business capability. Self-contained, no shared references.
+    resources:
+    - name: authorizations-token-token
+      path: /authorizations/token/{token}
+      operations:
+      - name: checktoken
+        method: GET
+        description: Jupyter Notebook Identify a user by token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: token
+          in: path
+          type: string
+          description: The API token to check.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.JUPYTER_NOTEBOOK_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: jupyterhub-rest-authorization-rest
+    port: 8080
+    description: REST adapter for Jupyter Notebook JupyterHub REST API — Authorization. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/authorizations/token/{token}
+      name: authorizations-token-token
+      description: REST surface for authorizations-token-token.
+      operations:
+      - method: GET
+        name: checktoken
+        description: Jupyter Notebook Identify a user by token
+        call: jupyterhub-rest-authorization.checktoken
+        with:
+          token: rest.token
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: jupyterhub-rest-authorization-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Jupyter Notebook JupyterHub REST API — Authorization. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: jupyter-notebook-identify-user-token
+      description: Jupyter Notebook Identify a user by token
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyterhub-rest-authorization.checktoken
+      with:
+        token: tools.token
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Jupyter Notebook JupyterHub REST API — Hub
+  description: 'Jupyter Notebook JupyterHub REST API — Hub. 1 operations. Lead operation: Jupyter Notebook Shut down the hub.
+    Self-contained Naftiko capability covering one Jupyter Notebook business surface.'
+  tags:
+  - Jupyter Notebook
+  - Hub
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    JUPYTER_NOTEBOOK_API_KEY: JUPYTER_NOTEBOOK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: jupyterhub-rest-hub
+    baseUri: http://localhost:8000/hub/api
+    description: Jupyter Notebook JupyterHub REST API — Hub business capability. Self-contained, no shared references.
+    resources:
+    - name: shutdown
+      path: /shutdown
+      operations:
+      - name: shutdownhub
+        method: POST
+        description: Jupyter Notebook Shut down the hub
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.JUPYTER_NOTEBOOK_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: jupyterhub-rest-hub-rest
+    port: 8080
+    description: REST adapter for Jupyter Notebook JupyterHub REST API — Hub. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/shutdown
+      name: shutdown
+      description: REST surface for shutdown.
+      operations:
+      - method: POST
+        name: shutdownhub
+        description: Jupyter Notebook Shut down the hub
+        call: jupyterhub-rest-hub.shutdownhub
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: jupyterhub-rest-hub-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Jupyter Notebook JupyterHub REST API — Hub. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: jupyter-notebook-shut-down-hub
+      description: Jupyter Notebook Shut down the hub
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyterhub-rest-hub.shutdownhub
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

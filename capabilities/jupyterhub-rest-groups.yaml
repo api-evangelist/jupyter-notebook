@@ -1,0 +1,337 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Jupyter Notebook JupyterHub REST API — Groups
+  description: 'Jupyter Notebook JupyterHub REST API — Groups. 7 operations. Lead operation: Jupyter Notebook List groups.
+    Self-contained Naftiko capability covering one Jupyter Notebook business surface.'
+  tags:
+  - Jupyter Notebook
+  - Groups
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    JUPYTER_NOTEBOOK_API_KEY: JUPYTER_NOTEBOOK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: jupyterhub-rest-groups
+    baseUri: http://localhost:8000/hub/api
+    description: Jupyter Notebook JupyterHub REST API — Groups business capability. Self-contained, no shared references.
+    resources:
+    - name: groups
+      path: /groups
+      operations:
+      - name: listgroups
+        method: GET
+        description: Jupyter Notebook List groups
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: offset
+          in: query
+          type: integer
+          description: Offset for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of groups to return.
+    - name: groups-name
+      path: /groups/{name}
+      operations:
+      - name: getgroup
+        method: GET
+        description: Jupyter Notebook Get group details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Group name.
+          required: true
+      - name: creategroup
+        method: POST
+        description: Jupyter Notebook Create a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Group name.
+          required: true
+      - name: deletegroup
+        method: DELETE
+        description: Jupyter Notebook Delete a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Group name.
+          required: true
+    - name: groups-name-properties
+      path: /groups/{name}/properties
+      operations:
+      - name: setgroupproperties
+        method: PUT
+        description: Jupyter Notebook Set group properties
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Group name.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: groups-name-users
+      path: /groups/{name}/users
+      operations:
+      - name: addgroupusers
+        method: POST
+        description: Jupyter Notebook Add users to a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Group name.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: removegroupusers
+        method: DELETE
+        description: Jupyter Notebook Remove users from a group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: path
+          type: string
+          description: Group name.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.JUPYTER_NOTEBOOK_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: jupyterhub-rest-groups-rest
+    port: 8080
+    description: REST adapter for Jupyter Notebook JupyterHub REST API — Groups. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/groups
+      name: groups
+      description: REST surface for groups.
+      operations:
+      - method: GET
+        name: listgroups
+        description: Jupyter Notebook List groups
+        call: jupyterhub-rest-groups.listgroups
+        with:
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/groups/{name}
+      name: groups-name
+      description: REST surface for groups-name.
+      operations:
+      - method: GET
+        name: getgroup
+        description: Jupyter Notebook Get group details
+        call: jupyterhub-rest-groups.getgroup
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: creategroup
+        description: Jupyter Notebook Create a group
+        call: jupyterhub-rest-groups.creategroup
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletegroup
+        description: Jupyter Notebook Delete a group
+        call: jupyterhub-rest-groups.deletegroup
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/groups/{name}/properties
+      name: groups-name-properties
+      description: REST surface for groups-name-properties.
+      operations:
+      - method: PUT
+        name: setgroupproperties
+        description: Jupyter Notebook Set group properties
+        call: jupyterhub-rest-groups.setgroupproperties
+        with:
+          name: rest.name
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/groups/{name}/users
+      name: groups-name-users
+      description: REST surface for groups-name-users.
+      operations:
+      - method: POST
+        name: addgroupusers
+        description: Jupyter Notebook Add users to a group
+        call: jupyterhub-rest-groups.addgroupusers
+        with:
+          name: rest.name
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: removegroupusers
+        description: Jupyter Notebook Remove users from a group
+        call: jupyterhub-rest-groups.removegroupusers
+        with:
+          name: rest.name
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: jupyterhub-rest-groups-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Jupyter Notebook JupyterHub REST API — Groups. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: jupyter-notebook-list-groups
+      description: Jupyter Notebook List groups
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyterhub-rest-groups.listgroups
+      with:
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jupyter-notebook-get-group-details
+      description: Jupyter Notebook Get group details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: jupyterhub-rest-groups.getgroup
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jupyter-notebook-create-group
+      description: Jupyter Notebook Create a group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyterhub-rest-groups.creategroup
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jupyter-notebook-delete-group
+      description: Jupyter Notebook Delete a group
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: jupyterhub-rest-groups.deletegroup
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jupyter-notebook-set-group-properties
+      description: Jupyter Notebook Set group properties
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: jupyterhub-rest-groups.setgroupproperties
+      with:
+        name: tools.name
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jupyter-notebook-add-users-group
+      description: Jupyter Notebook Add users to a group
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: jupyterhub-rest-groups.addgroupusers
+      with:
+        name: tools.name
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: jupyter-notebook-remove-users-group
+      description: Jupyter Notebook Remove users from a group
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: jupyterhub-rest-groups.removegroupusers
+      with:
+        name: tools.name
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
