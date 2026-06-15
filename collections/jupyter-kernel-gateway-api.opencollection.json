@@ -1,0 +1,185 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Jupyter Notebook Jupyter Kernel Gateway API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "General",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook Get API info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api"
+          },
+          "docs": "Returns server information including the version of the Kernel Gateway. This is a Jupyter Notebook server-compatible endpoint."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Kernels",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook List running kernels",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/kernels"
+          },
+          "docs": "List all currently running kernels on the gateway."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Start a kernel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/api/kernels",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start a new kernel. The kernel gateway may enforce a maximum number of kernels via the KG_MAX_KERNELS configuration."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get kernel information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/kernels/:kernel_id",
+            "params": [
+              {
+                "name": "kernel_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the kernel."
+              }
+            ]
+          },
+          "docs": "Get the model for a specific kernel."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Shut down a kernel",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8888/api/api/kernels/:kernel_id",
+            "params": [
+              {
+                "name": "kernel_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the kernel."
+              }
+            ]
+          },
+          "docs": "Shut down a running kernel."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Interrupt a kernel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/api/kernels/:kernel_id/interrupt",
+            "params": [
+              {
+                "name": "kernel_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the kernel."
+              }
+            ]
+          },
+          "docs": "Interrupt a running kernel."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Restart a kernel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/api/kernels/:kernel_id/restart",
+            "params": [
+              {
+                "name": "kernel_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the kernel."
+              }
+            ]
+          },
+          "docs": "Restart a running kernel."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Kernelspecs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook List kernel specifications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/kernelspecs"
+          },
+          "docs": "Get the list of available kernel specifications. The gateway may be configured with KG_DEFAULT_KERNEL_NAME to set a specific default."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get a kernel specification",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/kernelspecs/:kernel_name",
+            "params": [
+              {
+                "name": "kernel_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the kernel specification."
+              }
+            ]
+          },
+          "docs": "Get the specification for a specific kernel by name."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

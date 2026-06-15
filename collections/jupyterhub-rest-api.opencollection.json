@@ -1,0 +1,713 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Jupyter Notebook JupyterHub REST API",
+    "version": "5.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "General",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook Get JupyterHub version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8000/hub/api/"
+          },
+          "docs": "Returns the version of the running JupyterHub instance."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get detailed server info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8000/hub/api/info"
+          },
+          "docs": "Returns detailed information about the JupyterHub instance including version, Python version, spawner, and authenticator information."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook List users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8000/hub/api/users",
+            "params": [
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "Filter users by server state. Can be 'active', 'inactive', or 'ready'."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Offset for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of users to return."
+              },
+              {
+                "name": "include_stopped_servers",
+                "value": "",
+                "type": "query",
+                "description": "Include stopped server information in results."
+              }
+            ]
+          },
+          "docs": "List all users registered with JupyterHub. Admin access is required. Supports pagination via offset and limit parameters."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Create multiple users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8000/hub/api/users",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create one or more new users."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get user details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8000/hub/api/users/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username."
+              },
+              {
+                "name": "include_stopped_servers",
+                "value": "",
+                "type": "query",
+                "description": "Include stopped server information."
+              }
+            ]
+          },
+          "docs": "Get detailed information about a specific user."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Create a single user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8000/hub/api/users/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username for the new user."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new user with the given name."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Update user properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8000/hub/api/users/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Current username."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Modify a user's properties such as name or admin status."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Delete a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8000/hub/api/users/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username to delete."
+              }
+            ]
+          },
+          "docs": "Delete a user from JupyterHub. This will also stop and remove any running servers for the user."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Notify user activity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8000/hub/api/users/:name/activity",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Notify the hub of activity for a user. Updates the user's last_activity timestamp and optionally their servers' activity."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Start user's default server",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8000/hub/api/users/:name/server",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start the user's default single-user server. The response may be 201 or 202 depending on whether the server starts immediately or is still pending."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Stop user's default server",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8000/hub/api/users/:name/server",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username."
+              },
+              {
+                "name": "remove",
+                "value": "",
+                "type": "query",
+                "description": "Whether to fully remove the server record."
+              }
+            ]
+          },
+          "docs": "Stop the user's default single-user server."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Start a named server",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8000/hub/api/users/:name/servers/:server_name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username."
+              },
+              {
+                "name": "server_name",
+                "value": "",
+                "type": "path",
+                "description": "Name for the server."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start a named server for the user. JupyterHub supports multiple named servers per user."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Stop a named server",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8000/hub/api/users/:name/servers/:server_name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username."
+              },
+              {
+                "name": "server_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the server."
+              },
+              {
+                "name": "remove",
+                "value": "",
+                "type": "query",
+                "description": "Whether to fully remove the server record."
+              }
+            ]
+          },
+          "docs": "Stop a user's named server."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook List user's API tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8000/hub/api/users/:name/tokens",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username."
+              }
+            ]
+          },
+          "docs": "List all API tokens for a given user."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Create an API token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8000/hub/api/users/:name/tokens",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new API token for the given user."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get token details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8000/hub/api/users/:name/tokens/:token_id",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username."
+              },
+              {
+                "name": "token_id",
+                "value": "",
+                "type": "path",
+                "description": "Token identifier."
+              }
+            ]
+          },
+          "docs": "Get details about a specific API token."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Revoke an API token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8000/hub/api/users/:name/tokens/:token_id",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username."
+              },
+              {
+                "name": "token_id",
+                "value": "",
+                "type": "path",
+                "description": "Token identifier."
+              }
+            ]
+          },
+          "docs": "Revoke a specific API token for the user."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook List groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8000/hub/api/groups",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Offset for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of groups to return."
+              }
+            ]
+          },
+          "docs": "List all groups."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get group details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8000/hub/api/groups/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Group name."
+              }
+            ]
+          },
+          "docs": "Get information about a specific group."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Create a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8000/hub/api/groups/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Group name."
+              }
+            ]
+          },
+          "docs": "Create a new group with the given name."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Delete a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8000/hub/api/groups/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Group name."
+              }
+            ]
+          },
+          "docs": "Delete a group. Users in the group are not deleted."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Add users to a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8000/hub/api/groups/:name/users",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Group name."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add one or more users to a group."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Remove users from a group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8000/hub/api/groups/:name/users",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Group name."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Remove one or more users from a group."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Set group properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:8000/hub/api/groups/:name/properties",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Group name."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set or replace all custom properties for a group."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Default",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook List services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8000/hub/api/services"
+          },
+          "docs": "List all registered JupyterHub services."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get service details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8000/hub/api/services/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Service name."
+              }
+            ]
+          },
+          "docs": "Get information about a specific service."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Proxy",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook Get proxy routing table",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8000/hub/api/proxy"
+          },
+          "docs": "Get the current proxy routing table from the configurable HTTP proxy."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Force proxy sync",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8000/hub/api/proxy"
+          },
+          "docs": "Force the hub to sync the proxy routing table with its database."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Add a proxy route",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8000/hub/api/proxy",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a new entry to the proxy routing table."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Authorization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook Identify a user by token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8000/hub/api/authorizations/token/:token",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "path",
+                "description": "The API token to check."
+              }
+            ]
+          },
+          "docs": "Identify the user associated with a given API token. Used by services to verify token authentication."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Hub",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook Shut down the hub",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8000/hub/api/shutdown",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Shut down the JupyterHub process. Optionally stop all single-user servers and the proxy."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

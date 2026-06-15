@@ -1,0 +1,638 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Jupyter Notebook REST API",
+    "version": "7.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "token",
+      "value": "{{token}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "General",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook Get API info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api"
+          },
+          "docs": "Returns the API version and other server information."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get server status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/status"
+          },
+          "docs": "Returns the status of the notebook server including kernel and session counts."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Contents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook Get contents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/contents/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path to the file or directory relative to the root directory."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of content to return. Can be 'file', 'directory', or 'notebook'. If unspecified, the server will determine the type."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Format of the content field. For files, can be 'text' or 'base64'. For notebooks, can be 'json'."
+              },
+              {
+                "name": "content",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include the content field. Set to 0 to exclude content, which is useful for listing directories."
+              },
+              {
+                "name": "hash",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include the hash field. Set to 1 to include a hash of the content."
+              }
+            ]
+          },
+          "docs": "Get the content of a file or directory at the given path. For directories, returns a listing of contents. For notebooks, returns the notebook document. For files, returns the file content."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Create a new file or directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/api/contents/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path where the new content should be created."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new file, directory, or notebook at the given path. If no body is provided, creates a new untitled file or directory."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Save or upload content",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:8888/api/api/contents/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path of the content to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save or upload a file, directory, or notebook at the given path. This replaces the content at the given path entirely."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Rename a file or directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8888/api/api/contents/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Current path of the content."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Rename a file or directory by changing its path."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Delete a file or directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8888/api/api/contents/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path of the content to delete."
+              }
+            ]
+          },
+          "docs": "Delete a file or empty directory at the given path."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook List checkpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/contents/:path/checkpoints",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path to the content."
+              }
+            ]
+          },
+          "docs": "List all checkpoints for the content at the given path."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Create a checkpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/api/contents/:path/checkpoints",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path to the content."
+              }
+            ]
+          },
+          "docs": "Create a new checkpoint for the content at the given path."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Delete a checkpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8888/api/api/contents/:path/checkpoints/:checkpoint_id",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path to the content."
+              },
+              {
+                "name": "checkpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the checkpoint to delete."
+              }
+            ]
+          },
+          "docs": "Delete a specific checkpoint for the content at the given path."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sessions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook List running sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/sessions"
+          },
+          "docs": "List all currently running notebook sessions."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Create a new session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/api/sessions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new session by starting a kernel and associating it with a notebook path."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get a session",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/sessions/:session_id",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the session."
+              }
+            ]
+          },
+          "docs": "Get the details of a specific session by its ID."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Update a session",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8888/api/api/sessions/:session_id",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the session."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a session, for example to change the associated kernel or notebook path."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Delete a session",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8888/api/api/sessions/:session_id",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the session."
+              }
+            ]
+          },
+          "docs": "Delete a session and shut down its associated kernel."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Kernels",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook List running kernels",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/kernels"
+          },
+          "docs": "List all currently running kernels."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Start a kernel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/api/kernels",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start a new kernel with an optional kernel specification name."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get kernel information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/kernels/:kernel_id",
+            "params": [
+              {
+                "name": "kernel_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the kernel."
+              }
+            ]
+          },
+          "docs": "Get the model for a specific kernel by its ID."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Shut down a kernel",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8888/api/api/kernels/:kernel_id",
+            "params": [
+              {
+                "name": "kernel_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the kernel."
+              }
+            ]
+          },
+          "docs": "Shut down a running kernel by its ID."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Interrupt a kernel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/api/kernels/:kernel_id/interrupt",
+            "params": [
+              {
+                "name": "kernel_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the kernel."
+              }
+            ]
+          },
+          "docs": "Interrupt a running kernel, stopping any currently executing code."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Restart a kernel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/api/kernels/:kernel_id/restart",
+            "params": [
+              {
+                "name": "kernel_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the kernel."
+              }
+            ]
+          },
+          "docs": "Restart a running kernel. This will kill the current kernel process and start a new one with the same ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Kernelspecs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook List kernel specifications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/kernelspecs"
+          },
+          "docs": "Get the list of available kernel specifications. Returns the default kernel name and a mapping of kernel spec names to their specifications."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get a kernel specification",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/kernelspecs/:kernel_name",
+            "params": [
+              {
+                "name": "kernel_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the kernel specification."
+              }
+            ]
+          },
+          "docs": "Get the specification for a specific kernel by name."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Terminals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook List running terminals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/terminals"
+          },
+          "docs": "Get the list of currently running terminal sessions."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Create a new terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/api/terminals",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start a new terminal session."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get terminal information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/terminals/:terminal_id",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier for the terminal session."
+              }
+            ]
+          },
+          "docs": "Get details about a specific terminal session."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Shut down a terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8888/api/api/terminals/:terminal_id",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier for the terminal session."
+              }
+            ]
+          },
+          "docs": "Shut down a terminal session by its ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Config",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook Get configuration section",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/config/:section_name",
+            "params": [
+              {
+                "name": "section_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the configuration section."
+              }
+            ]
+          },
+          "docs": "Get the configuration values for a specific section."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Update configuration section",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:8888/api/api/config/:section_name",
+            "params": [
+              {
+                "name": "section_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the configuration section."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the configuration values for a specific section. The provided values are merged with existing configuration."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Patch configuration section",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8888/api/api/config/:section_name",
+            "params": [
+              {
+                "name": "section_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the configuration section."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Partially update configuration values for a specific section. Only the provided keys are updated."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

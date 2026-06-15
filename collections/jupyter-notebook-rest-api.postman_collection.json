@@ -1,0 +1,4147 @@
+{
+  "item": [
+    {
+      "id": "326bb5b4-5f55-4c03-ad2e-f3cf69446751",
+      "name": "Config",
+      "description": {
+        "content": "Server configuration section management.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7110231b-0200-472a-80bc-ecf92017a45e",
+          "name": "Jupyter Notebook Get configuration section",
+          "request": {
+            "name": "Jupyter Notebook Get configuration section",
+            "description": {
+              "content": "Get the configuration values for a specific section.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "config",
+                ":section_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "section_name",
+                  "description": "(Required) Name of the configuration section."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fab65511-3c17-41ae-bc4a-863a8436d20f",
+              "name": "Configuration section values.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "config",
+                    ":section_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "section_name",
+                      "description": "(Required) Name of the configuration section."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": 919.8698233990532\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7de79a0d-6f5d-4f0f-beb9-1a04cce23f09",
+          "name": "Jupyter Notebook Update configuration section",
+          "request": {
+            "name": "Jupyter Notebook Update configuration section",
+            "description": {
+              "content": "Update the configuration values for a specific section. The provided values are merged with existing configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "config",
+                ":section_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "section_name",
+                  "description": "(Required) Name of the configuration section."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key_0\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "38aa96c4-5ba8-49cf-99fa-16ae3feedd76",
+              "name": "Configuration updated successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "config",
+                    ":section_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "section_name",
+                      "description": "(Required) Name of the configuration section."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key_0\": 919.8698233990532\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": 919.8698233990532\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a79e9b73-62f2-4453-a645-b0664dc5fe76",
+          "name": "Jupyter Notebook Patch configuration section",
+          "request": {
+            "name": "Jupyter Notebook Patch configuration section",
+            "description": {
+              "content": "Partially update configuration values for a specific section. Only the provided keys are updated.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "config",
+                ":section_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "section_name",
+                  "description": "(Required) Name of the configuration section."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key_0\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "927db821-c032-4e70-918d-8bfd85876170",
+              "name": "Configuration patched successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "config",
+                    ":section_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "section_name",
+                      "description": "(Required) Name of the configuration section."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key_0\": 919.8698233990532\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": 919.8698233990532\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "59085e57-3613-49f4-b61f-0f72087d8f3a",
+      "name": "Contents",
+      "description": {
+        "content": "File and directory management including notebooks, files, directories, and checkpoints.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6616e627-3acf-4fdd-9a7b-af8914fffdf3",
+          "name": "Jupyter Notebook Get contents",
+          "request": {
+            "name": "Jupyter Notebook Get contents",
+            "description": {
+              "content": "Get the content of a file or directory at the given path. For directories, returns a listing of contents. For notebooks, returns the notebook document. For files, returns the file content.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contents",
+                ":path"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Type of content to return. Can be 'file', 'directory', or 'notebook'. If unspecified, the server will determine the type."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "<string>",
+                  "description": "Format of the content field. For files, can be 'text' or 'base64'. For notebooks, can be 'json'."
+                },
+                {
+                  "disabled": false,
+                  "key": "content",
+                  "value": "1",
+                  "description": "Whether to include the content field. Set to 0 to exclude content, which is useful for listing directories."
+                },
+                {
+                  "disabled": false,
+                  "key": "hash",
+                  "value": "0",
+                  "description": "Whether to include the hash field. Set to 1 to include a hash of the content."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "path",
+                  "description": "(Required) Path to the file or directory relative to the root directory."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d5eafecb-631f-41a3-95f0-3424afcc3215",
+              "name": "Contents model for the given path.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "content",
+                      "value": "1"
+                    },
+                    {
+                      "key": "hash",
+                      "value": "0"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path to the file or directory relative to the root directory."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"path\": \"string\",\n  \"type\": \"notebook\",\n  \"writable\": false,\n  \"created\": \"2025-07-06T20:42:11.137Z\",\n  \"last_modified\": \"1992-12-19T19:18:33.461Z\",\n  \"size\": 6969,\n  \"mimetype\": \"string\",\n  \"content\": {},\n  \"format\": \"base64\",\n  \"hash\": \"string\",\n  \"hash_algorithm\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d1e7629-61fa-48b8-9679-d512529b5c70",
+              "name": "Bad request, invalid parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "content",
+                      "value": "1"
+                    },
+                    {
+                      "key": "hash",
+                      "value": "0"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path to the file or directory relative to the root directory."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "20ec1b56-8e4d-4560-8ed1-b4d7b1cd9566",
+              "name": "Path not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "format",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "content",
+                      "value": "1"
+                    },
+                    {
+                      "key": "hash",
+                      "value": "0"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path to the file or directory relative to the root directory."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "13becc48-3d2e-4d1f-8388-2031a6b62224",
+          "name": "Jupyter Notebook Create a new file or directory",
+          "request": {
+            "name": "Jupyter Notebook Create a new file or directory",
+            "description": {
+              "content": "Create a new file, directory, or notebook at the given path. If no body is provided, creates a new untitled file or directory.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contents",
+                ":path"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "path",
+                  "description": "(Required) Path where the new content should be created."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"copy_from\": \"<string>\",\n  \"ext\": \"<string>\",\n  \"type\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bbdcacc1-cda4-4369-8b0e-db9ca91b6123",
+              "name": "Content created successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path where the new content should be created."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"copy_from\": \"<string>\",\n  \"ext\": \"<string>\",\n  \"type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"path\": \"string\",\n  \"type\": \"notebook\",\n  \"writable\": false,\n  \"created\": \"2025-07-06T20:42:11.137Z\",\n  \"last_modified\": \"1992-12-19T19:18:33.461Z\",\n  \"size\": 6969,\n  \"mimetype\": \"string\",\n  \"content\": {},\n  \"format\": \"base64\",\n  \"hash\": \"string\",\n  \"hash_algorithm\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65867e23-067f-4791-a1ce-a7199066a42d",
+              "name": "Parent path not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path where the new content should be created."
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"copy_from\": \"<string>\",\n  \"ext\": \"<string>\",\n  \"type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "22b3cbea-246e-417f-a840-59b704b3a158",
+          "name": "Jupyter Notebook Save or upload content",
+          "request": {
+            "name": "Jupyter Notebook Save or upload content",
+            "description": {
+              "content": "Save or upload a file, directory, or notebook at the given path. This replaces the content at the given path entirely.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contents",
+                ":path"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "path",
+                  "description": "(Required) Path of the content to update."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"path\": \"<string>\",\n  \"format\": \"<string>\",\n  \"content\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f11d1b16-c5e8-4f91-b923-0c832aabf7fa",
+              "name": "Content saved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path of the content to update."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"path\": \"<string>\",\n  \"format\": \"<string>\",\n  \"content\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"path\": \"string\",\n  \"type\": \"notebook\",\n  \"writable\": false,\n  \"created\": \"2025-07-06T20:42:11.137Z\",\n  \"last_modified\": \"1992-12-19T19:18:33.461Z\",\n  \"size\": 6969,\n  \"mimetype\": \"string\",\n  \"content\": {},\n  \"format\": \"base64\",\n  \"hash\": \"string\",\n  \"hash_algorithm\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "caf56216-80d9-4132-be1c-2510072a4590",
+              "name": "Content created successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path of the content to update."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"path\": \"<string>\",\n  \"format\": \"<string>\",\n  \"content\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"path\": \"string\",\n  \"type\": \"notebook\",\n  \"writable\": false,\n  \"created\": \"2025-07-06T20:42:11.137Z\",\n  \"last_modified\": \"1992-12-19T19:18:33.461Z\",\n  \"size\": 6969,\n  \"mimetype\": \"string\",\n  \"content\": {},\n  \"format\": \"base64\",\n  \"hash\": \"string\",\n  \"hash_algorithm\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "874bed14-0b83-4ef3-9309-a42383b5bc79",
+              "name": "Bad request, invalid content.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path of the content to update."
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"path\": \"<string>\",\n  \"format\": \"<string>\",\n  \"content\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4358fa7a-fe92-4217-bb3e-f7e786f770c0",
+          "name": "Jupyter Notebook Rename a file or directory",
+          "request": {
+            "name": "Jupyter Notebook Rename a file or directory",
+            "description": {
+              "content": "Rename a file or directory by changing its path.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contents",
+                ":path"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "path",
+                  "description": "(Required) Current path of the content."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c760e99a-5d9c-4cbb-aa57-73027c4600b0",
+              "name": "Content renamed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Current path of the content."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"path\": \"string\",\n  \"type\": \"notebook\",\n  \"writable\": false,\n  \"created\": \"2025-07-06T20:42:11.137Z\",\n  \"last_modified\": \"1992-12-19T19:18:33.461Z\",\n  \"size\": 6969,\n  \"mimetype\": \"string\",\n  \"content\": {},\n  \"format\": \"base64\",\n  \"hash\": \"string\",\n  \"hash_algorithm\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "72aff378-17b5-4b16-8d78-f1274ded20b0",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Current path of the content."
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4f71c917-4978-4a52-9b3d-31903ebfa4cf",
+              "name": "Source path not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Current path of the content."
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fd483a68-6042-456c-bf2c-6f86d0778e20",
+          "name": "Jupyter Notebook Delete a file or directory",
+          "request": {
+            "name": "Jupyter Notebook Delete a file or directory",
+            "description": {
+              "content": "Delete a file or empty directory at the given path.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contents",
+                ":path"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "path",
+                  "description": "(Required) Path of the content to delete."
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fd8e4676-1227-4dcc-b10b-9fba1731b839",
+              "name": "Content deleted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path of the content to delete."
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f1ecc806-553a-4c57-952e-dc0e9f040804",
+              "name": "Cannot delete non-empty directory.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path of the content to delete."
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "99a2bd9b-6502-4b5f-bec6-906572af9add",
+              "name": "Path not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path of the content to delete."
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a0ee008b-e083-4cf5-a6b7-0dc5412ab050",
+          "name": "Jupyter Notebook List checkpoints",
+          "request": {
+            "name": "Jupyter Notebook List checkpoints",
+            "description": {
+              "content": "List all checkpoints for the content at the given path.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contents",
+                ":path",
+                "checkpoints"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "path",
+                  "description": "(Required) Path to the content."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cea0c415-d977-4ee6-b63e-85fcb5fad950",
+              "name": "List of checkpoints.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path",
+                    "checkpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path to the content."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"last_modified\": \"1979-06-11T14:32:52.561Z\"\n  },\n  {\n    \"id\": \"string\",\n    \"last_modified\": \"2004-10-12T16:09:33.761Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "56d9c6fb-6651-4859-b4f9-bba93f7bc7d3",
+              "name": "Path not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path",
+                    "checkpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path to the content."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3a905805-6122-450f-be19-792cf4170154",
+          "name": "Jupyter Notebook Create a checkpoint",
+          "request": {
+            "name": "Jupyter Notebook Create a checkpoint",
+            "description": {
+              "content": "Create a new checkpoint for the content at the given path.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contents",
+                ":path",
+                "checkpoints"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "path",
+                  "description": "(Required) Path to the content."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c9a10ed8-58a4-4d82-b214-72fc4a8e311d",
+              "name": "Checkpoint created successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path",
+                    "checkpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path to the content."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"last_modified\": \"1966-12-22T00:11:47.495Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c1dca19a-3eaf-407f-8cb5-7a0b917d18ed",
+              "name": "Path not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path",
+                    "checkpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path to the content."
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9f84b171-688d-4be0-9f63-926d27d7549d",
+          "name": "Jupyter Notebook Delete a checkpoint",
+          "request": {
+            "name": "Jupyter Notebook Delete a checkpoint",
+            "description": {
+              "content": "Delete a specific checkpoint for the content at the given path.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "contents",
+                ":path",
+                "checkpoints",
+                ":checkpoint_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "path",
+                  "description": "(Required) Path to the content."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "checkpoint_id",
+                  "description": "(Required) ID of the checkpoint to delete."
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "33cf2f44-48fc-48bb-9bb2-575dd9007c87",
+              "name": "Checkpoint deleted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path",
+                    "checkpoints",
+                    ":checkpoint_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path to the content."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "checkpoint_id",
+                      "description": "(Required) ID of the checkpoint to delete."
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "91195c2d-aaf4-45ba-9503-1e329522cc1d",
+              "name": "Checkpoint or path not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "contents",
+                    ":path",
+                    "checkpoints",
+                    ":checkpoint_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "path",
+                      "description": "(Required) Path to the content."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "checkpoint_id",
+                      "description": "(Required) ID of the checkpoint to delete."
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "c70674f1-9d71-437e-8abe-349ffd29a0e8",
+      "name": "General",
+      "description": {
+        "content": "General server information and status endpoints.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "90085afe-cda7-4c39-a9e2-43cac9eda9a4",
+          "name": "Jupyter Notebook Get API info",
+          "request": {
+            "name": "Jupyter Notebook Get API info",
+            "description": {
+              "content": "Returns the API version and other server information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "abc800db-a881-4e1f-a962-bd74fdcbca5a",
+              "name": "Server API information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c5b6bf9e-29ff-44ad-9d78-385bc51ed00d",
+          "name": "Jupyter Notebook Get server status",
+          "request": {
+            "name": "Jupyter Notebook Get server status",
+            "description": {
+              "content": "Returns the status of the notebook server including kernel and session counts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1d560110-3fb9-46d7-bbaa-dd7d1e020ba1",
+              "name": "Server status information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"started\": \"1979-03-03T18:32:05.168Z\",\n  \"last_activity\": \"1954-01-22T10:48:49.558Z\",\n  \"connections\": 9348,\n  \"kernels\": 9461\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "47d92790-fd4e-4e02-9404-1a9e7a2cde3f",
+      "name": "Kernels",
+      "description": {
+        "content": "Kernel lifecycle management including starting, stopping, interrupting, and restarting kernels.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7960621b-30db-49dd-ac64-598cb0f546fd",
+          "name": "Jupyter Notebook List running kernels",
+          "request": {
+            "name": "Jupyter Notebook List running kernels",
+            "description": {
+              "content": "List all currently running kernels.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernels"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "30c5ca5c-a6bf-48f5-a111-5238625abcf9",
+              "name": "List of running kernels.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"021dc8ed-d5d0-76d2-2faa-73451bbf587c\",\n    \"name\": \"string\",\n    \"last_activity\": \"1995-11-28T19:03:40.749Z\",\n    \"execution_state\": \"idle\",\n    \"connections\": 6936\n  },\n  {\n    \"id\": \"5fb11a7b-3645-4c14-0759-ae9d4c2b4c30\",\n    \"name\": \"string\",\n    \"last_activity\": \"1956-10-23T04:52:16.383Z\",\n    \"execution_state\": \"idle\",\n    \"connections\": 2128\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "087f68b4-2a52-432d-98c3-d4e46276f473",
+          "name": "Jupyter Notebook Start a kernel",
+          "request": {
+            "name": "Jupyter Notebook Start a kernel",
+            "description": {
+              "content": "Start a new kernel with an optional kernel specification name.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernels"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"path\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e1be989b-89bd-4783-a12d-5e333d6d3439",
+              "name": "Kernel started successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"path\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"613444b2-6153-f78d-cc7f-69ec11950546\",\n  \"name\": \"string\",\n  \"last_activity\": \"1956-12-12T12:06:40.195Z\",\n  \"execution_state\": \"idle\",\n  \"connections\": 8659\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ed99461f-9ca9-4feb-a439-0cf92f28441e",
+          "name": "Jupyter Notebook Get kernel information",
+          "request": {
+            "name": "Jupyter Notebook Get kernel information",
+            "description": {
+              "content": "Get the model for a specific kernel by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernels",
+                ":kernel_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "kernel_id",
+                  "description": "(Required) Unique identifier for the kernel."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6809e007-2a8b-41ea-8cb9-e19141643c74",
+              "name": "Kernel model.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"613444b2-6153-f78d-cc7f-69ec11950546\",\n  \"name\": \"string\",\n  \"last_activity\": \"1956-12-12T12:06:40.195Z\",\n  \"execution_state\": \"idle\",\n  \"connections\": 8659\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "078e040b-f781-47d3-b853-58b7edfb12ec",
+              "name": "Kernel not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b33b6736-c358-482d-87d8-55c3b27d76a7",
+          "name": "Jupyter Notebook Shut down a kernel",
+          "request": {
+            "name": "Jupyter Notebook Shut down a kernel",
+            "description": {
+              "content": "Shut down a running kernel by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernels",
+                ":kernel_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "kernel_id",
+                  "description": "(Required) Unique identifier for the kernel."
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8d85104d-069b-4296-8d9c-9743c40650cb",
+              "name": "Kernel shut down successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "917f59df-86d4-4811-aa51-c387ab857aee",
+              "name": "Kernel not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9927e9d1-6341-43e0-bd46-a648168df9be",
+          "name": "Jupyter Notebook Interrupt a kernel",
+          "request": {
+            "name": "Jupyter Notebook Interrupt a kernel",
+            "description": {
+              "content": "Interrupt a running kernel, stopping any currently executing code.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernels",
+                ":kernel_id",
+                "interrupt"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "kernel_id",
+                  "description": "(Required) Unique identifier for the kernel."
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "70d30473-e221-4326-bf3c-2ac7b3bd5798",
+              "name": "Kernel interrupted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id",
+                    "interrupt"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a3d57eee-cd2d-4e42-8f61-3a20547c89c9",
+              "name": "Kernel not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id",
+                    "interrupt"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "18be9880-d1ab-4998-bb98-0634475a61a0",
+          "name": "Jupyter Notebook Restart a kernel",
+          "request": {
+            "name": "Jupyter Notebook Restart a kernel",
+            "description": {
+              "content": "Restart a running kernel. This will kill the current kernel process and start a new one with the same ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernels",
+                ":kernel_id",
+                "restart"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "kernel_id",
+                  "description": "(Required) Unique identifier for the kernel."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "25b77b9f-9ea3-498d-afb1-2b099df78376",
+              "name": "Kernel restarted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id",
+                    "restart"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"613444b2-6153-f78d-cc7f-69ec11950546\",\n  \"name\": \"string\",\n  \"last_activity\": \"1956-12-12T12:06:40.195Z\",\n  \"execution_state\": \"idle\",\n  \"connections\": 8659\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "668bd0ab-b0d2-4aa0-9d13-e69b38846777",
+              "name": "Kernel not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id",
+                    "restart"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "31a11f94-0724-4beb-a652-9d1469e605ad",
+      "name": "Kernelspecs",
+      "description": {
+        "content": "Kernel specification listing and retrieval for available kernel types.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "73fbf5ea-3d60-4756-a094-5a958110a056",
+          "name": "Jupyter Notebook List kernel specifications",
+          "request": {
+            "name": "Jupyter Notebook List kernel specifications",
+            "description": {
+              "content": "Get the list of available kernel specifications. Returns the default kernel name and a mapping of kernel spec names to their specifications.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernelspecs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "79780c30-37cb-45e8-9cc9-dc63371fc796",
+              "name": "Kernel specifications listing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernelspecs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"default\": \"string\",\n  \"kernelspecs\": {\n    \"key_0\": {\n      \"name\": \"string\",\n      \"spec\": {\n        \"language\": \"string\",\n        \"display_name\": \"string\",\n        \"argv\": [\n          \"string\",\n          \"string\"\n        ],\n        \"env\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"metadata\": {\n          \"key_0\": 8719,\n          \"key_1\": 5804\n        }\n      },\n      \"resources\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fad36653-2fb9-448b-849d-f07bf455a2e3",
+          "name": "Jupyter Notebook Get a kernel specification",
+          "request": {
+            "name": "Jupyter Notebook Get a kernel specification",
+            "description": {
+              "content": "Get the specification for a specific kernel by name.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernelspecs",
+                ":kernel_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "kernel_name",
+                  "description": "(Required) Name of the kernel specification."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "925e9266-8542-4236-b4e5-9df73c1c2992",
+              "name": "Kernel specification details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernelspecs",
+                    ":kernel_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "kernel_name",
+                      "description": "(Required) Name of the kernel specification."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"spec\": {\n    \"language\": \"string\",\n    \"display_name\": \"string\",\n    \"argv\": [\n      \"string\",\n      \"string\"\n    ],\n    \"env\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"metadata\": {\n      \"key_0\": 7380,\n      \"key_1\": 7722.457862384745\n    }\n  },\n  \"resources\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c180b71c-c393-403e-9720-d7589b098708",
+              "name": "Kernel spec not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernelspecs",
+                    ":kernel_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "kernel_name",
+                      "description": "(Required) Name of the kernel specification."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "81fdf937-5963-4193-9807-66314a388f7d",
+      "name": "Sessions",
+      "description": {
+        "content": "Session management for associating notebooks with running kernels.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "201bba2d-7802-4526-99e6-591b9ec5e372",
+          "name": "Jupyter Notebook List running sessions",
+          "request": {
+            "name": "Jupyter Notebook List running sessions",
+            "description": {
+              "content": "List all currently running notebook sessions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "sessions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eb461f28-b70f-4966-997e-9a4f28939567",
+              "name": "List of active sessions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"300f59dc-706f-6112-f700-269b165bdb8b\",\n    \"path\": \"string\",\n    \"name\": \"string\",\n    \"type\": \"string\",\n    \"kernel\": {\n      \"id\": \"bdcfe960-ec87-1506-4a8c-a44a86c99b2b\",\n      \"name\": \"string\",\n      \"last_activity\": \"1987-09-21T09:36:40.857Z\",\n      \"execution_state\": \"restarting\",\n      \"connections\": 3755\n    }\n  },\n  {\n    \"id\": \"b9fb1075-494c-c343-b3e7-c5d2cbdb217a\",\n    \"path\": \"string\",\n    \"name\": \"string\",\n    \"type\": \"string\",\n    \"kernel\": {\n      \"id\": \"16020b70-a9d3-4548-421d-1d0cc6a675c2\",\n      \"name\": \"string\",\n      \"last_activity\": \"1972-09-01T02:59:56.453Z\",\n      \"execution_state\": \"restarting\",\n      \"connections\": 8778\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "958f343b-fced-429b-b10e-95074ea8e23f",
+          "name": "Jupyter Notebook Create a new session",
+          "request": {
+            "name": "Jupyter Notebook Create a new session",
+            "description": {
+              "content": "Create a new session by starting a kernel and associating it with a notebook path.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "sessions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"<string>\",\n  \"type\": \"<string>\",\n  \"kernel\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\"\n  },\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a71ce3c2-32cd-4a59-9945-c9dd80bfb187",
+              "name": "Session created successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"<string>\",\n  \"type\": \"<string>\",\n  \"kernel\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\"\n  },\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"74a9a971-10fd-3ac5-b41a-a3b78f2e59bc\",\n  \"path\": \"string\",\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"kernel\": {\n    \"id\": \"b071f009-cfb8-f157-d17c-7defa8b70f76\",\n    \"name\": \"string\",\n    \"last_activity\": \"2007-11-30T03:49:21.828Z\",\n    \"execution_state\": \"dead\",\n    \"connections\": 1727\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "27af37e0-1232-4834-9426-856d571e7a98",
+              "name": "Kernel not available.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"<string>\",\n  \"type\": \"<string>\",\n  \"kernel\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\"\n  },\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "81217fb5-91f2-43bb-839f-be15a76ff9e8",
+          "name": "Jupyter Notebook Get a session",
+          "request": {
+            "name": "Jupyter Notebook Get a session",
+            "description": {
+              "content": "Get the details of a specific session by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "sessions",
+                ":session_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "session_id",
+                  "description": "(Required) Unique identifier for the session."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "53b9b551-54fc-4ee0-8e71-fae4ebdb95f4",
+              "name": "Session details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "sessions",
+                    ":session_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "session_id",
+                      "description": "(Required) Unique identifier for the session."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"74a9a971-10fd-3ac5-b41a-a3b78f2e59bc\",\n  \"path\": \"string\",\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"kernel\": {\n    \"id\": \"b071f009-cfb8-f157-d17c-7defa8b70f76\",\n    \"name\": \"string\",\n    \"last_activity\": \"2007-11-30T03:49:21.828Z\",\n    \"execution_state\": \"dead\",\n    \"connections\": 1727\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26c7bc80-b667-49ad-aa3a-7893d06b45fa",
+              "name": "Session not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "sessions",
+                    ":session_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "session_id",
+                      "description": "(Required) Unique identifier for the session."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "362bf357-bd72-4992-8b50-d1d42f500f54",
+          "name": "Jupyter Notebook Update a session",
+          "request": {
+            "name": "Jupyter Notebook Update a session",
+            "description": {
+              "content": "Update a session, for example to change the associated kernel or notebook path.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "sessions",
+                ":session_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "session_id",
+                  "description": "(Required) Unique identifier for the session."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"<string>\",\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"kernel\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "35c67474-c653-4733-8007-896353562265",
+              "name": "Session updated successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "sessions",
+                    ":session_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "session_id",
+                      "description": "(Required) Unique identifier for the session."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"<string>\",\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"kernel\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"74a9a971-10fd-3ac5-b41a-a3b78f2e59bc\",\n  \"path\": \"string\",\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"kernel\": {\n    \"id\": \"b071f009-cfb8-f157-d17c-7defa8b70f76\",\n    \"name\": \"string\",\n    \"last_activity\": \"2007-11-30T03:49:21.828Z\",\n    \"execution_state\": \"dead\",\n    \"connections\": 1727\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7cfe61f-8b4d-4d2a-a911-3625d3e54ad5",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "sessions",
+                    ":session_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "session_id",
+                      "description": "(Required) Unique identifier for the session."
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"<string>\",\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"kernel\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fe5aa4aa-a6c2-4615-9f21-84e56606b880",
+              "name": "Session not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "sessions",
+                    ":session_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "session_id",
+                      "description": "(Required) Unique identifier for the session."
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"<string>\",\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"kernel\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ea1ba6ac-f2b4-48b5-a173-13dddbc5c5dd",
+          "name": "Jupyter Notebook Delete a session",
+          "request": {
+            "name": "Jupyter Notebook Delete a session",
+            "description": {
+              "content": "Delete a session and shut down its associated kernel.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "sessions",
+                ":session_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "session_id",
+                  "description": "(Required) Unique identifier for the session."
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0f91b686-9cc1-4bc6-9567-ccf47f561321",
+              "name": "Session deleted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "sessions",
+                    ":session_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "session_id",
+                      "description": "(Required) Unique identifier for the session."
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e8ef4fc9-f75e-45d7-aca2-355f4d108a84",
+              "name": "Session not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "sessions",
+                    ":session_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "session_id",
+                      "description": "(Required) Unique identifier for the session."
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "964f4382-b76c-4f5d-b6d8-b9ea72d58eea",
+      "name": "Terminals",
+      "description": {
+        "content": "Terminal session management on the server.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e566277d-fd88-4c7d-bec3-b720453706b8",
+          "name": "Jupyter Notebook List running terminals",
+          "request": {
+            "name": "Jupyter Notebook List running terminals",
+            "description": {
+              "content": "Get the list of currently running terminal sessions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "terminals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f0787ab8-d61f-4150-9960-c853b83fa7be",
+              "name": "List of terminal sessions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "terminals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"string\",\n    \"last_activity\": \"2003-04-16T15:15:45.066Z\"\n  },\n  {\n    \"name\": \"string\",\n    \"last_activity\": \"1979-08-26T13:56:11.102Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "69ee1c27-c034-4558-a1dc-20fa11afc080",
+          "name": "Jupyter Notebook Create a new terminal",
+          "request": {
+            "name": "Jupyter Notebook Create a new terminal",
+            "description": {
+              "content": "Start a new terminal session.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "terminals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9b6712ae-1823-4953-a545-0bdc27c55df1",
+              "name": "Terminal session created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "terminals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"last_activity\": \"2013-12-21T12:44:57.699Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "770bbd04-1698-4e9e-98fb-e66e27d69a5e",
+          "name": "Jupyter Notebook Get terminal information",
+          "request": {
+            "name": "Jupyter Notebook Get terminal information",
+            "description": {
+              "content": "Get details about a specific terminal session.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "terminals",
+                ":terminal_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "terminal_id",
+                  "description": "(Required) Identifier for the terminal session."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c6479c1d-e412-4501-b62e-3bf6a0e29bbb",
+              "name": "Terminal session details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "terminals",
+                    ":terminal_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "terminal_id",
+                      "description": "(Required) Identifier for the terminal session."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"last_activity\": \"2013-12-21T12:44:57.699Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "43f89e7d-8760-4373-862e-9d14d78d7fc7",
+              "name": "Terminal not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "terminals",
+                    ":terminal_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "terminal_id",
+                      "description": "(Required) Identifier for the terminal session."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b5bf9062-9af2-4714-8587-7f186f5360a7",
+          "name": "Jupyter Notebook Shut down a terminal",
+          "request": {
+            "name": "Jupyter Notebook Shut down a terminal",
+            "description": {
+              "content": "Shut down a terminal session by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "terminals",
+                ":terminal_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "terminal_id",
+                  "description": "(Required) Identifier for the terminal session."
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eabfc332-87e3-49cc-b22a-eebc64886065",
+              "name": "Terminal shut down successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "terminals",
+                    ":terminal_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "terminal_id",
+                      "description": "(Required) Identifier for the terminal session."
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "38516796-0ab1-48cf-94b7-125cd3ad248f",
+              "name": "Terminal not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "terminals",
+                    ":terminal_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "terminal_id",
+                      "description": "(Required) Identifier for the terminal session."
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:8888/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "091a3630-0272-4fa2-84c0-42b058863da6",
+    "name": "Jupyter Notebook REST API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for managing and interacting with Jupyter Notebook servers, including kernels, sessions, contents (notebooks and files), terminals, and kernel specifications. This API is served by the Jupyter Notebook server (or Jupyter Server) and provides programmatic access to all notebook server functionality.\n\nContact Support:\n Name: Jupyter Project\n Email: jupyter@googlegroups.com",
+      "type": "text/plain"
+    }
+  }
+}

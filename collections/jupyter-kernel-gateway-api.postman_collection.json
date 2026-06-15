@@ -1,0 +1,1276 @@
+{
+  "item": [
+    {
+      "id": "5aeb9ed1-2c50-4829-a3e9-4d956e2457dd",
+      "name": "General",
+      "description": {
+        "content": "General gateway information.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a20698a4-7b15-4800-a647-dc83d6efeba6",
+          "name": "Jupyter Notebook Get API info",
+          "request": {
+            "name": "Jupyter Notebook Get API info",
+            "description": {
+              "content": "Returns server information including the version of the Kernel Gateway. This is a Jupyter Notebook server-compatible endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9c51d7a6-109a-441e-b42f-279515a2f8d4",
+              "name": "Server API information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "1c2068f2-14df-4aa6-98d2-9bcfa9f91f0b",
+      "name": "Kernels",
+      "description": {
+        "content": "Kernel lifecycle management on the gateway. The gateway may enforce kernel limits and seed kernels.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "aafd88d7-1faf-4e78-81c5-d808072ed625",
+          "name": "Jupyter Notebook List running kernels",
+          "request": {
+            "name": "Jupyter Notebook List running kernels",
+            "description": {
+              "content": "List all currently running kernels on the gateway.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernels"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "11adda9c-eb34-4764-8147-117ed5a6179c",
+              "name": "List of running kernels.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"30a70d12-e2ce-9507-5f35-2c1df29d89ae\",\n    \"name\": \"string\",\n    \"last_activity\": \"2021-09-06T12:01:08.318Z\",\n    \"execution_state\": \"idle\",\n    \"connections\": 2167\n  },\n  {\n    \"id\": \"d403ab3e-4d2b-229c-16f4-3298700931bd\",\n    \"name\": \"string\",\n    \"last_activity\": \"2009-09-04T14:37:23.090Z\",\n    \"execution_state\": \"busy\",\n    \"connections\": 7574\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f0b974a3-ef1c-4542-92cb-470bc20c4e46",
+          "name": "Jupyter Notebook Start a kernel",
+          "request": {
+            "name": "Jupyter Notebook Start a kernel",
+            "description": {
+              "content": "Start a new kernel. The kernel gateway may enforce a maximum number of kernels via the KG_MAX_KERNELS configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernels"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"env\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d86d21f4-da06-4375-a047-e6a708e32c29",
+              "name": "Kernel started successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"env\": {\n    \"key_0\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"d00f216e-41be-4d2a-c2b2-992a265c07ea\",\n  \"name\": \"string\",\n  \"last_activity\": \"1989-08-10T23:16:32.923Z\",\n  \"execution_state\": \"starting\",\n  \"connections\": 9071\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "627965ed-178f-424c-8776-b50272e4babb",
+              "name": "Maximum number of kernels reached. No more kernels can be started.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"env\": {\n    \"key_0\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4978e8e9-7a39-48d1-bf5b-d1b260201d75",
+              "name": "Forbidden. Kernel creation may be disabled via KG_SEED_URI configuration.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"env\": {\n    \"key_0\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d22f1df9-c3c9-4672-b3e2-fa5022a4acca",
+          "name": "Jupyter Notebook Get kernel information",
+          "request": {
+            "name": "Jupyter Notebook Get kernel information",
+            "description": {
+              "content": "Get the model for a specific kernel.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernels",
+                ":kernel_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "kernel_id",
+                  "description": "(Required) Unique identifier for the kernel."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2182c025-7805-45da-8b2c-3c195e0fadcb",
+              "name": "Kernel model.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"d00f216e-41be-4d2a-c2b2-992a265c07ea\",\n  \"name\": \"string\",\n  \"last_activity\": \"1989-08-10T23:16:32.923Z\",\n  \"execution_state\": \"starting\",\n  \"connections\": 9071\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "62db1e3c-b061-4f36-ad37-94b126897c7a",
+              "name": "Kernel not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "86163171-058f-471a-b4ce-1dfa82021591",
+          "name": "Jupyter Notebook Shut down a kernel",
+          "request": {
+            "name": "Jupyter Notebook Shut down a kernel",
+            "description": {
+              "content": "Shut down a running kernel.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernels",
+                ":kernel_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "kernel_id",
+                  "description": "(Required) Unique identifier for the kernel."
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e88470f4-81cb-4e44-9795-ab0a695ebb32",
+              "name": "Kernel shut down successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "640ab4f7-1a63-4dde-ba86-8b2e230fe3ed",
+              "name": "Forbidden. Kernel deletion may be disabled when using a seeded kernel.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3235072d-3413-4e58-b4b8-fb27af72f252",
+              "name": "Kernel not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8d223581-7d42-4b01-8962-1be98fbcf695",
+          "name": "Jupyter Notebook Interrupt a kernel",
+          "request": {
+            "name": "Jupyter Notebook Interrupt a kernel",
+            "description": {
+              "content": "Interrupt a running kernel.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernels",
+                ":kernel_id",
+                "interrupt"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "kernel_id",
+                  "description": "(Required) Unique identifier for the kernel."
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7039c2bd-dad6-4ef0-af43-64562e5f1ba1",
+              "name": "Kernel interrupted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id",
+                    "interrupt"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "35fb4be8-88db-48f0-9596-7444fd33f629",
+              "name": "Kernel not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id",
+                    "interrupt"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5c61803b-8f4e-4c4b-b871-10e6074ecff1",
+          "name": "Jupyter Notebook Restart a kernel",
+          "request": {
+            "name": "Jupyter Notebook Restart a kernel",
+            "description": {
+              "content": "Restart a running kernel.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernels",
+                ":kernel_id",
+                "restart"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "kernel_id",
+                  "description": "(Required) Unique identifier for the kernel."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0c0cad99-629d-4137-b470-f7e16ceb0164",
+              "name": "Kernel restarted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id",
+                    "restart"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"d00f216e-41be-4d2a-c2b2-992a265c07ea\",\n  \"name\": \"string\",\n  \"last_activity\": \"1989-08-10T23:16:32.923Z\",\n  \"execution_state\": \"starting\",\n  \"connections\": 9071\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1d21ffca-bf74-4b66-9a11-6de0ab636dad",
+              "name": "Kernel not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernels",
+                    ":kernel_id",
+                    "restart"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "kernel_id",
+                      "description": "(Required) Unique identifier for the kernel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "5a8378a8-c5e0-45e6-9d50-803f7945b9ad",
+      "name": "Kernelspecs",
+      "description": {
+        "content": "Kernel specification listing and retrieval.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6386c326-6277-4cf9-a0e1-94c15a5ccb5a",
+          "name": "Jupyter Notebook List kernel specifications",
+          "request": {
+            "name": "Jupyter Notebook List kernel specifications",
+            "description": {
+              "content": "Get the list of available kernel specifications. The gateway may be configured with KG_DEFAULT_KERNEL_NAME to set a specific default.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernelspecs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "432d8d6a-d444-4bcc-a3a1-b67c6f14b79b",
+              "name": "Kernel specifications.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernelspecs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"default\": \"string\",\n  \"kernelspecs\": {\n    \"key_0\": {\n      \"name\": \"string\",\n      \"spec\": {\n        \"language\": \"string\",\n        \"display_name\": \"string\",\n        \"argv\": [\n          \"string\",\n          \"string\"\n        ],\n        \"env\": {\n          \"key_0\": \"string\"\n        }\n      },\n      \"resources\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      }\n    },\n    \"key_1\": {\n      \"name\": \"string\",\n      \"spec\": {\n        \"language\": \"string\",\n        \"display_name\": \"string\",\n        \"argv\": [\n          \"string\",\n          \"string\"\n        ],\n        \"env\": {\n          \"key_0\": \"string\"\n        }\n      },\n      \"resources\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1453dbc6-161c-434c-bebe-9d45ed9d7700",
+          "name": "Jupyter Notebook Get a kernel specification",
+          "request": {
+            "name": "Jupyter Notebook Get a kernel specification",
+            "description": {
+              "content": "Get the specification for a specific kernel by name.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernelspecs",
+                ":kernel_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "kernel_name",
+                  "description": "(Required) Name of the kernel specification."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d936b23c-77a9-42bc-b1c7-7759878c2106",
+              "name": "Kernel specification details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernelspecs",
+                    ":kernel_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "kernel_name",
+                      "description": "(Required) Name of the kernel specification."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"spec\": {\n    \"language\": \"string\",\n    \"display_name\": \"string\",\n    \"argv\": [\n      \"string\",\n      \"string\"\n    ],\n    \"env\": {\n      \"key_0\": \"string\"\n    }\n  },\n  \"resources\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c35072f-c6c6-4c4b-95e0-1bbda86a6f94",
+              "name": "Kernel spec not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernelspecs",
+                    ":kernel_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "kernel_name",
+                      "description": "(Required) Name of the kernel specification."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:8888/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6b4487ea-0fc6-454f-a947-98c66c5300cd",
+    "name": "Jupyter Notebook Jupyter Kernel Gateway API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.\n\nContact Support:\n Name: Jupyter Project\n Email: jupyter@googlegroups.com",
+      "type": "text/plain"
+    }
+  }
+}
