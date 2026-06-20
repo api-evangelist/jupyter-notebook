@@ -6,7 +6,7 @@ description: >-
   managing notebooks, files, kernels, sessions, and terminals, and uses the WebSocket-based Jupyter messaging protocol
   to communicate with kernels.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Data Science
   - Interactive Computing
