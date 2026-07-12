@@ -1,0 +1,36 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/jupyter-kernel-gateway-api-openapi.yml, openapi/jupyter-notebook-rest-api-openapi.yml,
+  openapi/jupyterhub-rest-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+  - query
+schemes:
+- name: token
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>'
+    in the Authorization header.
+  sources:
+  - openapi/jupyter-kernel-gateway-api-openapi.yml
+  - openapi/jupyter-notebook-rest-api-openapi.yml
+  - openapi/jupyterhub-rest-api-openapi.yml
+- name: tokenQuery
+  type: apiKey
+  in: query
+  parameter: token
+  description: Authentication token passed as a query parameter.
+  sources:
+  - openapi/jupyter-kernel-gateway-api-openapi.yml
+  - openapi/jupyter-notebook-rest-api-openapi.yml
+- name: oAuthToken
+  type: http
+  scheme: bearer
+  description: OAuth2 bearer token.
+  sources:
+  - openapi/jupyterhub-rest-api-openapi.yml

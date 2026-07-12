@@ -110,6 +110,12 @@ apis:
       - type: JSONLDContext
         url: json-ld/jupyter-notebook-context.jsonld
 common:
+  - type: VulnerabilityDisclosure
+    url: security/jupyter-notebook-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/jupyter-notebook-domain-security.yml
+  - type: Authentication
+    url: authentication/jupyter-notebook-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/project-jupyter
   - type: Website
