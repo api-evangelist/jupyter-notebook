@@ -110,6 +110,8 @@ apis:
       - type: JSONLDContext
         url: json-ld/jupyter-notebook-context.jsonld
 common:
+  - type: AgenticAccess
+    url: agentic-access/jupyter-notebook-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/jupyter-notebook-vulnerability-disclosure.yml
   - type: DomainSecurity
