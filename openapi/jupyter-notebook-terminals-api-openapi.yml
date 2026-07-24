@@ -1,0 +1,128 @@
+openapi: 3.1.0
+info:
+  title: Jupyter Notebook Jupyter Kernel Gateway Authorization Terminals API
+  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
+  version: 3.0.0
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyter-kernel-gateway.readthedocs.io
+    email: jupyter@googlegroups.com
+servers:
+- url: http://localhost:8888/api
+  description: Local Jupyter Kernel Gateway server
+security:
+- token: []
+- tokenQuery: []
+tags:
+- name: Terminals
+  description: Terminal session management on the server.
+paths:
+  /api/terminals:
+    get:
+      operationId: listTerminals
+      summary: Jupyter Notebook List running terminals
+      description: Get the list of currently running terminal sessions.
+      tags:
+      - Terminals
+      responses:
+        '200':
+          description: List of terminal sessions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Terminal'
+    post:
+      operationId: createTerminal
+      summary: Jupyter Notebook Create a new terminal
+      description: Start a new terminal session.
+      tags:
+      - Terminals
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Desired name for the terminal session.
+      responses:
+        '200':
+          description: Terminal session created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Terminal'
+  /api/terminals/{terminal_id}:
+    get:
+      operationId: getTerminal
+      summary: Jupyter Notebook Get terminal information
+      description: Get details about a specific terminal session.
+      tags:
+      - Terminals
+      parameters:
+      - name: terminal_id
+        in: path
+        required: true
+        description: Identifier for the terminal session.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Terminal session details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Terminal'
+        '404':
+          description: Terminal not found.
+    delete:
+      operationId: deleteTerminal
+      summary: Jupyter Notebook Shut down a terminal
+      description: Shut down a terminal session by its ID.
+      tags:
+      - Terminals
+      parameters:
+      - name: terminal_id
+        in: path
+        required: true
+        description: Identifier for the terminal session.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Terminal shut down successfully.
+        '404':
+          description: Terminal not found.
+components:
+  schemas:
+    Terminal:
+      type: object
+      description: A terminal session running on the server.
+      properties:
+        name:
+          type: string
+          description: Unique name identifier for the terminal session.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of the last activity.
+      required:
+      - name
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
+    tokenQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: Authentication token passed as a query parameter.

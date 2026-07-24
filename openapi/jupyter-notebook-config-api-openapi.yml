@@ -1,0 +1,112 @@
+openapi: 3.1.0
+info:
+  title: Jupyter Notebook Jupyter Kernel Gateway Authorization Config API
+  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
+  version: 3.0.0
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyter-kernel-gateway.readthedocs.io
+    email: jupyter@googlegroups.com
+servers:
+- url: http://localhost:8888/api
+  description: Local Jupyter Kernel Gateway server
+security:
+- token: []
+- tokenQuery: []
+tags:
+- name: Config
+  description: Server configuration section management.
+paths:
+  /api/config/{section_name}:
+    get:
+      operationId: getConfig
+      summary: Jupyter Notebook Get configuration section
+      description: Get the configuration values for a specific section.
+      tags:
+      - Config
+      parameters:
+      - name: section_name
+        in: path
+        required: true
+        description: Name of the configuration section.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Configuration section values.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+    put:
+      operationId: updateConfig
+      summary: Jupyter Notebook Update configuration section
+      description: Update the configuration values for a specific section. The provided values are merged with existing configuration.
+      tags:
+      - Config
+      parameters:
+      - name: section_name
+        in: path
+        required: true
+        description: Name of the configuration section.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Configuration updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+    patch:
+      operationId: patchConfig
+      summary: Jupyter Notebook Patch configuration section
+      description: Partially update configuration values for a specific section. Only the provided keys are updated.
+      tags:
+      - Config
+      parameters:
+      - name: section_name
+        in: path
+        required: true
+        description: Name of the configuration section.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Configuration patched successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+components:
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
+    tokenQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: Authentication token passed as a query parameter.

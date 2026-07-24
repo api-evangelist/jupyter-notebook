@@ -1,0 +1,668 @@
+openapi: 3.1.0
+info:
+  title: Jupyter Notebook Jupyter Kernel Gateway Authorization Users API
+  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
+  version: 3.0.0
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyter-kernel-gateway.readthedocs.io
+    email: jupyter@googlegroups.com
+servers:
+- url: http://localhost:8888/api
+  description: Local Jupyter Kernel Gateway server
+security:
+- token: []
+- tokenQuery: []
+tags:
+- name: Users
+  description: User management including creation, deletion, server management, and token management.
+paths:
+  /users:
+    get:
+      operationId: listUsers
+      summary: Jupyter Notebook List users
+      description: List all users registered with JupyterHub. Admin access is required. Supports pagination via offset and limit parameters.
+      tags:
+      - Users
+      parameters:
+      - name: state
+        in: query
+        required: false
+        description: Filter users by server state. Can be 'active', 'inactive', or 'ready'.
+        schema:
+          type: string
+          enum:
+          - active
+          - inactive
+          - ready
+      - name: offset
+        in: query
+        required: false
+        description: Offset for pagination.
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        required: false
+        description: Maximum number of users to return.
+        schema:
+          type: integer
+          default: 100
+      - name: include_stopped_servers
+        in: query
+        required: false
+        description: Include stopped server information in results.
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: List of users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '403':
+          description: Forbidden. Admin access required.
+    post:
+      operationId: createUsers
+      summary: Jupyter Notebook Create multiple users
+      description: Create one or more new users.
+      tags:
+      - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usernames:
+                  type: array
+                  description: List of usernames to create.
+                  items:
+                    type: string
+                admin:
+                  type: boolean
+                  description: Whether the new users should be admins.
+                  default: false
+              required:
+              - usernames
+      responses:
+        '201':
+          description: Users created successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '403':
+          description: Forbidden. Admin access required.
+        '409':
+          description: Conflict. One or more users already exist.
+  /users/{name}:
+    get:
+      operationId: getUser
+      summary: Jupyter Notebook Get user details
+      description: Get detailed information about a specific user.
+      tags:
+      - Users
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Username.
+        schema:
+          type: string
+      - name: include_stopped_servers
+        in: query
+        required: false
+        description: Include stopped server information.
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: User details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '403':
+          description: Forbidden.
+        '404':
+          description: User not found.
+    post:
+      operationId: createUser
+      summary: Jupyter Notebook Create a single user
+      description: Create a new user with the given name.
+      tags:
+      - Users
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Username for the new user.
+        schema:
+          type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                admin:
+                  type: boolean
+                  description: Whether the user should be an admin.
+      responses:
+        '201':
+          description: User created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '409':
+          description: User already exists.
+    patch:
+      operationId: updateUser
+      summary: Jupyter Notebook Update user properties
+      description: Modify a user's properties such as name or admin status.
+      tags:
+      - Users
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Current username.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: New username (for renaming).
+                admin:
+                  type: boolean
+                  description: Admin status.
+      responses:
+        '200':
+          description: User updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request.
+        '404':
+          description: User not found.
+    delete:
+      operationId: deleteUser
+      summary: Jupyter Notebook Delete a user
+      description: Delete a user from JupyterHub. This will also stop and remove any running servers for the user.
+      tags:
+      - Users
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Username to delete.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: User deleted successfully.
+        '404':
+          description: User not found.
+  /users/{name}/activity:
+    post:
+      operationId: notifyUserActivity
+      summary: Jupyter Notebook Notify user activity
+      description: Notify the hub of activity for a user. Updates the user's last_activity timestamp and optionally their servers' activity.
+      tags:
+      - Users
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Username.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                last_activity:
+                  type: string
+                  format: date-time
+                  description: Timestamp of last activity.
+                servers:
+                  type: object
+                  description: Map of server names to activity timestamps.
+                  additionalProperties:
+                    type: object
+                    properties:
+                      last_activity:
+                        type: string
+                        format: date-time
+      responses:
+        '200':
+          description: Activity recorded successfully.
+  /users/{name}/server:
+    post:
+      operationId: startUserServer
+      summary: Jupyter Notebook Start user's default server
+      description: Start the user's default single-user server. The response may be 201 or 202 depending on whether the server starts immediately or is still pending.
+      tags:
+      - Users
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Username.
+        schema:
+          type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Spawner options passed to the spawner.
+              additionalProperties: true
+      responses:
+        '201':
+          description: Server started successfully.
+        '202':
+          description: Server start accepted, still pending.
+        '400':
+          description: Bad request.
+    delete:
+      operationId: stopUserServer
+      summary: Jupyter Notebook Stop user's default server
+      description: Stop the user's default single-user server.
+      tags:
+      - Users
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Username.
+        schema:
+          type: string
+      - name: remove
+        in: query
+        required: false
+        description: Whether to fully remove the server record.
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '202':
+          description: Server stop accepted, still pending.
+        '204':
+          description: Server stopped and removed.
+        '400':
+          description: Bad request.
+  /users/{name}/servers/{server_name}:
+    post:
+      operationId: startNamedServer
+      summary: Jupyter Notebook Start a named server
+      description: Start a named server for the user. JupyterHub supports multiple named servers per user.
+      tags:
+      - Users
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Username.
+        schema:
+          type: string
+      - name: server_name
+        in: path
+        required: true
+        description: Name for the server.
+        schema:
+          type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Spawner options.
+              additionalProperties: true
+      responses:
+        '201':
+          description: Server started successfully.
+        '202':
+          description: Server start accepted, still pending.
+    delete:
+      operationId: stopNamedServer
+      summary: Jupyter Notebook Stop a named server
+      description: Stop a user's named server.
+      tags:
+      - Users
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Username.
+        schema:
+          type: string
+      - name: server_name
+        in: path
+        required: true
+        description: Name of the server.
+        schema:
+          type: string
+      - name: remove
+        in: query
+        required: false
+        description: Whether to fully remove the server record.
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '202':
+          description: Server stop accepted, still pending.
+        '204':
+          description: Server stopped and removed.
+  /users/{name}/tokens:
+    get:
+      operationId: listUserTokens
+      summary: Jupyter Notebook List user's API tokens
+      description: List all API tokens for a given user.
+      tags:
+      - Users
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Username.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of API tokens.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token'
+        '403':
+          description: Forbidden.
+        '404':
+          description: User not found.
+    post:
+      operationId: createUserToken
+      summary: Jupyter Notebook Create an API token
+      description: Create a new API token for the given user.
+      tags:
+      - Users
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Username.
+        schema:
+          type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                expires_in:
+                  type: integer
+                  description: Token lifetime in seconds. 0 means no expiry.
+                note:
+                  type: string
+                  description: Note describing the purpose of this token.
+                roles:
+                  type: array
+                  description: Roles to assign to this token.
+                  items:
+                    type: string
+                scopes:
+                  type: array
+                  description: Scopes to assign to this token.
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Token created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '403':
+          description: Forbidden.
+  /users/{name}/tokens/{token_id}:
+    get:
+      operationId: getUserToken
+      summary: Jupyter Notebook Get token details
+      description: Get details about a specific API token.
+      tags:
+      - Users
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Username.
+        schema:
+          type: string
+      - name: token_id
+        in: path
+        required: true
+        description: Token identifier.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Token details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '404':
+          description: Token not found.
+    delete:
+      operationId: deleteUserToken
+      summary: Jupyter Notebook Revoke an API token
+      description: Revoke a specific API token for the user.
+      tags:
+      - Users
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Username.
+        schema:
+          type: string
+      - name: token_id
+        in: path
+        required: true
+        description: Token identifier.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Token revoked successfully.
+        '404':
+          description: Token not found.
+components:
+  schemas:
+    User:
+      type: object
+      description: A JupyterHub user.
+      properties:
+        name:
+          type: string
+          description: The username.
+        admin:
+          type: boolean
+          description: Whether the user is an admin.
+        roles:
+          type: array
+          description: Roles assigned to the user.
+          items:
+            type: string
+        groups:
+          type: array
+          description: Groups the user belongs to.
+          items:
+            type: string
+        server:
+          type:
+          - string
+          - 'null'
+          description: URL path of the user's default server, or null if not running.
+        pending:
+          type:
+          - string
+          - 'null'
+          description: Pending action for the server, such as 'spawn' or 'stop', or null if no pending action.
+          enum:
+          - spawn
+          - stop
+          - null
+        last_activity:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp of last activity.
+        created:
+          type: string
+          format: date-time
+          description: Timestamp when the user was created.
+        servers:
+          type: object
+          description: Map of named servers to their details.
+          additionalProperties:
+            $ref: '#/components/schemas/Server'
+        scopes:
+          type: array
+          description: OAuth scopes for the user.
+          items:
+            type: string
+        auth_state:
+          description: Authentication state (only included when requested, admin only).
+      required:
+      - name
+      - admin
+    Server:
+      type: object
+      description: A user's single-user notebook server.
+      properties:
+        name:
+          type: string
+          description: Name of the server (empty string for default).
+        ready:
+          type: boolean
+          description: Whether the server is ready to accept connections.
+        pending:
+          type:
+          - string
+          - 'null'
+          description: Pending action for the server.
+        url:
+          type: string
+          description: URL path of the running server.
+        progress_url:
+          type: string
+          description: URL for the server's spawn progress events.
+        started:
+          type: string
+          format: date-time
+          description: Timestamp when the server was started.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of last activity on the server.
+        state:
+          type: object
+          description: Spawner state (admin only).
+          additionalProperties: true
+        user_options:
+          type: object
+          description: User options passed at spawn time.
+          additionalProperties: true
+    Token:
+      type: object
+      description: An API token.
+      properties:
+        token:
+          type: string
+          description: The token value. Only included once on creation, not on subsequent retrievals.
+        id:
+          type: string
+          description: Token identifier (not the token value).
+        user:
+          type: string
+          description: Username the token belongs to.
+        service:
+          type:
+          - string
+          - 'null'
+          description: Service the token belongs to, if any.
+        roles:
+          type: array
+          description: Roles assigned to this token.
+          items:
+            type: string
+        scopes:
+          type: array
+          description: OAuth scopes for this token.
+          items:
+            type: string
+        note:
+          type: string
+          description: Note describing the purpose of this token.
+        created:
+          type: string
+          format: date-time
+          description: When the token was created.
+        expires_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: When the token expires, null if no expiry.
+        last_activity:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last time the token was used.
+      required:
+      - id
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
+    tokenQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: Authentication token passed as a query parameter.

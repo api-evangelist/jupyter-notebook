@@ -1,0 +1,256 @@
+openapi: 3.1.0
+info:
+  title: Jupyter Notebook Jupyter Kernel Gateway Authorization Sessions API
+  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
+  version: 3.0.0
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyter-kernel-gateway.readthedocs.io
+    email: jupyter@googlegroups.com
+servers:
+- url: http://localhost:8888/api
+  description: Local Jupyter Kernel Gateway server
+security:
+- token: []
+- tokenQuery: []
+tags:
+- name: Sessions
+  description: Session management for associating notebooks with running kernels.
+paths:
+  /api/sessions:
+    get:
+      operationId: listSessions
+      summary: Jupyter Notebook List running sessions
+      description: List all currently running notebook sessions.
+      tags:
+      - Sessions
+      responses:
+        '200':
+          description: List of active sessions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Session'
+    post:
+      operationId: createSession
+      summary: Jupyter Notebook Create a new session
+      description: Create a new session by starting a kernel and associating it with a notebook path.
+      tags:
+      - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionCreate'
+      responses:
+        '201':
+          description: Session created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '501':
+          description: Kernel not available.
+  /api/sessions/{session_id}:
+    get:
+      operationId: getSession
+      summary: Jupyter Notebook Get a session
+      description: Get the details of a specific session by its ID.
+      tags:
+      - Sessions
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        description: Unique identifier for the session.
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Session details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '404':
+          description: Session not found.
+    patch:
+      operationId: updateSession
+      summary: Jupyter Notebook Update a session
+      description: Update a session, for example to change the associated kernel or notebook path.
+      tags:
+      - Sessions
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        description: Unique identifier for the session.
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionUpdate'
+      responses:
+        '200':
+          description: Session updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '400':
+          description: Bad request.
+        '404':
+          description: Session not found.
+    delete:
+      operationId: deleteSession
+      summary: Jupyter Notebook Delete a session
+      description: Delete a session and shut down its associated kernel.
+      tags:
+      - Sessions
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        description: Unique identifier for the session.
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: Session deleted successfully.
+        '404':
+          description: Session not found.
+components:
+  schemas:
+    SessionUpdate:
+      type: object
+      description: Request body for updating a session.
+      properties:
+        path:
+          type: string
+          description: New notebook path for the session.
+        name:
+          type: string
+          description: New name for the session.
+        type:
+          type: string
+          description: New type for the session.
+        kernel:
+          type: object
+          description: Kernel specification update.
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: ID of a kernel to associate with.
+            name:
+              type: string
+              description: Name of the kernel spec.
+    SessionCreate:
+      type: object
+      description: Request body for creating a new session.
+      properties:
+        path:
+          type: string
+          description: Path to the notebook.
+        name:
+          type: string
+          description: Name for the session.
+        type:
+          type: string
+          description: Type of the session.
+        kernel:
+          type: object
+          description: Kernel specification for the session.
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: ID of an existing kernel to connect to.
+            name:
+              type: string
+              description: Name of the kernel spec to start.
+      required:
+      - path
+      - type
+      - kernel
+    Kernel:
+      type: object
+      description: A running kernel instance.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the kernel.
+        name:
+          type: string
+          description: Name of the kernel specification.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of the last activity on the kernel.
+        execution_state:
+          type: string
+          description: Current execution state of the kernel.
+          enum:
+          - starting
+          - idle
+          - busy
+          - restarting
+          - dead
+        connections:
+          type: integer
+          description: Number of active connections to this kernel.
+      required:
+      - id
+      - name
+      - last_activity
+      - execution_state
+      - connections
+    Session:
+      type: object
+      description: A notebook session, associating a notebook with a kernel.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the session.
+        path:
+          type: string
+          description: Path to the notebook or file associated with the session.
+        name:
+          type: string
+          description: Name of the notebook or activity.
+        type:
+          type: string
+          description: Type of the session (e.g., 'notebook', 'console').
+        kernel:
+          $ref: '#/components/schemas/Kernel'
+      required:
+      - id
+      - path
+      - name
+      - type
+      - kernel
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
+    tokenQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: Authentication token passed as a query parameter.

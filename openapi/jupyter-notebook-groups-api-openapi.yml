@@ -1,0 +1,252 @@
+openapi: 3.1.0
+info:
+  title: Jupyter Notebook Jupyter Kernel Gateway Authorization Groups API
+  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
+  version: 3.0.0
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyter-kernel-gateway.readthedocs.io
+    email: jupyter@googlegroups.com
+servers:
+- url: http://localhost:8888/api
+  description: Local Jupyter Kernel Gateway server
+security:
+- token: []
+- tokenQuery: []
+tags:
+- name: Groups
+  description: Group management for organizing users.
+paths:
+  /groups:
+    get:
+      operationId: listGroups
+      summary: Jupyter Notebook List groups
+      description: List all groups.
+      tags:
+      - Groups
+      parameters:
+      - name: offset
+        in: query
+        required: false
+        description: Offset for pagination.
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        required: false
+        description: Maximum number of groups to return.
+        schema:
+          type: integer
+          default: 100
+      responses:
+        '200':
+          description: List of groups.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Group'
+        '403':
+          description: Forbidden.
+  /groups/{name}:
+    get:
+      operationId: getGroup
+      summary: Jupyter Notebook Get group details
+      description: Get information about a specific group.
+      tags:
+      - Groups
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Group name.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Group details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '404':
+          description: Group not found.
+    post:
+      operationId: createGroup
+      summary: Jupyter Notebook Create a group
+      description: Create a new group with the given name.
+      tags:
+      - Groups
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Group name.
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Group created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '409':
+          description: Group already exists.
+    delete:
+      operationId: deleteGroup
+      summary: Jupyter Notebook Delete a group
+      description: Delete a group. Users in the group are not deleted.
+      tags:
+      - Groups
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Group name.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Group deleted successfully.
+        '404':
+          description: Group not found.
+  /groups/{name}/users:
+    post:
+      operationId: addGroupUsers
+      summary: Jupyter Notebook Add users to a group
+      description: Add one or more users to a group.
+      tags:
+      - Groups
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Group name.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users:
+                  type: array
+                  description: List of usernames to add.
+                  items:
+                    type: string
+              required:
+              - users
+      responses:
+        '200':
+          description: Users added to group.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '404':
+          description: Group not found.
+    delete:
+      operationId: removeGroupUsers
+      summary: Jupyter Notebook Remove users from a group
+      description: Remove one or more users from a group.
+      tags:
+      - Groups
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Group name.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users:
+                  type: array
+                  description: List of usernames to remove.
+                  items:
+                    type: string
+              required:
+              - users
+      responses:
+        '200':
+          description: Users removed from group.
+        '404':
+          description: Group not found.
+  /groups/{name}/properties:
+    put:
+      operationId: setGroupProperties
+      summary: Jupyter Notebook Set group properties
+      description: Set or replace all custom properties for a group.
+      tags:
+      - Groups
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: Group name.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Properties set successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+components:
+  schemas:
+    Group:
+      type: object
+      description: A JupyterHub user group.
+      properties:
+        name:
+          type: string
+          description: The group name.
+        users:
+          type: array
+          description: List of usernames in the group.
+          items:
+            type: string
+        roles:
+          type: array
+          description: Roles assigned to the group.
+          items:
+            type: string
+        properties:
+          type: object
+          description: Custom properties for the group.
+          additionalProperties: true
+      required:
+      - name
+      - users
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
+    tokenQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: Authentication token passed as a query parameter.

@@ -1,0 +1,416 @@
+openapi: 3.1.0
+info:
+  title: Jupyter Notebook Jupyter Kernel Gateway Authorization Contents API
+  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
+  version: 3.0.0
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyter-kernel-gateway.readthedocs.io
+    email: jupyter@googlegroups.com
+servers:
+- url: http://localhost:8888/api
+  description: Local Jupyter Kernel Gateway server
+security:
+- token: []
+- tokenQuery: []
+tags:
+- name: Contents
+  description: File and directory management including notebooks, files, directories, and checkpoints.
+paths:
+  /api/contents/{path}:
+    get:
+      operationId: getContents
+      summary: Jupyter Notebook Get contents
+      description: Get the content of a file or directory at the given path. For directories, returns a listing of contents. For notebooks, returns the notebook document. For files, returns the file content.
+      tags:
+      - Contents
+      parameters:
+      - name: path
+        in: path
+        required: true
+        description: Path to the file or directory relative to the root directory.
+        schema:
+          type: string
+      - name: type
+        in: query
+        required: false
+        description: Type of content to return. Can be 'file', 'directory', or 'notebook'. If unspecified, the server will determine the type.
+        schema:
+          type: string
+          enum:
+          - file
+          - directory
+          - notebook
+      - name: format
+        in: query
+        required: false
+        description: Format of the content field. For files, can be 'text' or 'base64'. For notebooks, can be 'json'.
+        schema:
+          type: string
+          enum:
+          - text
+          - base64
+          - json
+      - name: content
+        in: query
+        required: false
+        description: Whether to include the content field. Set to 0 to exclude content, which is useful for listing directories.
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+          default: 1
+      - name: hash
+        in: query
+        required: false
+        description: Whether to include the hash field. Set to 1 to include a hash of the content.
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+          default: 0
+      responses:
+        '200':
+          description: Contents model for the given path.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contents'
+        '400':
+          description: Bad request, invalid parameters.
+        '404':
+          description: Path not found.
+    post:
+      operationId: createContent
+      summary: Jupyter Notebook Create a new file or directory
+      description: Create a new file, directory, or notebook at the given path. If no body is provided, creates a new untitled file or directory.
+      tags:
+      - Contents
+      parameters:
+      - name: path
+        in: path
+        required: true
+        description: Path where the new content should be created.
+        schema:
+          type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentsCreate'
+      responses:
+        '201':
+          description: Content created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contents'
+        '404':
+          description: Parent path not found.
+    put:
+      operationId: updateContent
+      summary: Jupyter Notebook Save or upload content
+      description: Save or upload a file, directory, or notebook at the given path. This replaces the content at the given path entirely.
+      tags:
+      - Contents
+      parameters:
+      - name: path
+        in: path
+        required: true
+        description: Path of the content to update.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentsSave'
+      responses:
+        '200':
+          description: Content saved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contents'
+        '201':
+          description: Content created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contents'
+        '400':
+          description: Bad request, invalid content.
+    patch:
+      operationId: renameContent
+      summary: Jupyter Notebook Rename a file or directory
+      description: Rename a file or directory by changing its path.
+      tags:
+      - Contents
+      parameters:
+      - name: path
+        in: path
+        required: true
+        description: Current path of the content.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                path:
+                  type: string
+                  description: New path for the content.
+              required:
+              - path
+      responses:
+        '200':
+          description: Content renamed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contents'
+        '400':
+          description: Bad request.
+        '404':
+          description: Source path not found.
+    delete:
+      operationId: deleteContent
+      summary: Jupyter Notebook Delete a file or directory
+      description: Delete a file or empty directory at the given path.
+      tags:
+      - Contents
+      parameters:
+      - name: path
+        in: path
+        required: true
+        description: Path of the content to delete.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Content deleted successfully.
+        '400':
+          description: Cannot delete non-empty directory.
+        '404':
+          description: Path not found.
+  /api/contents/{path}/checkpoints:
+    get:
+      operationId: listCheckpoints
+      summary: Jupyter Notebook List checkpoints
+      description: List all checkpoints for the content at the given path.
+      tags:
+      - Contents
+      parameters:
+      - name: path
+        in: path
+        required: true
+        description: Path to the content.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of checkpoints.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Checkpoint'
+        '404':
+          description: Path not found.
+    post:
+      operationId: createCheckpoint
+      summary: Jupyter Notebook Create a checkpoint
+      description: Create a new checkpoint for the content at the given path.
+      tags:
+      - Contents
+      parameters:
+      - name: path
+        in: path
+        required: true
+        description: Path to the content.
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Checkpoint created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checkpoint'
+        '404':
+          description: Path not found.
+  /api/contents/{path}/checkpoints/{checkpoint_id}:
+    delete:
+      operationId: deleteCheckpoint
+      summary: Jupyter Notebook Delete a checkpoint
+      description: Delete a specific checkpoint for the content at the given path.
+      tags:
+      - Contents
+      parameters:
+      - name: path
+        in: path
+        required: true
+        description: Path to the content.
+        schema:
+          type: string
+      - name: checkpoint_id
+        in: path
+        required: true
+        description: ID of the checkpoint to delete.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Checkpoint deleted successfully.
+        '404':
+          description: Checkpoint or path not found.
+components:
+  schemas:
+    ContentsSave:
+      type: object
+      description: Request body for saving content.
+      properties:
+        name:
+          type: string
+          description: Name of the file.
+        path:
+          type: string
+          description: Path of the file.
+        type:
+          type: string
+          description: Type of content.
+          enum:
+          - notebook
+          - file
+          - directory
+        format:
+          type: string
+          description: Format of the content field.
+          enum:
+          - json
+          - text
+          - base64
+        content:
+          description: The content to save.
+      required:
+      - type
+    Contents:
+      type: object
+      description: A contents model representing a file, directory, or notebook in the Jupyter file system.
+      properties:
+        name:
+          type: string
+          description: Name of the file or directory.
+        path:
+          type: string
+          description: Full path to the content relative to the root directory.
+        type:
+          type: string
+          description: Type of content.
+          enum:
+          - notebook
+          - file
+          - directory
+        writable:
+          type: boolean
+          description: Whether the content is writable.
+        created:
+          type: string
+          format: date-time
+          description: Creation timestamp in ISO 8601 format.
+        last_modified:
+          type: string
+          format: date-time
+          description: Last modification timestamp in ISO 8601 format.
+        size:
+          type:
+          - integer
+          - 'null'
+          description: Size in bytes for files, null for directories and notebooks.
+        mimetype:
+          type:
+          - string
+          - 'null'
+          description: MIME type of the content. Null for directories and notebooks.
+        content:
+          description: The content of the file. For directories, this is an array of contents models. For notebooks, this is the notebook JSON. For files, this is a string (text) or base64-encoded string.
+        format:
+          type:
+          - string
+          - 'null'
+          description: Format of the content field. 'json' for notebooks, 'text' or 'base64' for files, null when content is not included.
+          enum:
+          - json
+          - text
+          - base64
+          - null
+        hash:
+          type:
+          - string
+          - 'null'
+          description: Hash of the content for change detection.
+        hash_algorithm:
+          type:
+          - string
+          - 'null'
+          description: Algorithm used to compute the hash.
+      required:
+      - name
+      - path
+      - type
+      - writable
+      - created
+      - last_modified
+    Checkpoint:
+      type: object
+      description: A checkpoint (snapshot) of a file.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the checkpoint.
+        last_modified:
+          type: string
+          format: date-time
+          description: Timestamp of when the checkpoint was created.
+      required:
+      - id
+      - last_modified
+    ContentsCreate:
+      type: object
+      description: Request body for creating new content.
+      properties:
+        copy_from:
+          type: string
+          description: Path to copy from. Creates a copy of the specified content.
+        ext:
+          type: string
+          description: File extension for the new file.
+        type:
+          type: string
+          description: Type of content to create.
+          enum:
+          - notebook
+          - file
+          - directory
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
+    tokenQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: Authentication token passed as a query parameter.

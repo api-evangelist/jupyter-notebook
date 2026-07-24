@@ -1,0 +1,61 @@
+openapi: 3.1.0
+info:
+  title: Jupyter Notebook Jupyter Kernel Gateway Authorization Hub API
+  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
+  version: 3.0.0
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyter-kernel-gateway.readthedocs.io
+    email: jupyter@googlegroups.com
+servers:
+- url: http://localhost:8888/api
+  description: Local Jupyter Kernel Gateway server
+security:
+- token: []
+- tokenQuery: []
+tags:
+- name: Hub
+  description: Hub lifecycle management.
+paths:
+  /shutdown:
+    post:
+      operationId: shutdownHub
+      summary: Jupyter Notebook Shut down the hub
+      description: Shut down the JupyterHub process. Optionally stop all single-user servers and the proxy.
+      tags:
+      - Hub
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                servers:
+                  type: boolean
+                  description: Whether to stop all user servers.
+                  default: false
+                proxy:
+                  type: boolean
+                  description: Whether to stop the proxy.
+                  default: false
+      responses:
+        '200':
+          description: Shutdown initiated.
+        '403':
+          description: Forbidden. Admin access required.
+components:
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
+    tokenQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: Authentication token passed as a query parameter.

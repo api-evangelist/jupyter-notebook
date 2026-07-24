@@ -1,0 +1,93 @@
+openapi: 3.1.0
+info:
+  title: Jupyter Notebook Jupyter Kernel Gateway Authorization Proxy API
+  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
+  version: 3.0.0
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyter-kernel-gateway.readthedocs.io
+    email: jupyter@googlegroups.com
+servers:
+- url: http://localhost:8888/api
+  description: Local Jupyter Kernel Gateway server
+security:
+- token: []
+- tokenQuery: []
+tags:
+- name: Proxy
+  description: Configurable HTTP proxy routing table management.
+paths:
+  /proxy:
+    get:
+      operationId: getProxyTable
+      summary: Jupyter Notebook Get proxy routing table
+      description: Get the current proxy routing table from the configurable HTTP proxy.
+      tags:
+      - Proxy
+      responses:
+        '200':
+          description: Proxy routing table.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/ProxyRoute'
+    post:
+      operationId: syncProxy
+      summary: Jupyter Notebook Force proxy sync
+      description: Force the hub to sync the proxy routing table with its database.
+      tags:
+      - Proxy
+      responses:
+        '200':
+          description: Proxy synced successfully.
+    patch:
+      operationId: addProxyRoute
+      summary: Jupyter Notebook Add a proxy route
+      description: Add a new entry to the proxy routing table.
+      tags:
+      - Proxy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProxyRoute'
+      responses:
+        '201':
+          description: Route added successfully.
+components:
+  schemas:
+    ProxyRoute:
+      type: object
+      description: A proxy routing table entry.
+      properties:
+        routespec:
+          type: string
+          description: The route specification, e.g., '/user/username/'.
+        target:
+          type: string
+          description: Target URL to proxy to.
+        data:
+          type: object
+          description: Additional data for the route.
+          additionalProperties: true
+        last_activity:
+          type: string
+          format: date-time
+          description: Last activity on this route.
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
+    tokenQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: Authentication token passed as a query parameter.

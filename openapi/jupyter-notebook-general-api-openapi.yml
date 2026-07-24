@@ -1,0 +1,150 @@
+openapi: 3.1.0
+info:
+  title: Jupyter Notebook Jupyter Kernel Gateway Authorization General API
+  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
+  version: 3.0.0
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyter-kernel-gateway.readthedocs.io
+    email: jupyter@googlegroups.com
+servers:
+- url: http://localhost:8888/api
+  description: Local Jupyter Kernel Gateway server
+security:
+- token: []
+- tokenQuery: []
+tags:
+- name: General
+  description: General gateway information.
+paths:
+  /api:
+    get:
+      operationId: getApiInfo
+      summary: Jupyter Notebook Get API info
+      description: Returns server information including the version of the Kernel Gateway. This is a Jupyter Notebook server-compatible endpoint.
+      tags:
+      - General
+      responses:
+        '200':
+          description: Server API information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    description: API version.
+  /api/status:
+    get:
+      operationId: getApiStatus
+      summary: Jupyter Notebook Get server status
+      description: Returns the status of the notebook server including kernel and session counts.
+      tags:
+      - General
+      responses:
+        '200':
+          description: Server status information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerStatus'
+  /:
+    get:
+      operationId: getRootInfo
+      summary: Jupyter Notebook Get JupyterHub version
+      description: Returns the version of the running JupyterHub instance.
+      tags:
+      - General
+      responses:
+        '200':
+          description: JupyterHub version information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    description: The version of JupyterHub.
+  /info:
+    get:
+      operationId: getInfo
+      summary: Jupyter Notebook Get detailed server info
+      description: Returns detailed information about the JupyterHub instance including version, Python version, spawner, and authenticator information.
+      tags:
+      - General
+      responses:
+        '200':
+          description: Detailed JupyterHub server information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HubInfo'
+components:
+  schemas:
+    HubInfo:
+      type: object
+      description: Detailed JupyterHub server information.
+      properties:
+        version:
+          type: string
+          description: JupyterHub version.
+        python:
+          type: string
+          description: Python version.
+        sys_executable:
+          type: string
+          description: Path to the Python executable.
+        authenticator:
+          type: object
+          description: Authenticator information.
+          properties:
+            class:
+              type: string
+              description: Fully qualified class name of the authenticator.
+            version:
+              type: string
+              description: Authenticator version.
+        spawner:
+          type: object
+          description: Spawner information.
+          properties:
+            class:
+              type: string
+              description: Fully qualified class name of the spawner.
+            version:
+              type: string
+              description: Spawner version.
+    ServerStatus:
+      type: object
+      description: Notebook server status information.
+      properties:
+        started:
+          type: string
+          format: date-time
+          description: Timestamp when the server was started.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of the last activity on the server.
+        connections:
+          type: integer
+          description: Number of active connections.
+        kernels:
+          type: integer
+          description: Number of running kernels.
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
+    tokenQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: Authentication token passed as a query parameter.

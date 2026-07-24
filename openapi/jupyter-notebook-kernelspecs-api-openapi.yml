@@ -1,0 +1,127 @@
+openapi: 3.1.0
+info:
+  title: Jupyter Notebook Jupyter Kernel Gateway Authorization Kernelspecs API
+  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
+  version: 3.0.0
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/licenses/BSD-3-Clause
+  contact:
+    name: Jupyter Project
+    url: https://jupyter-kernel-gateway.readthedocs.io
+    email: jupyter@googlegroups.com
+servers:
+- url: http://localhost:8888/api
+  description: Local Jupyter Kernel Gateway server
+security:
+- token: []
+- tokenQuery: []
+tags:
+- name: Kernelspecs
+  description: Kernel specification listing and retrieval.
+paths:
+  /api/kernelspecs:
+    get:
+      operationId: listKernelSpecs
+      summary: Jupyter Notebook List kernel specifications
+      description: Get the list of available kernel specifications. The gateway may be configured with KG_DEFAULT_KERNEL_NAME to set a specific default.
+      tags:
+      - Kernelspecs
+      responses:
+        '200':
+          description: Kernel specifications.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KernelSpecList'
+  /api/kernelspecs/{kernel_name}:
+    get:
+      operationId: getKernelSpec
+      summary: Jupyter Notebook Get a kernel specification
+      description: Get the specification for a specific kernel by name.
+      tags:
+      - Kernelspecs
+      parameters:
+      - name: kernel_name
+        in: path
+        required: true
+        description: Name of the kernel specification.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Kernel specification details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KernelSpec'
+        '404':
+          description: Kernel spec not found.
+components:
+  schemas:
+    KernelSpecList:
+      type: object
+      description: List of available kernel specifications.
+      properties:
+        default:
+          type: string
+          description: Name of the default kernel specification.
+        kernelspecs:
+          type: object
+          description: Mapping of kernel spec names to specifications.
+          additionalProperties:
+            $ref: '#/components/schemas/KernelSpec'
+      required:
+      - default
+      - kernelspecs
+    KernelSpec:
+      type: object
+      description: A kernel specification.
+      properties:
+        name:
+          type: string
+          description: Unique name of the kernel specification.
+        spec:
+          type: object
+          description: The kernel specification details.
+          properties:
+            language:
+              type: string
+              description: Programming language of the kernel.
+            display_name:
+              type: string
+              description: Human-readable display name.
+            argv:
+              type: array
+              description: Command line arguments to launch the kernel.
+              items:
+                type: string
+            env:
+              type: object
+              description: Environment variables for the kernel.
+              additionalProperties:
+                type: string
+          required:
+          - language
+          - display_name
+          - argv
+        resources:
+          type: object
+          description: Resource files (logos, icons).
+          additionalProperties:
+            type: string
+      required:
+      - name
+      - spec
+      - resources
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
+    tokenQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: Authentication token passed as a query parameter.
