@@ -6,7 +6,20 @@ description: >-
   managing notebooks, files, kernels, sessions, and terminals, and uses the WebSocket-based Jupyter messaging protocol
   to communicate with kernels.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: free
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Free · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/jupyter-notebook.png
 tags:
   - Data Science
   - Interactive Computing
@@ -19,96 +32,421 @@ created: '2024-01-15'
 modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
-  - aid: jupyter-notebook:jupyter-notebook-rest-api
-    name: Jupyter Notebook REST API
-    description: >-
-      REST API for managing and interacting with Jupyter Notebook servers, including kernels, sessions, contents
-      (notebooks and files), terminals, and kernel specifications.
-    humanURL: https://jupyter-notebook.readthedocs.io/
-    baseURL: http://localhost:8888/api
-    tags:
-      - Contents
-      - Files
-      - Kernels
-      - Notebooks
-      - REST API
-      - Sessions
-    properties:
-      - type: Documentation
-        url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
-      - type: Repository
-        url: https://github.com/jupyter/notebook
-      - type: OpenAPI
-        url: openapi/jupyter-notebook-rest-api-openapi.yml
-      - type: JSONSchema
-        url: json-schema/jupyter-notebook-document.json
-      - type: JSONSchema
-        url: json-schema/jupyter-contents-model.json
-      - type: JSONSchema
-        url: json-schema/jupyter-kernel-spec.json
-      - type: JSONLDContext
-        url: json-ld/jupyter-notebook-context.jsonld
-  - aid: jupyter-notebook:jupyter-kernel-gateway-api
-    name: Jupyter Kernel Gateway API
-    description: >-
-      Web server that provides headless access to Jupyter kernels for remote execution of code, with kernel and notebook
-      HTTP modes.
-    humanURL: https://jupyter-kernel-gateway.readthedocs.io/
-    baseURL: http://localhost:8888
-    tags:
-      - Execution
-      - Gateway
-      - Headless
-      - Kernels
-    properties:
-      - type: Documentation
-        url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
-      - type: Repository
-        url: https://github.com/jupyter-server/kernel_gateway
-      - type: OpenAPI
-        url: openapi/jupyter-kernel-gateway-api-openapi.yml
-  - aid: jupyter-notebook:jupyterhub-rest-api
-    name: JupyterHub REST API
-    description: >-
-      Multi-user server management API for spawning, managing, and proxying multiple instances of single-user Jupyter
-      notebook servers.
-    humanURL: https://jupyterhub.readthedocs.io/
-    baseURL: http://localhost:8000/hub/api
-    tags:
-      - Authentication
-      - Hub
-      - Multi-User
-      - REST API
-    properties:
-      - type: Documentation
-        url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
-      - type: Repository
-        url: https://github.com/jupyterhub/jupyterhub
-      - type: OpenAPI
-        url: openapi/jupyterhub-rest-api-openapi.yml
-  - aid: jupyter-notebook:jupyter-kernel-messaging
-    name: Jupyter Kernel Messaging Protocol
-    description: >-
-      WebSocket-based messaging protocol for communication between Jupyter clients and computational kernels. Supports
-      code execution, introspection, completion, and rich output over shell, IOPub, stdin, and control channels.
-    humanURL: https://jupyter-client.readthedocs.io/en/stable/messaging.html
-    baseURL: ws://localhost:8888
-    tags:
-      - Kernels
-      - Messaging
-      - Real-Time
-      - WebSocket
-    properties:
-      - type: Documentation
-        url: https://jupyter-client.readthedocs.io/en/stable/messaging.html
-      - type: Repository
-        url: https://github.com/jupyter/jupyter_client
-      - type: AsyncAPI
-        url: asyncapi/jupyter-kernel-messaging-asyncapi.yml
-      - type: JSONSchema
-        url: json-schema/jupyter-kernel-message.json
-      - type: JSONLDContext
-        url: json-ld/jupyter-notebook-context.jsonld
+- aid: jupyter-notebook:jupyter-kernel-messaging
+  name: Jupyter Kernel Messaging Protocol
+  description: >-
+    WebSocket-based messaging protocol for communication between Jupyter clients and computational kernels.
+    Supports code execution, introspection, completion, and rich output over shell, IOPub, stdin, and
+    control channels.
+  humanURL: https://jupyter-client.readthedocs.io/en/stable/messaging.html
+  baseURL: ws://localhost:8888
+  tags:
+  - Kernels
+  - Messaging
+  - Real-Time
+  - WebSocket
+  properties:
+  - type: Documentation
+    url: https://jupyter-client.readthedocs.io/en/stable/messaging.html
+  - type: Repository
+    url: https://github.com/jupyter/jupyter_client
+  - type: AsyncAPI
+    url: asyncapi/jupyter-kernel-messaging-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-message.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+- aid: jupyter-notebook:jupyter-notebook-authorization-api
+  name: Jupyter Notebook Authorization API
+  description: Token verification and authorization checks.
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888/api
+  tags:
+  - Authorization
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-notebook-authorization-api-openapi.yml
+  - type: Documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: Repository
+    url: https://github.com/jupyter/notebook
+  - type: JSONSchema
+    url: json-schema/jupyter-notebook-document.json
+  - type: JSONSchema
+    url: json-schema/jupyter-contents-model.json
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+  - type: Documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: Repository
+    url: https://github.com/jupyter-server/kernel_gateway
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: Repository
+    url: https://github.com/jupyterhub/jupyterhub
+- aid: jupyter-notebook:jupyter-notebook-config-api
+  name: Jupyter Notebook Config API
+  description: Server configuration section management.
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888/api
+  tags:
+  - Config
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-notebook-config-api-openapi.yml
+  - type: Documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: Repository
+    url: https://github.com/jupyter/notebook
+  - type: JSONSchema
+    url: json-schema/jupyter-notebook-document.json
+  - type: JSONSchema
+    url: json-schema/jupyter-contents-model.json
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+  - type: Documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: Repository
+    url: https://github.com/jupyter-server/kernel_gateway
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: Repository
+    url: https://github.com/jupyterhub/jupyterhub
+- aid: jupyter-notebook:jupyter-notebook-contents-api
+  name: Jupyter Notebook Contents API
+  description: File and directory management including notebooks, files, directories, and checkpoints.
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888/api
+  tags:
+  - Contents
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-notebook-contents-api-openapi.yml
+  - type: Documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: Repository
+    url: https://github.com/jupyter/notebook
+  - type: JSONSchema
+    url: json-schema/jupyter-notebook-document.json
+  - type: JSONSchema
+    url: json-schema/jupyter-contents-model.json
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+  - type: Documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: Repository
+    url: https://github.com/jupyter-server/kernel_gateway
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: Repository
+    url: https://github.com/jupyterhub/jupyterhub
+- aid: jupyter-notebook:jupyter-notebook-general-api
+  name: Jupyter Notebook General API
+  description: General gateway information.
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888/api
+  tags:
+  - General
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-notebook-general-api-openapi.yml
+  - type: Documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: Repository
+    url: https://github.com/jupyter/notebook
+  - type: JSONSchema
+    url: json-schema/jupyter-notebook-document.json
+  - type: JSONSchema
+    url: json-schema/jupyter-contents-model.json
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+  - type: Documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: Repository
+    url: https://github.com/jupyter-server/kernel_gateway
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: Repository
+    url: https://github.com/jupyterhub/jupyterhub
+- aid: jupyter-notebook:jupyter-notebook-groups-api
+  name: Jupyter Notebook Groups API
+  description: Group management for organizing users.
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888/api
+  tags:
+  - Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-notebook-groups-api-openapi.yml
+  - type: Documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: Repository
+    url: https://github.com/jupyter/notebook
+  - type: JSONSchema
+    url: json-schema/jupyter-notebook-document.json
+  - type: JSONSchema
+    url: json-schema/jupyter-contents-model.json
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+  - type: Documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: Repository
+    url: https://github.com/jupyter-server/kernel_gateway
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: Repository
+    url: https://github.com/jupyterhub/jupyterhub
+- aid: jupyter-notebook:jupyter-notebook-hub-api
+  name: Jupyter Notebook Hub API
+  description: Hub lifecycle management.
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888/api
+  tags:
+  - Hub
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-notebook-hub-api-openapi.yml
+  - type: Documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: Repository
+    url: https://github.com/jupyter/notebook
+  - type: JSONSchema
+    url: json-schema/jupyter-notebook-document.json
+  - type: JSONSchema
+    url: json-schema/jupyter-contents-model.json
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+  - type: Documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: Repository
+    url: https://github.com/jupyter-server/kernel_gateway
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: Repository
+    url: https://github.com/jupyterhub/jupyterhub
+- aid: jupyter-notebook:jupyter-notebook-kernels-api
+  name: Jupyter Notebook Kernels API
+  description: >-
+    Kernel lifecycle management on the gateway. The gateway may enforce kernel limits and seed kernels.
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888/api
+  tags:
+  - Kernels
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-notebook-kernels-api-openapi.yml
+  - type: Documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: Repository
+    url: https://github.com/jupyter/notebook
+  - type: JSONSchema
+    url: json-schema/jupyter-notebook-document.json
+  - type: JSONSchema
+    url: json-schema/jupyter-contents-model.json
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+  - type: Documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: Repository
+    url: https://github.com/jupyter-server/kernel_gateway
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: Repository
+    url: https://github.com/jupyterhub/jupyterhub
+- aid: jupyter-notebook:jupyter-notebook-kernelspecs-api
+  name: Jupyter Notebook Kernelspecs API
+  description: Kernel specification listing and retrieval.
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888/api
+  tags:
+  - Kernelspecs
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-notebook-kernelspecs-api-openapi.yml
+  - type: Documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: Repository
+    url: https://github.com/jupyter/notebook
+  - type: JSONSchema
+    url: json-schema/jupyter-notebook-document.json
+  - type: JSONSchema
+    url: json-schema/jupyter-contents-model.json
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+  - type: Documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: Repository
+    url: https://github.com/jupyter-server/kernel_gateway
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: Repository
+    url: https://github.com/jupyterhub/jupyterhub
+- aid: jupyter-notebook:jupyter-notebook-proxy-api
+  name: Jupyter Notebook Proxy API
+  description: Configurable HTTP proxy routing table management.
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888/api
+  tags:
+  - Proxy
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-notebook-proxy-api-openapi.yml
+  - type: Documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: Repository
+    url: https://github.com/jupyter/notebook
+  - type: JSONSchema
+    url: json-schema/jupyter-notebook-document.json
+  - type: JSONSchema
+    url: json-schema/jupyter-contents-model.json
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+  - type: Documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: Repository
+    url: https://github.com/jupyter-server/kernel_gateway
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: Repository
+    url: https://github.com/jupyterhub/jupyterhub
+- aid: jupyter-notebook:jupyter-notebook-services-api
+  name: Jupyter Notebook Services API
+  description: The Services API from Jupyter Notebook — 2 operation(s) for services.
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888/api
+  tags:
+  - Services
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-notebook-services-api-openapi.yml
+  - type: Documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: Repository
+    url: https://github.com/jupyter/notebook
+  - type: JSONSchema
+    url: json-schema/jupyter-notebook-document.json
+  - type: JSONSchema
+    url: json-schema/jupyter-contents-model.json
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+  - type: Documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: Repository
+    url: https://github.com/jupyter-server/kernel_gateway
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: Repository
+    url: https://github.com/jupyterhub/jupyterhub
+- aid: jupyter-notebook:jupyter-notebook-sessions-api
+  name: Jupyter Notebook Sessions API
+  description: Session management for associating notebooks with running kernels.
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888/api
+  tags:
+  - Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-notebook-sessions-api-openapi.yml
+  - type: Documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: Repository
+    url: https://github.com/jupyter/notebook
+  - type: JSONSchema
+    url: json-schema/jupyter-notebook-document.json
+  - type: JSONSchema
+    url: json-schema/jupyter-contents-model.json
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+  - type: Documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: Repository
+    url: https://github.com/jupyter-server/kernel_gateway
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: Repository
+    url: https://github.com/jupyterhub/jupyterhub
+- aid: jupyter-notebook:jupyter-notebook-terminals-api
+  name: Jupyter Notebook Terminals API
+  description: Terminal session management on the server.
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888/api
+  tags:
+  - Terminals
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-notebook-terminals-api-openapi.yml
+  - type: Documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: Repository
+    url: https://github.com/jupyter/notebook
+  - type: JSONSchema
+    url: json-schema/jupyter-notebook-document.json
+  - type: JSONSchema
+    url: json-schema/jupyter-contents-model.json
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+  - type: Documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: Repository
+    url: https://github.com/jupyter-server/kernel_gateway
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: Repository
+    url: https://github.com/jupyterhub/jupyterhub
+- aid: jupyter-notebook:jupyter-notebook-users-api
+  name: Jupyter Notebook Users API
+  description: User management including creation, deletion, server management, and token management.
+  humanURL: https://jupyter-notebook.readthedocs.io/
+  baseURL: http://localhost:8888/api
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/jupyter-notebook-users-api-openapi.yml
+  - type: Documentation
+    url: https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html
+  - type: Repository
+    url: https://github.com/jupyter/notebook
+  - type: JSONSchema
+    url: json-schema/jupyter-notebook-document.json
+  - type: JSONSchema
+    url: json-schema/jupyter-contents-model.json
+  - type: JSONSchema
+    url: json-schema/jupyter-kernel-spec.json
+  - type: JSONLDContext
+    url: json-ld/jupyter-notebook-context.jsonld
+  - type: Documentation
+    url: https://jupyter-kernel-gateway.readthedocs.io/en/latest/
+  - type: Repository
+    url: https://github.com/jupyter-server/kernel_gateway
+  - type: Documentation
+    url: https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html
+  - type: Repository
+    url: https://github.com/jupyterhub/jupyterhub
 common:
   - type: AgenticAccess
     url: agentic-access/jupyter-notebook-agentic-access.yml
