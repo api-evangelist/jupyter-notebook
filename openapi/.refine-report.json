@@ -1,0 +1,38 @@
+{
+  "provider": "jupyter-notebook",
+  "sources": [
+    "jupyter-notebook-authorization-api-openapi.yml",
+    "jupyter-notebook-config-api-openapi.yml",
+    "jupyter-notebook-contents-api-openapi.yml",
+    "jupyter-notebook-general-api-openapi.yml",
+    "jupyter-notebook-groups-api-openapi.yml",
+    "jupyter-notebook-hub-api-openapi.yml",
+    "jupyter-notebook-kernels-api-openapi.yml",
+    "jupyter-notebook-kernelspecs-api-openapi.yml",
+    "jupyter-notebook-proxy-api-openapi.yml",
+    "jupyter-notebook-services-api-openapi.yml",
+    "jupyter-notebook-sessions-api-openapi.yml",
+    "jupyter-notebook-terminals-api-openapi.yml",
+    "jupyter-notebook-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "jupyter-notebook-authorization-api-openapi.yml",
+    "jupyter-notebook-config-api-openapi.yml",
+    "jupyter-notebook-contents-api-openapi.yml",
+    "jupyter-notebook-general-api-openapi.yml",
+    "jupyter-notebook-groups-api-openapi.yml",
+    "jupyter-notebook-hub-api-openapi.yml",
+    "jupyter-notebook-kernels-api-openapi.yml",
+    "jupyter-notebook-kernelspecs-api-openapi.yml",
+    "jupyter-notebook-proxy-api-openapi.yml",
+    "jupyter-notebook-services-api-openapi.yml",
+    "jupyter-notebook-sessions-api-openapi.yml",
+    "jupyter-notebook-terminals-api-openapi.yml",
+    "jupyter-notebook-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
