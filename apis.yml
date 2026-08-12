@@ -448,6 +448,19 @@ apis:
   - type: Repository
     url: https://github.com/jupyterhub/jupyterhub
 common:
+  - type: IssueTracker
+    url: https://github.com/jupyter/jupyter_client/issues
+  - type: Releases
+    url: https://github.com/jupyter/jupyter_client/releases
+  - type: SecurityPolicy
+    url: https://github.com/jupyter/jupyter_client/blob/main/SECURITY.md
+  - type: CodeOfConduct
+    url: https://github.com/jupyter/.github/blob/main/CODE_OF_CONDUCT.md
+  - type: ContributionGuide
+    url: https://github.com/jupyter/jupyter_client/blob/main/CONTRIBUTING.md
+  - type: License
+    name: BSD-3-Clause
+    url: https://github.com/jupyter/jupyter_client/blob/main/LICENSE
   - type: AgenticAccess
     url: agentic-access/jupyter-notebook-agentic-access.yml
   - type: VulnerabilityDisclosure
