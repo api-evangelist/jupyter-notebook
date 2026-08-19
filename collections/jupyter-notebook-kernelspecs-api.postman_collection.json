@@ -1,0 +1,276 @@
+{
+  "item": [
+    {
+      "id": "95cc3bf6-1d62-476b-810d-fd5ef8d7508a",
+      "name": "Kernelspecs",
+      "description": {
+        "content": "Kernel specification listing and retrieval.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3d62ff4c-28d4-4024-820d-1f97681d1eaa",
+          "name": "Jupyter Notebook List kernel specifications",
+          "request": {
+            "name": "Jupyter Notebook List kernel specifications",
+            "description": {
+              "content": "Get the list of available kernel specifications. The gateway may be configured with KG_DEFAULT_KERNEL_NAME to set a specific default.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernelspecs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "98fe79d4-7bc9-49a8-96b3-d5592370e065",
+              "name": "Kernel specifications.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernelspecs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"default\": \"string\",\n  \"kernelspecs\": {\n    \"key_0\": {\n      \"name\": \"string\",\n      \"spec\": {\n        \"language\": \"string\",\n        \"display_name\": \"string\",\n        \"argv\": [\n          \"string\",\n          \"string\"\n        ],\n        \"env\": {\n          \"key_0\": \"string\"\n        }\n      },\n      \"resources\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "15b50fc7-7a06-4296-a0c0-8bb04429246a",
+          "name": "Jupyter Notebook Get a kernel specification",
+          "request": {
+            "name": "Jupyter Notebook Get a kernel specification",
+            "description": {
+              "content": "Get the specification for a specific kernel by name.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "kernelspecs",
+                ":kernel_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "kernel_name",
+                  "description": "(Required) Name of the kernel specification."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d4ac0b98-090a-4a5a-8d6b-aa2d6908ca71",
+              "name": "Kernel specification details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernelspecs",
+                    ":kernel_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "kernel_name",
+                      "description": "(Required) Name of the kernel specification."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"spec\": {\n    \"language\": \"string\",\n    \"display_name\": \"string\",\n    \"argv\": [\n      \"string\",\n      \"string\"\n    ],\n    \"env\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    }\n  },\n  \"resources\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": \"string\",\n    \"key_3\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bbddcee2-fdc0-4116-8994-f30c10257afa",
+              "name": "Kernel spec not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "kernelspecs",
+                    ":kernel_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "kernel_name",
+                      "description": "(Required) Name of the kernel specification."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:8888/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "72fcaf25-2401-4231-8f52-142e905a3a3a",
+    "name": "Jupyter Notebook Jupyter Kernel Gateway Authorization Kernelspecs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.\n\nContact Support:\n Name: Jupyter Project\n Email: jupyter@googlegroups.com",
+      "type": "text/plain"
+    }
+  }
+}

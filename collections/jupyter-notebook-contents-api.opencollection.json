@@ -1,0 +1,220 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Jupyter Notebook Jupyter Kernel Gateway Authorization Contents API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook Get contents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/contents/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path to the file or directory relative to the root directory."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of content to return. Can be 'file', 'directory', or 'notebook'. If unspecified, the server will determine the type."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Format of the content field. For files, can be 'text' or 'base64'. For notebooks, can be 'json'."
+              },
+              {
+                "name": "content",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include the content field. Set to 0 to exclude content, which is useful for listing directories."
+              },
+              {
+                "name": "hash",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include the hash field. Set to 1 to include a hash of the content."
+              }
+            ]
+          },
+          "docs": "Get the content of a file or directory at the given path. For directories, returns a listing of contents. For notebooks, returns the notebook document. For files, returns the file content."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Create a new file or directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/api/contents/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path where the new content should be created."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new file, directory, or notebook at the given path. If no body is provided, creates a new untitled file or directory."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Save or upload content",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:8888/api/api/contents/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path of the content to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save or upload a file, directory, or notebook at the given path. This replaces the content at the given path entirely."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Rename a file or directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8888/api/api/contents/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Current path of the content."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Rename a file or directory by changing its path."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Delete a file or directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8888/api/api/contents/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path of the content to delete."
+              }
+            ]
+          },
+          "docs": "Delete a file or empty directory at the given path."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook List checkpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/contents/:path/checkpoints",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path to the content."
+              }
+            ]
+          },
+          "docs": "List all checkpoints for the content at the given path."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Create a checkpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/api/contents/:path/checkpoints",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path to the content."
+              }
+            ]
+          },
+          "docs": "Create a new checkpoint for the content at the given path."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Delete a checkpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8888/api/api/contents/:path/checkpoints/:checkpoint_id",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path",
+                "description": "Path to the content."
+              },
+              {
+                "name": "checkpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the checkpoint to delete."
+              }
+            ]
+          },
+          "docs": "Delete a specific checkpoint for the content at the given path."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

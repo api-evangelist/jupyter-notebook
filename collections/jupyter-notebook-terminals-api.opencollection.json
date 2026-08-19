@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Jupyter Notebook Jupyter Kernel Gateway Authorization Terminals API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Terminals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook List running terminals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/terminals"
+          },
+          "docs": "Get the list of currently running terminal sessions."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Create a new terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/api/terminals",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start a new terminal session."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get terminal information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/terminals/:terminal_id",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier for the terminal session."
+              }
+            ]
+          },
+          "docs": "Get details about a specific terminal session."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Shut down a terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:8888/api/api/terminals/:terminal_id",
+            "params": [
+              {
+                "name": "terminal_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier for the terminal session."
+              }
+            ]
+          },
+          "docs": "Shut down a terminal session by its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

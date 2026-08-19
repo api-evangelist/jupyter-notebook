@@ -1,0 +1,196 @@
+{
+  "item": [
+    {
+      "id": "5906480a-a9bd-487f-a2d4-aa16435abb76",
+      "name": "Authorization",
+      "description": {
+        "content": "Token verification and authorization checks.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "aef32426-eaaa-4e63-8cf1-323ac5317fdc",
+          "name": "Jupyter Notebook Identify a user by token",
+          "request": {
+            "name": "Jupyter Notebook Identify a user by token",
+            "description": {
+              "content": "Identify the user associated with a given API token. Used by services to verify token authentication.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "authorizations",
+                "token",
+                ":token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "token",
+                  "description": "(Required) The API token to check."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "64722703-dd16-4c93-aca7-3671fb310095",
+              "name": "Token is valid, returns user information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "authorizations",
+                    "token",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) The API token to check."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"admin\": false,\n  \"roles\": [\n    \"string\",\n    \"string\"\n  ],\n  \"groups\": [\n    \"string\",\n    \"string\"\n  ],\n  \"server\": \"string\",\n  \"pending\": \"spawn\",\n  \"last_activity\": \"2007-02-26T04:08:21.709Z\",\n  \"created\": \"1969-01-16T05:37:23.533Z\",\n  \"servers\": {\n    \"key_0\": {\n      \"name\": \"string\",\n      \"ready\": true,\n      \"pending\": null,\n      \"url\": \"string\",\n      \"progress_url\": \"string\",\n      \"started\": \"1949-01-30T12:16:02.833Z\",\n      \"last_activity\": \"2015-05-26T21:03:53.892Z\",\n      \"state\": {\n        \"key_0\": 4136,\n        \"key_1\": \"string\"\n      },\n      \"user_options\": {\n        \"key_0\": 7102\n      }\n    }\n  },\n  \"scopes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"auth_state\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0a438a8c-4716-4fb7-90b2-f0dd2b15fba6",
+              "name": "Token not found or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "authorizations",
+                    "token",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) The API token to check."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:8888/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e68f07de-a525-4421-9766-872fec3cfa5d",
+    "name": "Jupyter Notebook Jupyter Kernel Gateway Authorization API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.\n\nContact Support:\n Name: Jupyter Project\n Email: jupyter@googlegroups.com",
+      "type": "text/plain"
+    }
+  }
+}

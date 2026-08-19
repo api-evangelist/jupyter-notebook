@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Jupyter Notebook Jupyter Kernel Gateway Authorization Proxy API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Proxy",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook Get proxy routing table",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/proxy"
+          },
+          "docs": "Get the current proxy routing table from the configurable HTTP proxy."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Force proxy sync",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:8888/api/proxy"
+          },
+          "docs": "Force the hub to sync the proxy routing table with its database."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Add a proxy route",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:8888/api/proxy",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a new entry to the proxy routing table."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Jupyter Notebook Jupyter Kernel Gateway Authorization General API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "General",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook Get API info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api"
+          },
+          "docs": "Returns server information including the version of the Kernel Gateway. This is a Jupyter Notebook server-compatible endpoint."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get server status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/status"
+          },
+          "docs": "Returns the status of the notebook server including kernel and session counts."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get JupyterHub version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/"
+          },
+          "docs": "Returns the version of the running JupyterHub instance."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get detailed server info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/info"
+          },
+          "docs": "Returns detailed information about the JupyterHub instance including version, Python version, spawner, and authenticator information."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

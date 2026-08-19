@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Jupyter Notebook Jupyter Kernel Gateway Authorization Kernelspecs API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Kernelspecs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jupyter Notebook List kernel specifications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/kernelspecs"
+          },
+          "docs": "Get the list of available kernel specifications. The gateway may be configured with KG_DEFAULT_KERNEL_NAME to set a specific default."
+        },
+        {
+          "info": {
+            "name": "Jupyter Notebook Get a kernel specification",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:8888/api/api/kernelspecs/:kernel_name",
+            "params": [
+              {
+                "name": "kernel_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the kernel specification."
+              }
+            ]
+          },
+          "docs": "Get the specification for a specific kernel by name."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

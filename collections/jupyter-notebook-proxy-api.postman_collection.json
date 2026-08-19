@@ -1,0 +1,286 @@
+{
+  "item": [
+    {
+      "id": "d791e098-a021-4632-9eba-6a98a8b72beb",
+      "name": "Proxy",
+      "description": {
+        "content": "Configurable HTTP proxy routing table management.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9c5dd1a0-935c-4499-8209-24bb0d4c7a30",
+          "name": "Jupyter Notebook Get proxy routing table",
+          "request": {
+            "name": "Jupyter Notebook Get proxy routing table",
+            "description": {
+              "content": "Get the current proxy routing table from the configurable HTTP proxy.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "proxy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d7e10099-1160-4ded-a262-d3a8c4d6de29",
+              "name": "Proxy routing table.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "proxy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": {\n    \"routespec\": \"string\",\n    \"target\": \"string\",\n    \"data\": {\n      \"key_0\": \"string\"\n    },\n    \"last_activity\": \"2017-09-10T07:05:03.892Z\"\n  },\n  \"key_1\": {\n    \"routespec\": \"string\",\n    \"target\": \"string\",\n    \"data\": {\n      \"key_0\": 6713,\n      \"key_1\": \"string\"\n    },\n    \"last_activity\": \"1953-02-22T23:25:27.905Z\"\n  },\n  \"key_2\": {\n    \"routespec\": \"string\",\n    \"target\": \"string\",\n    \"data\": {\n      \"key_0\": true,\n      \"key_1\": 3654,\n      \"key_2\": 5050\n    },\n    \"last_activity\": \"1997-06-30T17:34:44.632Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "835a08b5-2465-4bd7-8f59-cd3ff89dbd28",
+          "name": "Jupyter Notebook Force proxy sync",
+          "request": {
+            "name": "Jupyter Notebook Force proxy sync",
+            "description": {
+              "content": "Force the hub to sync the proxy routing table with its database.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "proxy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1b8d5be5-ebf1-4e3d-8bf2-f2e679c51fd3",
+              "name": "Proxy synced successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "proxy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9828a265-843d-4970-b3a0-48fecdc2c8ac",
+          "name": "Jupyter Notebook Add a proxy route",
+          "request": {
+            "name": "Jupyter Notebook Add a proxy route",
+            "description": {
+              "content": "Add a new entry to the proxy routing table.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "proxy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"routespec\": \"<string>\",\n  \"target\": \"<string>\",\n  \"data\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": 5866\n  },\n  \"last_activity\": \"<dateTime>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ffe93f11-7acd-41a8-ba28-a58e7f045c40",
+              "name": "Route added successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "proxy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routespec\": \"<string>\",\n  \"target\": \"<string>\",\n  \"data\": {\n    \"key_0\": 1262,\n    \"key_1\": true,\n    \"key_2\": 7698\n  },\n  \"last_activity\": \"<dateTime>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:8888/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3f73da32-9962-4cca-8ba2-3b536c6761b9",
+    "name": "Jupyter Notebook Jupyter Kernel Gateway Authorization Proxy API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.\n\nContact Support:\n Name: Jupyter Project\n Email: jupyter@googlegroups.com",
+      "type": "text/plain"
+    }
+  }
+}
