@@ -24,6 +24,13 @@ tags:
   - Data Science
   - Interactive Computing
   - Jupyter
+  - Machine-Learning
+  - Notebooks
+  - Python
+tags_raw:
+  - Data Science
+  - Interactive Computing
+  - Jupyter
   - Machine Learning
   - Notebooks
   - Python
@@ -41,6 +48,11 @@ apis:
   humanURL: https://jupyter-client.readthedocs.io/en/stable/messaging.html
   baseURL: ws://localhost:8888
   tags:
+  - Kernel
+  - Messaging
+  - Real-Time
+  - WebSocket
+  tags_raw:
   - Kernels
   - Messaging
   - Real-Time
@@ -151,7 +163,8 @@ apis:
   description: General gateway information.
   humanURL: https://jupyter-notebook.readthedocs.io/
   baseURL: http://localhost:8888/api
-  tags:
+  tags: []
+  tags_raw:
   - General
   properties:
   - type: OpenAPI
@@ -182,6 +195,8 @@ apis:
   humanURL: https://jupyter-notebook.readthedocs.io/
   baseURL: http://localhost:8888/api
   tags:
+  - Group
+  tags_raw:
   - Groups
   properties:
   - type: OpenAPI
@@ -243,6 +258,8 @@ apis:
   humanURL: https://jupyter-notebook.readthedocs.io/
   baseURL: http://localhost:8888/api
   tags:
+  - Kernel
+  tags_raw:
   - Kernels
   properties:
   - type: OpenAPI
@@ -423,6 +440,8 @@ apis:
   humanURL: https://jupyter-notebook.readthedocs.io/
   baseURL: http://localhost:8888/api
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
