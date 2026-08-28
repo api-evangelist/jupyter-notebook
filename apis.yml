@@ -6,6 +6,19 @@ description: >-
   managing notebooks, files, kernels, sessions, and terminals, and uses the WebSocket-based Jupyter messaging protocol
   to communicate with kernels.
 type: Index
+deliveryModel:
+  model: self-hosted
+  license: BSD-3-Clause
+  open_source: true
+  commercial: false
+  callable_host: false
+  label: Self-hosted open source · you run it yourself
+  confidence: high
+  source:
+  - license
+  - openapi
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: free
   onboarding: self-serve
@@ -469,6 +482,9 @@ apis:
   - type: Repository
     url: https://github.com/jupyterhub/jupyterhub
 common:
+  - type: CapabilityMap
+    url: capabilities/jupyter-notebook-capability-edges.yml
+    name: Jupyter Notebook Business Capability Map
   - type: IssueTracker
     url: https://github.com/jupyter/jupyter_client/issues
   - type: Releases
