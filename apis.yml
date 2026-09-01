@@ -63,7 +63,7 @@ apis:
   humanURL: https://jupyter-client.readthedocs.io/en/stable/messaging.html
   baseURL: ws://localhost:8888
   tags:
-  - Kernels
+  - Kernel
   - Messaging
   - Real-Time
   - WebSocket
@@ -273,7 +273,7 @@ apis:
   humanURL: https://jupyter-notebook.readthedocs.io/
   baseURL: http://localhost:8888/api
   tags:
-  - Kernels
+  - Kernel
   tags_raw:
   - Kernels
   properties:
