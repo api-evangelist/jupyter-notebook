@@ -532,3 +532,5 @@ maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
     url: https://apievangelist.com
+x-parent: jupyter
+x-relationship: product

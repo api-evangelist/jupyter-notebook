@@ -33,6 +33,21 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "jupyter-notebook-authorization-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "jupyter-notebook-config-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "jupyter-notebook-contents-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "jupyter-notebook-general-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "jupyter-notebook-groups-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "jupyter-notebook-hub-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "jupyter-notebook-kernels-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "jupyter-notebook-kernelspecs-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "jupyter-notebook-proxy-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "jupyter-notebook-services-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "jupyter-notebook-sessions-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "jupyter-notebook-terminals-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "jupyter-notebook-users-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }

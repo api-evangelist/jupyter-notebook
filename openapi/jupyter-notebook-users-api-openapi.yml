@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Jupyter Notebook Jupyter Kernel Gateway Authorization Users API
   description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
@@ -569,43 +569,6 @@ components:
       required:
       - name
       - admin
-    Server:
-      type: object
-      description: A user's single-user notebook server.
-      properties:
-        name:
-          type: string
-          description: Name of the server (empty string for default).
-        ready:
-          type: boolean
-          description: Whether the server is ready to accept connections.
-        pending:
-          type:
-          - string
-          - 'null'
-          description: Pending action for the server.
-        url:
-          type: string
-          description: URL path of the running server.
-        progress_url:
-          type: string
-          description: URL for the server's spawn progress events.
-        started:
-          type: string
-          format: date-time
-          description: Timestamp when the server was started.
-        last_activity:
-          type: string
-          format: date-time
-          description: Timestamp of last activity on the server.
-        state:
-          type: object
-          description: Spawner state (admin only).
-          additionalProperties: true
-        user_options:
-          type: object
-          description: User options passed at spawn time.
-          additionalProperties: true
     Token:
       type: object
       description: An API token.
@@ -655,6 +618,43 @@ components:
           description: Last time the token was used.
       required:
       - id
+    Server:
+      type: object
+      description: A user's single-user notebook server.
+      properties:
+        name:
+          type: string
+          description: Name of the server (empty string for default).
+        ready:
+          type: boolean
+          description: Whether the server is ready to accept connections.
+        pending:
+          type:
+          - string
+          - 'null'
+          description: Pending action for the server.
+        url:
+          type: string
+          description: URL path of the running server.
+        progress_url:
+          type: string
+          description: URL for the server's spawn progress events.
+        started:
+          type: string
+          format: date-time
+          description: Timestamp when the server was started.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of last activity on the server.
+        state:
+          type: object
+          description: Spawner state (admin only).
+          additionalProperties: true
+        user_options:
+          type: object
+          description: User options passed at spawn time.
+          additionalProperties: true
   securitySchemes:
     token:
       type: apiKey
