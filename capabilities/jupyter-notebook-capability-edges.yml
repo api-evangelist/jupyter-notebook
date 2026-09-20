@@ -1,0 +1,27 @@
+slug: jupyter-notebook
+provider: Jupyter Notebook
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Banking & Capital Markets
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Users
+  spec_file: jupyter-notebook-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: POST /users createUsers "Create multiple users"; DELETE /users/{name} "Delete a user"; GET
+    /users/{name}/tokens "List user's API tokens"
+  reason: Operations administer user accounts and their API tokens/servers in JupyterHub — account provisioning
+    and credential lifecycle, which is Identity & Access Management. Moderate confidence since it is also
+    partly runtime server control.
