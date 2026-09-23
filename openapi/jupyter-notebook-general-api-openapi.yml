@@ -1,30 +1,25 @@
 openapi: 3.2.0
 info:
-  title: Jupyter Notebook Jupyter Kernel Gateway Authorization General API
-  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
-  version: 3.0.0
+  title: Jupyter Notebook General API
   license:
     name: BSD-3-Clause
     url: https://opensource.org/licenses/BSD-3-Clause
-  contact:
-    name: Jupyter Project
-    url: https://jupyter-kernel-gateway.readthedocs.io
-    email: jupyter@googlegroups.com
+  version: '1.0'
+  description: 'Operations tagged General across 2 of this provider''s published API definitions: jupyter-notebook-rest-api-openapi.yml, jupyterhub-rest-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: http://localhost:8888/api
-  description: Local Jupyter Kernel Gateway server
-security:
-- token: []
-- tokenQuery: []
+  description: Local Jupyter Notebook server
+- url: http://localhost:8000/hub/api
+  description: Local JupyterHub server
 tags:
 - name: General
-  description: General gateway information.
+  description: General server information and status endpoints.
 paths:
   /api:
     get:
       operationId: getApiInfo
       summary: Jupyter Notebook Get API info
-      description: Returns server information including the version of the Kernel Gateway. This is a Jupyter Notebook server-compatible endpoint.
+      description: Returns the API version and other server information.
       tags:
       - General
       responses:
@@ -33,11 +28,13 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  version:
-                    type: string
-                    description: API version.
+                $ref: '#/components/schemas/ApiInfo'
+      security:
+      - token: []
+      - tokenHeader: []
+    servers:
+    - url: http://localhost:8888/api
+      description: Local Jupyter Notebook server
   /api/status:
     get:
       operationId: getApiStatus
@@ -52,6 +49,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerStatus'
+      security:
+      - token: []
+      - tokenHeader: []
+    servers:
+    - url: http://localhost:8888/api
+      description: Local Jupyter Notebook server
   /:
     get:
       operationId: getRootInfo
@@ -70,6 +73,12 @@ paths:
                   version:
                     type: string
                     description: The version of JupyterHub.
+      security:
+      - token: []
+      - oAuthToken: []
+    servers:
+    - url: http://localhost:8000/hub/api
+      description: Local JupyterHub server
   /info:
     get:
       operationId: getInfo
@@ -84,8 +93,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HubInfo'
+      security:
+      - token: []
+      - oAuthToken: []
+    servers:
+    - url: http://localhost:8000/hub/api
+      description: Local JupyterHub server
 components:
   schemas:
+    ServerStatus:
+      type: object
+      description: Notebook server status information.
+      properties:
+        started:
+          type: string
+          format: date-time
+          description: Timestamp when the server was started.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of the last activity on the server.
+        connections:
+          type: integer
+          description: Number of active connections.
+        kernels:
+          type: integer
+          description: Number of running kernels.
+    ApiInfo:
+      type: object
+      description: Server API information.
+      properties:
+        version:
+          type: string
+          description: API version string.
+      required:
+      - version
     HubInfo:
       type: object
       description: Detailed JupyterHub server information.
@@ -119,32 +161,21 @@ components:
             version:
               type: string
               description: Spawner version.
-    ServerStatus:
-      type: object
-      description: Notebook server status information.
-      properties:
-        started:
-          type: string
-          format: date-time
-          description: Timestamp when the server was started.
-        last_activity:
-          type: string
-          format: date-time
-          description: Timestamp of the last activity on the server.
-        connections:
-          type: integer
-          description: Number of active connections.
-        kernels:
-          type: integer
-          description: Number of running kernels.
   securitySchemes:
     token:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
-    tokenQuery:
       type: apiKey
       in: query
       name: token
       description: Authentication token passed as a query parameter.
+    tokenHeader:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token passed in the Authorization header as 'token <token_value>'.
+    oAuthToken:
+      type: http
+      scheme: bearer
+      description: OAuth2 bearer token.
+x-refined-from:
+- jupyter-notebook-rest-api-openapi.yml
+- jupyterhub-rest-api-openapi.yml

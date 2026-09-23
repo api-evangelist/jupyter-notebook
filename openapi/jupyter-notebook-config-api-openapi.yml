@@ -1,21 +1,21 @@
 openapi: 3.2.0
 info:
-  title: Jupyter Notebook Jupyter Kernel Gateway Authorization Config API
-  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
-  version: 3.0.0
+  title: Jupyter Notebook REST Config API
+  description: REST API for managing and interacting with Jupyter Notebook servers, including kernels, sessions, contents (notebooks and files), terminals, and kernel specifications. This API is served by the Jupyter Notebook server (or Jupyter Server) and provides programmatic access to all notebook server functionality.
+  version: 7.0.0
   license:
     name: BSD-3-Clause
     url: https://opensource.org/licenses/BSD-3-Clause
   contact:
     name: Jupyter Project
-    url: https://jupyter-kernel-gateway.readthedocs.io
+    url: https://jupyter.org
     email: jupyter@googlegroups.com
 servers:
 - url: http://localhost:8888/api
-  description: Local Jupyter Kernel Gateway server
+  description: Local Jupyter Notebook server
 security:
 - token: []
-- tokenQuery: []
+- tokenHeader: []
 tags:
 - name: Config
   description: Server configuration section management.
@@ -102,11 +102,11 @@ components:
   securitySchemes:
     token:
       type: apiKey
-      in: header
-      name: Authorization
-      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
-    tokenQuery:
-      type: apiKey
       in: query
       name: token
       description: Authentication token passed as a query parameter.
+    tokenHeader:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token passed in the Authorization header as 'token <token_value>'.

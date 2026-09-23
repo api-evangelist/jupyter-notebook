@@ -1,21 +1,21 @@
 openapi: 3.2.0
 info:
-  title: Jupyter Notebook Jupyter Kernel Gateway Authorization API
-  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
-  version: 3.0.0
+  title: Jupyter Notebook JupyterHub REST Authorization API
+  description: REST API for JupyterHub, the multi-user server for Jupyter notebooks. This API provides endpoints for managing users, groups, services, proxy routes, and the hub itself. JupyterHub spawns, manages, and proxies multiple instances of single-user Jupyter notebook servers.
+  version: 5.0.0
   license:
     name: BSD-3-Clause
     url: https://opensource.org/licenses/BSD-3-Clause
   contact:
     name: Jupyter Project
-    url: https://jupyter-kernel-gateway.readthedocs.io
+    url: https://jupyterhub.readthedocs.io
     email: jupyter@googlegroups.com
 servers:
-- url: http://localhost:8888/api
-  description: Local Jupyter Kernel Gateway server
+- url: http://localhost:8000/hub/api
+  description: Local JupyterHub server
 security:
 - token: []
-- tokenQuery: []
+- oAuthToken: []
 tags:
 - name: Authorization
   description: Token verification and authorization checks.
@@ -45,6 +45,43 @@ paths:
           description: Token not found or invalid.
 components:
   schemas:
+    Server:
+      type: object
+      description: A user's single-user notebook server.
+      properties:
+        name:
+          type: string
+          description: Name of the server (empty string for default).
+        ready:
+          type: boolean
+          description: Whether the server is ready to accept connections.
+        pending:
+          type:
+          - string
+          - 'null'
+          description: Pending action for the server.
+        url:
+          type: string
+          description: URL path of the running server.
+        progress_url:
+          type: string
+          description: URL for the server's spawn progress events.
+        started:
+          type: string
+          format: date-time
+          description: Timestamp when the server was started.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of last activity on the server.
+        state:
+          type: object
+          description: Spawner state (admin only).
+          additionalProperties: true
+        user_options:
+          type: object
+          description: User options passed at spawn time.
+          additionalProperties: true
     User:
       type: object
       description: A JupyterHub user.
@@ -104,51 +141,13 @@ components:
       required:
       - name
       - admin
-    Server:
-      type: object
-      description: A user's single-user notebook server.
-      properties:
-        name:
-          type: string
-          description: Name of the server (empty string for default).
-        ready:
-          type: boolean
-          description: Whether the server is ready to accept connections.
-        pending:
-          type:
-          - string
-          - 'null'
-          description: Pending action for the server.
-        url:
-          type: string
-          description: URL path of the running server.
-        progress_url:
-          type: string
-          description: URL for the server's spawn progress events.
-        started:
-          type: string
-          format: date-time
-          description: Timestamp when the server was started.
-        last_activity:
-          type: string
-          format: date-time
-          description: Timestamp of last activity on the server.
-        state:
-          type: object
-          description: Spawner state (admin only).
-          additionalProperties: true
-        user_options:
-          type: object
-          description: User options passed at spawn time.
-          additionalProperties: true
   securitySchemes:
     token:
       type: apiKey
       in: header
       name: Authorization
-      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
-    tokenQuery:
-      type: apiKey
-      in: query
-      name: token
-      description: Authentication token passed as a query parameter.
+      description: API token passed in the Authorization header as 'token <api_token>'.
+    oAuthToken:
+      type: http
+      scheme: bearer
+      description: OAuth2 bearer token.

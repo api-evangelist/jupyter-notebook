@@ -1,0 +1,30 @@
+# Front Door AI Index — jupyter-notebook — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: jupyter-notebook
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: jupyter.org
+  final_host: jupyter.org
+  ownership: shared
+  owner: jupyter
+  shares_host_with:
+  - jupyter
+  - jupyter-notebooks
+  - jupyterhub
+  - jupyterlab
+  inherited_from: null
+  verdict: scored
+  score: null
+  host_score: 3
+  density: null
+  words: 563
+  tiers:
+    agentic: 0
+    core: 3
+    model: 0
+  ambiguous: 0
+  top_terms:
+    AI: 2
+    machine learning: 1

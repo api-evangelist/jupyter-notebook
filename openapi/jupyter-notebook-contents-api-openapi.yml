@@ -1,21 +1,21 @@
 openapi: 3.2.0
 info:
-  title: Jupyter Notebook Jupyter Kernel Gateway Authorization Contents API
-  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
-  version: 3.0.0
+  title: Jupyter Notebook REST Contents API
+  description: REST API for managing and interacting with Jupyter Notebook servers, including kernels, sessions, contents (notebooks and files), terminals, and kernel specifications. This API is served by the Jupyter Notebook server (or Jupyter Server) and provides programmatic access to all notebook server functionality.
+  version: 7.0.0
   license:
     name: BSD-3-Clause
     url: https://opensource.org/licenses/BSD-3-Clause
   contact:
     name: Jupyter Project
-    url: https://jupyter-kernel-gateway.readthedocs.io
+    url: https://jupyter.org
     email: jupyter@googlegroups.com
 servers:
 - url: http://localhost:8888/api
-  description: Local Jupyter Kernel Gateway server
+  description: Local Jupyter Notebook server
 security:
 - token: []
-- tokenQuery: []
+- tokenHeader: []
 tags:
 - name: Contents
   description: File and directory management including notebooks, files, directories, and checkpoints.
@@ -277,34 +277,6 @@ paths:
           description: Checkpoint or path not found.
 components:
   schemas:
-    ContentsSave:
-      type: object
-      description: Request body for saving content.
-      properties:
-        name:
-          type: string
-          description: Name of the file.
-        path:
-          type: string
-          description: Path of the file.
-        type:
-          type: string
-          description: Type of content.
-          enum:
-          - notebook
-          - file
-          - directory
-        format:
-          type: string
-          description: Format of the content field.
-          enum:
-          - json
-          - text
-          - base64
-        content:
-          description: The content to save.
-      required:
-      - type
     Contents:
       type: object
       description: A contents model representing a file, directory, or notebook in the Jupyter file system.
@@ -372,6 +344,20 @@ components:
       - writable
       - created
       - last_modified
+    Checkpoint:
+      type: object
+      description: A checkpoint (snapshot) of a file.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the checkpoint.
+        last_modified:
+          type: string
+          format: date-time
+          description: Timestamp of when the checkpoint was created.
+      required:
+      - id
+      - last_modified
     ContentsCreate:
       type: object
       description: Request body for creating new content.
@@ -389,28 +375,42 @@ components:
           - notebook
           - file
           - directory
-    Checkpoint:
+    ContentsSave:
       type: object
-      description: A checkpoint (snapshot) of a file.
+      description: Request body for saving content.
       properties:
-        id:
+        name:
           type: string
-          description: Unique identifier for the checkpoint.
-        last_modified:
+          description: Name of the file.
+        path:
           type: string
-          format: date-time
-          description: Timestamp of when the checkpoint was created.
+          description: Path of the file.
+        type:
+          type: string
+          description: Type of content.
+          enum:
+          - notebook
+          - file
+          - directory
+        format:
+          type: string
+          description: Format of the content field.
+          enum:
+          - json
+          - text
+          - base64
+        content:
+          description: The content to save.
       required:
-      - id
-      - last_modified
+      - type
   securitySchemes:
     token:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
-    tokenQuery:
       type: apiKey
       in: query
       name: token
       description: Authentication token passed as a query parameter.
+    tokenHeader:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token passed in the Authorization header as 'token <token_value>'.

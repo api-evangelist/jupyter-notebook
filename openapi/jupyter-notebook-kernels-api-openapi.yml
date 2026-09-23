@@ -1,30 +1,30 @@
 openapi: 3.2.0
 info:
-  title: Jupyter Notebook Jupyter Kernel Gateway Authorization Kernels API
-  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
-  version: 3.0.0
+  title: Jupyter Notebook REST Kernels API
+  description: REST API for managing and interacting with Jupyter Notebook servers, including kernels, sessions, contents (notebooks and files), terminals, and kernel specifications. This API is served by the Jupyter Notebook server (or Jupyter Server) and provides programmatic access to all notebook server functionality.
+  version: 7.0.0
   license:
     name: BSD-3-Clause
     url: https://opensource.org/licenses/BSD-3-Clause
   contact:
     name: Jupyter Project
-    url: https://jupyter-kernel-gateway.readthedocs.io
+    url: https://jupyter.org
     email: jupyter@googlegroups.com
 servers:
 - url: http://localhost:8888/api
-  description: Local Jupyter Kernel Gateway server
+  description: Local Jupyter Notebook server
 security:
 - token: []
-- tokenQuery: []
+- tokenHeader: []
 tags:
 - name: Kernels
-  description: Kernel lifecycle management on the gateway. The gateway may enforce kernel limits and seed kernels.
+  description: Kernel lifecycle management including starting, stopping, interrupting, and restarting kernels.
 paths:
   /api/kernels:
     get:
       operationId: listKernels
       summary: Jupyter Notebook List running kernels
-      description: List all currently running kernels on the gateway.
+      description: List all currently running kernels.
       tags:
       - Kernels
       responses:
@@ -39,7 +39,7 @@ paths:
     post:
       operationId: startKernel
       summary: Jupyter Notebook Start a kernel
-      description: Start a new kernel. The kernel gateway may enforce a maximum number of kernels via the KG_MAX_KERNELS configuration.
+      description: Start a new kernel with an optional kernel specification name.
       tags:
       - Kernels
       requestBody:
@@ -51,12 +51,10 @@ paths:
               properties:
                 name:
                   type: string
-                  description: Name of the kernel spec to use. If omitted, the default kernel spec is used.
-                env:
-                  type: object
-                  description: Environment variables to set for the kernel. Only variables matching KG_ENV_WHITELIST are allowed.
-                  additionalProperties:
-                    type: string
+                  description: Name of the kernel spec to use.
+                path:
+                  type: string
+                  description: Working directory for the kernel.
       responses:
         '201':
           description: Kernel started successfully.
@@ -64,15 +62,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Kernel'
-        '402':
-          description: Maximum number of kernels reached. No more kernels can be started.
-        '403':
-          description: Forbidden. Kernel creation may be disabled via KG_SEED_URI configuration.
   /api/kernels/{kernel_id}:
     get:
       operationId: getKernel
       summary: Jupyter Notebook Get kernel information
-      description: Get the model for a specific kernel.
+      description: Get the model for a specific kernel by its ID.
       tags:
       - Kernels
       parameters:
@@ -95,7 +89,7 @@ paths:
     delete:
       operationId: shutdownKernel
       summary: Jupyter Notebook Shut down a kernel
-      description: Shut down a running kernel.
+      description: Shut down a running kernel by its ID.
       tags:
       - Kernels
       parameters:
@@ -109,15 +103,13 @@ paths:
       responses:
         '204':
           description: Kernel shut down successfully.
-        '403':
-          description: Forbidden. Kernel deletion may be disabled when using a seeded kernel.
         '404':
           description: Kernel not found.
   /api/kernels/{kernel_id}/interrupt:
     post:
       operationId: interruptKernel
       summary: Jupyter Notebook Interrupt a kernel
-      description: Interrupt a running kernel.
+      description: Interrupt a running kernel, stopping any currently executing code.
       tags:
       - Kernels
       parameters:
@@ -137,7 +129,7 @@ paths:
     post:
       operationId: restartKernel
       summary: Jupyter Notebook Restart a kernel
-      description: Restart a running kernel.
+      description: Restart a running kernel. This will kill the current kernel process and start a new one with the same ID.
       tags:
       - Kernels
       parameters:
@@ -173,10 +165,10 @@ components:
         last_activity:
           type: string
           format: date-time
-          description: Timestamp of last activity.
+          description: Timestamp of the last activity on the kernel.
         execution_state:
           type: string
-          description: Current execution state.
+          description: Current execution state of the kernel.
           enum:
           - starting
           - idle
@@ -185,7 +177,7 @@ components:
           - dead
         connections:
           type: integer
-          description: Number of active WebSocket connections.
+          description: Number of active connections to this kernel.
       required:
       - id
       - name
@@ -195,11 +187,11 @@ components:
   securitySchemes:
     token:
       type: apiKey
-      in: header
-      name: Authorization
-      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
-    tokenQuery:
-      type: apiKey
       in: query
       name: token
       description: Authentication token passed as a query parameter.
+    tokenHeader:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token passed in the Authorization header as 'token <token_value>'.

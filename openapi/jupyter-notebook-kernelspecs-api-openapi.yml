@@ -1,35 +1,35 @@
 openapi: 3.2.0
 info:
-  title: Jupyter Notebook Jupyter Kernel Gateway Authorization Kernelspecs API
-  description: 'REST API for the Jupyter Kernel Gateway, a web server that provides headless access to Jupyter kernels. The Kernel Gateway supports two modes: jupyter-websocket mode (default) which provides a Jupyter Notebook server-compatible API for kernel management, and notebook-http mode which maps notebook cells to HTTP endpoints. This spec covers the jupyter-websocket mode API.'
-  version: 3.0.0
+  title: Jupyter Notebook REST Kernelspecs API
+  description: REST API for managing and interacting with Jupyter Notebook servers, including kernels, sessions, contents (notebooks and files), terminals, and kernel specifications. This API is served by the Jupyter Notebook server (or Jupyter Server) and provides programmatic access to all notebook server functionality.
+  version: 7.0.0
   license:
     name: BSD-3-Clause
     url: https://opensource.org/licenses/BSD-3-Clause
   contact:
     name: Jupyter Project
-    url: https://jupyter-kernel-gateway.readthedocs.io
+    url: https://jupyter.org
     email: jupyter@googlegroups.com
 servers:
 - url: http://localhost:8888/api
-  description: Local Jupyter Kernel Gateway server
+  description: Local Jupyter Notebook server
 security:
 - token: []
-- tokenQuery: []
+- tokenHeader: []
 tags:
 - name: Kernelspecs
-  description: Kernel specification listing and retrieval.
+  description: Kernel specification listing and retrieval for available kernel types.
 paths:
   /api/kernelspecs:
     get:
       operationId: listKernelSpecs
       summary: Jupyter Notebook List kernel specifications
-      description: Get the list of available kernel specifications. The gateway may be configured with KG_DEFAULT_KERNEL_NAME to set a specific default.
+      description: Get the list of available kernel specifications. Returns the default kernel name and a mapping of kernel spec names to their specifications.
       tags:
       - Kernelspecs
       responses:
         '200':
-          description: Kernel specifications.
+          description: Kernel specifications listing.
           content:
             application/json:
               schema:
@@ -59,21 +59,6 @@ paths:
           description: Kernel spec not found.
 components:
   schemas:
-    KernelSpecList:
-      type: object
-      description: List of available kernel specifications.
-      properties:
-        default:
-          type: string
-          description: Name of the default kernel specification.
-        kernelspecs:
-          type: object
-          description: Mapping of kernel spec names to specifications.
-          additionalProperties:
-            $ref: '#/components/schemas/KernelSpec'
-      required:
-      - default
-      - kernelspecs
     KernelSpec:
       type: object
       description: A kernel specification.
@@ -87,10 +72,10 @@ components:
           properties:
             language:
               type: string
-              description: Programming language of the kernel.
+              description: The programming language of the kernel.
             display_name:
               type: string
-              description: Human-readable display name.
+              description: Human-readable name for the kernel.
             argv:
               type: array
               description: Command line arguments to launch the kernel.
@@ -101,27 +86,46 @@ components:
               description: Environment variables for the kernel.
               additionalProperties:
                 type: string
+            metadata:
+              type: object
+              description: Additional metadata about the kernel.
+              additionalProperties: true
           required:
           - language
           - display_name
           - argv
         resources:
           type: object
-          description: Resource files (logos, icons).
+          description: Resource files associated with the kernel spec (e.g., logos).
           additionalProperties:
             type: string
       required:
       - name
       - spec
       - resources
+    KernelSpecList:
+      type: object
+      description: List of available kernel specifications.
+      properties:
+        default:
+          type: string
+          description: Name of the default kernel specification.
+        kernelspecs:
+          type: object
+          description: Mapping of kernel spec names to their specifications.
+          additionalProperties:
+            $ref: '#/components/schemas/KernelSpec'
+      required:
+      - default
+      - kernelspecs
   securitySchemes:
     token:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: Authentication token configured via KG_AUTH_TOKEN. Passed as 'token <token_value>' in the Authorization header.
-    tokenQuery:
       type: apiKey
       in: query
       name: token
       description: Authentication token passed as a query parameter.
+    tokenHeader:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token passed in the Authorization header as 'token <token_value>'.
