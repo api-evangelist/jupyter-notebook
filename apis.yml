@@ -38,9 +38,10 @@ tags:
 - Data Science
 - Interactive Computing
 - Jupyter
-- Machine-Learning
+- Machine Learning
 - Notebooks
 - Python
+- Real-Time
 tags_raw:
 - Data Science
 - Interactive Computing
@@ -48,6 +49,8 @@ tags_raw:
 - Machine Learning
 - Notebooks
 - Python
+- Machine-Learning
+- Real-Time
 url: https://raw.githubusercontent.com/api-evangelist/jupyter-notebook/refs/heads/main/apis.yml
 created: '2024-01-15'
 modified: '2026-09-16'

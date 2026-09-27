@@ -133,6 +133,30 @@ paths:
           description: Session not found.
 components:
   schemas:
+    SessionUpdate:
+      type: object
+      description: Request body for updating a session.
+      properties:
+        path:
+          type: string
+          description: New notebook path for the session.
+        name:
+          type: string
+          description: New name for the session.
+        type:
+          type: string
+          description: New type for the session.
+        kernel:
+          type: object
+          description: Kernel specification update.
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: ID of a kernel to associate with.
+            name:
+              type: string
+              description: Name of the kernel spec.
     Kernel:
       type: object
       description: A running kernel instance.
@@ -191,30 +215,6 @@ components:
       - name
       - type
       - kernel
-    SessionUpdate:
-      type: object
-      description: Request body for updating a session.
-      properties:
-        path:
-          type: string
-          description: New notebook path for the session.
-        name:
-          type: string
-          description: New name for the session.
-        type:
-          type: string
-          description: New type for the session.
-        kernel:
-          type: object
-          description: Kernel specification update.
-          properties:
-            id:
-              type: string
-              format: uuid
-              description: ID of a kernel to associate with.
-            name:
-              type: string
-              description: Name of the kernel spec.
     SessionCreate:
       type: object
       description: Request body for creating a new session.

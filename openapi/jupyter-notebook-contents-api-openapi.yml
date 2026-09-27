@@ -277,6 +277,34 @@ paths:
           description: Checkpoint or path not found.
 components:
   schemas:
+    ContentsSave:
+      type: object
+      description: Request body for saving content.
+      properties:
+        name:
+          type: string
+          description: Name of the file.
+        path:
+          type: string
+          description: Path of the file.
+        type:
+          type: string
+          description: Type of content.
+          enum:
+          - notebook
+          - file
+          - directory
+        format:
+          type: string
+          description: Format of the content field.
+          enum:
+          - json
+          - text
+          - base64
+        content:
+          description: The content to save.
+      required:
+      - type
     Contents:
       type: object
       description: A contents model representing a file, directory, or notebook in the Jupyter file system.
@@ -375,34 +403,6 @@ components:
           - notebook
           - file
           - directory
-    ContentsSave:
-      type: object
-      description: Request body for saving content.
-      properties:
-        name:
-          type: string
-          description: Name of the file.
-        path:
-          type: string
-          description: Path of the file.
-        type:
-          type: string
-          description: Type of content.
-          enum:
-          - notebook
-          - file
-          - directory
-        format:
-          type: string
-          description: Format of the content field.
-          enum:
-          - json
-          - text
-          - base64
-        content:
-          description: The content to save.
-      required:
-      - type
   securitySchemes:
     token:
       type: apiKey

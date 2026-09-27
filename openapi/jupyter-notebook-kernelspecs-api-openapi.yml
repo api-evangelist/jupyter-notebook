@@ -59,6 +59,21 @@ paths:
           description: Kernel spec not found.
 components:
   schemas:
+    KernelSpecList:
+      type: object
+      description: List of available kernel specifications.
+      properties:
+        default:
+          type: string
+          description: Name of the default kernel specification.
+        kernelspecs:
+          type: object
+          description: Mapping of kernel spec names to their specifications.
+          additionalProperties:
+            $ref: '#/components/schemas/KernelSpec'
+      required:
+      - default
+      - kernelspecs
     KernelSpec:
       type: object
       description: A kernel specification.
@@ -103,21 +118,6 @@ components:
       - name
       - spec
       - resources
-    KernelSpecList:
-      type: object
-      description: List of available kernel specifications.
-      properties:
-        default:
-          type: string
-          description: Name of the default kernel specification.
-        kernelspecs:
-          type: object
-          description: Mapping of kernel spec names to their specifications.
-          additionalProperties:
-            $ref: '#/components/schemas/KernelSpec'
-      required:
-      - default
-      - kernelspecs
   securitySchemes:
     token:
       type: apiKey

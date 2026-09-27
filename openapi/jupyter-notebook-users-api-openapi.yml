@@ -547,6 +547,55 @@ components:
           type: object
           description: User options passed at spawn time.
           additionalProperties: true
+    Token:
+      type: object
+      description: An API token.
+      properties:
+        token:
+          type: string
+          description: The token value. Only included once on creation, not on subsequent retrievals.
+        id:
+          type: string
+          description: Token identifier (not the token value).
+        user:
+          type: string
+          description: Username the token belongs to.
+        service:
+          type:
+          - string
+          - 'null'
+          description: Service the token belongs to, if any.
+        roles:
+          type: array
+          description: Roles assigned to this token.
+          items:
+            type: string
+        scopes:
+          type: array
+          description: OAuth scopes for this token.
+          items:
+            type: string
+        note:
+          type: string
+          description: Note describing the purpose of this token.
+        created:
+          type: string
+          format: date-time
+          description: When the token was created.
+        expires_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: When the token expires, null if no expiry.
+        last_activity:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last time the token was used.
+      required:
+      - id
     User:
       type: object
       description: A JupyterHub user.
@@ -606,55 +655,6 @@ components:
       required:
       - name
       - admin
-    Token:
-      type: object
-      description: An API token.
-      properties:
-        token:
-          type: string
-          description: The token value. Only included once on creation, not on subsequent retrievals.
-        id:
-          type: string
-          description: Token identifier (not the token value).
-        user:
-          type: string
-          description: Username the token belongs to.
-        service:
-          type:
-          - string
-          - 'null'
-          description: Service the token belongs to, if any.
-        roles:
-          type: array
-          description: Roles assigned to this token.
-          items:
-            type: string
-        scopes:
-          type: array
-          description: OAuth scopes for this token.
-          items:
-            type: string
-        note:
-          type: string
-          description: Note describing the purpose of this token.
-        created:
-          type: string
-          format: date-time
-          description: When the token was created.
-        expires_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: When the token expires, null if no expiry.
-        last_activity:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Last time the token was used.
-      required:
-      - id
   securitySchemes:
     token:
       type: apiKey
