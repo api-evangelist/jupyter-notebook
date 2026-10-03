@@ -305,6 +305,23 @@ components:
           description: The content to save.
       required:
       - type
+    ContentsCreate:
+      type: object
+      description: Request body for creating new content.
+      properties:
+        copy_from:
+          type: string
+          description: Path to copy from. Creates a copy of the specified content.
+        ext:
+          type: string
+          description: File extension for the new file.
+        type:
+          type: string
+          description: Type of content to create.
+          enum:
+          - notebook
+          - file
+          - directory
     Contents:
       type: object
       description: A contents model representing a file, directory, or notebook in the Jupyter file system.
@@ -386,23 +403,6 @@ components:
       required:
       - id
       - last_modified
-    ContentsCreate:
-      type: object
-      description: Request body for creating new content.
-      properties:
-        copy_from:
-          type: string
-          description: Path to copy from. Creates a copy of the specified content.
-        ext:
-          type: string
-          description: File extension for the new file.
-        type:
-          type: string
-          description: Type of content to create.
-          enum:
-          - notebook
-          - file
-          - directory
   securitySchemes:
     token:
       type: apiKey

@@ -45,43 +45,6 @@ paths:
           description: Token not found or invalid.
 components:
   schemas:
-    Server:
-      type: object
-      description: A user's single-user notebook server.
-      properties:
-        name:
-          type: string
-          description: Name of the server (empty string for default).
-        ready:
-          type: boolean
-          description: Whether the server is ready to accept connections.
-        pending:
-          type:
-          - string
-          - 'null'
-          description: Pending action for the server.
-        url:
-          type: string
-          description: URL path of the running server.
-        progress_url:
-          type: string
-          description: URL for the server's spawn progress events.
-        started:
-          type: string
-          format: date-time
-          description: Timestamp when the server was started.
-        last_activity:
-          type: string
-          format: date-time
-          description: Timestamp of last activity on the server.
-        state:
-          type: object
-          description: Spawner state (admin only).
-          additionalProperties: true
-        user_options:
-          type: object
-          description: User options passed at spawn time.
-          additionalProperties: true
     User:
       type: object
       description: A JupyterHub user.
@@ -141,6 +104,43 @@ components:
       required:
       - name
       - admin
+    Server:
+      type: object
+      description: A user's single-user notebook server.
+      properties:
+        name:
+          type: string
+          description: Name of the server (empty string for default).
+        ready:
+          type: boolean
+          description: Whether the server is ready to accept connections.
+        pending:
+          type:
+          - string
+          - 'null'
+          description: Pending action for the server.
+        url:
+          type: string
+          description: URL path of the running server.
+        progress_url:
+          type: string
+          description: URL for the server's spawn progress events.
+        started:
+          type: string
+          format: date-time
+          description: Timestamp when the server was started.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of last activity on the server.
+        state:
+          type: object
+          description: Spawner state (admin only).
+          additionalProperties: true
+        user_options:
+          type: object
+          description: User options passed at spawn time.
+          additionalProperties: true
   securitySchemes:
     token:
       type: apiKey

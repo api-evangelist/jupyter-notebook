@@ -133,30 +133,34 @@ paths:
           description: Session not found.
 components:
   schemas:
-    SessionUpdate:
+    SessionCreate:
       type: object
-      description: Request body for updating a session.
+      description: Request body for creating a new session.
       properties:
         path:
           type: string
-          description: New notebook path for the session.
+          description: Path to the notebook.
         name:
           type: string
-          description: New name for the session.
+          description: Name for the session.
         type:
           type: string
-          description: New type for the session.
+          description: Type of the session.
         kernel:
           type: object
-          description: Kernel specification update.
+          description: Kernel specification for the session.
           properties:
             id:
               type: string
               format: uuid
-              description: ID of a kernel to associate with.
+              description: ID of an existing kernel to connect to.
             name:
               type: string
-              description: Name of the kernel spec.
+              description: Name of the kernel spec to start.
+      required:
+      - path
+      - type
+      - kernel
     Kernel:
       type: object
       description: A running kernel instance.
@@ -215,34 +219,30 @@ components:
       - name
       - type
       - kernel
-    SessionCreate:
+    SessionUpdate:
       type: object
-      description: Request body for creating a new session.
+      description: Request body for updating a session.
       properties:
         path:
           type: string
-          description: Path to the notebook.
+          description: New notebook path for the session.
         name:
           type: string
-          description: Name for the session.
+          description: New name for the session.
         type:
           type: string
-          description: Type of the session.
+          description: New type for the session.
         kernel:
           type: object
-          description: Kernel specification for the session.
+          description: Kernel specification update.
           properties:
             id:
               type: string
               format: uuid
-              description: ID of an existing kernel to connect to.
+              description: ID of a kernel to associate with.
             name:
               type: string
-              description: Name of the kernel spec to start.
-      required:
-      - path
-      - type
-      - kernel
+              description: Name of the kernel spec.
   securitySchemes:
     token:
       type: apiKey
