@@ -101,15 +101,6 @@ paths:
       description: Local JupyterHub server
 components:
   schemas:
-    ApiInfo:
-      type: object
-      description: Server API information.
-      properties:
-        version:
-          type: string
-          description: API version string.
-      required:
-      - version
     ServerStatus:
       type: object
       description: Notebook server status information.
@@ -128,6 +119,15 @@ components:
         kernels:
           type: integer
           description: Number of running kernels.
+    ApiInfo:
+      type: object
+      description: Server API information.
+      properties:
+        version:
+          type: string
+          description: API version string.
+      required:
+      - version
     HubInfo:
       type: object
       description: Detailed JupyterHub server information.

@@ -277,51 +277,20 @@ paths:
           description: Checkpoint or path not found.
 components:
   schemas:
-    ContentsSave:
+    Checkpoint:
       type: object
-      description: Request body for saving content.
+      description: A checkpoint (snapshot) of a file.
       properties:
-        name:
+        id:
           type: string
-          description: Name of the file.
-        path:
+          description: Unique identifier for the checkpoint.
+        last_modified:
           type: string
-          description: Path of the file.
-        type:
-          type: string
-          description: Type of content.
-          enum:
-          - notebook
-          - file
-          - directory
-        format:
-          type: string
-          description: Format of the content field.
-          enum:
-          - json
-          - text
-          - base64
-        content:
-          description: The content to save.
+          format: date-time
+          description: Timestamp of when the checkpoint was created.
       required:
-      - type
-    ContentsCreate:
-      type: object
-      description: Request body for creating new content.
-      properties:
-        copy_from:
-          type: string
-          description: Path to copy from. Creates a copy of the specified content.
-        ext:
-          type: string
-          description: File extension for the new file.
-        type:
-          type: string
-          description: Type of content to create.
-          enum:
-          - notebook
-          - file
-          - directory
+      - id
+      - last_modified
     Contents:
       type: object
       description: A contents model representing a file, directory, or notebook in the Jupyter file system.
@@ -389,20 +358,51 @@ components:
       - writable
       - created
       - last_modified
-    Checkpoint:
+    ContentsCreate:
       type: object
-      description: A checkpoint (snapshot) of a file.
+      description: Request body for creating new content.
       properties:
-        id:
+        copy_from:
           type: string
-          description: Unique identifier for the checkpoint.
-        last_modified:
+          description: Path to copy from. Creates a copy of the specified content.
+        ext:
           type: string
-          format: date-time
-          description: Timestamp of when the checkpoint was created.
+          description: File extension for the new file.
+        type:
+          type: string
+          description: Type of content to create.
+          enum:
+          - notebook
+          - file
+          - directory
+    ContentsSave:
+      type: object
+      description: Request body for saving content.
+      properties:
+        name:
+          type: string
+          description: Name of the file.
+        path:
+          type: string
+          description: Path of the file.
+        type:
+          type: string
+          description: Type of content.
+          enum:
+          - notebook
+          - file
+          - directory
+        format:
+          type: string
+          description: Format of the content field.
+          enum:
+          - json
+          - text
+          - base64
+        content:
+          description: The content to save.
       required:
-      - id
-      - last_modified
+      - type
   securitySchemes:
     token:
       type: apiKey
