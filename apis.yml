@@ -488,6 +488,12 @@ apis:
   - type: Repository
     url: https://github.com/jupyterhub/jupyterhub
 common:
+- type: Plans
+  url: plans/jupyter-notebook-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/jupyter-notebook-rate-limits.yml
+- type: FinOps
+  url: finops/jupyter-notebook-finops.yml
 - type: CapabilityMap
   url: capabilities/jupyter-notebook-capability-edges.yml
   name: Jupyter Notebook Business Capability Map
