@@ -133,6 +133,39 @@ paths:
           description: Session not found.
 components:
   schemas:
+    Kernel:
+      type: object
+      description: A running kernel instance.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the kernel.
+        name:
+          type: string
+          description: Name of the kernel specification.
+        last_activity:
+          type: string
+          format: date-time
+          description: Timestamp of the last activity on the kernel.
+        execution_state:
+          type: string
+          description: Current execution state of the kernel.
+          enum:
+          - starting
+          - idle
+          - busy
+          - restarting
+          - dead
+        connections:
+          type: integer
+          description: Number of active connections to this kernel.
+      required:
+      - id
+      - name
+      - last_activity
+      - execution_state
+      - connections
     SessionUpdate:
       type: object
       description: Request body for updating a session.
@@ -185,39 +218,6 @@ components:
       - path
       - type
       - kernel
-    Kernel:
-      type: object
-      description: A running kernel instance.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the kernel.
-        name:
-          type: string
-          description: Name of the kernel specification.
-        last_activity:
-          type: string
-          format: date-time
-          description: Timestamp of the last activity on the kernel.
-        execution_state:
-          type: string
-          description: Current execution state of the kernel.
-          enum:
-          - starting
-          - idle
-          - busy
-          - restarting
-          - dead
-        connections:
-          type: integer
-          description: Number of active connections to this kernel.
-      required:
-      - id
-      - name
-      - last_activity
-      - execution_state
-      - connections
     Session:
       type: object
       description: A notebook session, associating a notebook with a kernel.

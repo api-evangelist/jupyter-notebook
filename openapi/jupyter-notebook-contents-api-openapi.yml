@@ -277,20 +277,34 @@ paths:
           description: Checkpoint or path not found.
 components:
   schemas:
-    Checkpoint:
+    ContentsSave:
       type: object
-      description: A checkpoint (snapshot) of a file.
+      description: Request body for saving content.
       properties:
-        id:
+        name:
           type: string
-          description: Unique identifier for the checkpoint.
-        last_modified:
+          description: Name of the file.
+        path:
           type: string
-          format: date-time
-          description: Timestamp of when the checkpoint was created.
+          description: Path of the file.
+        type:
+          type: string
+          description: Type of content.
+          enum:
+          - notebook
+          - file
+          - directory
+        format:
+          type: string
+          description: Format of the content field.
+          enum:
+          - json
+          - text
+          - base64
+        content:
+          description: The content to save.
       required:
-      - id
-      - last_modified
+      - type
     Contents:
       type: object
       description: A contents model representing a file, directory, or notebook in the Jupyter file system.
@@ -358,6 +372,20 @@ components:
       - writable
       - created
       - last_modified
+    Checkpoint:
+      type: object
+      description: A checkpoint (snapshot) of a file.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the checkpoint.
+        last_modified:
+          type: string
+          format: date-time
+          description: Timestamp of when the checkpoint was created.
+      required:
+      - id
+      - last_modified
     ContentsCreate:
       type: object
       description: Request body for creating new content.
@@ -375,34 +403,6 @@ components:
           - notebook
           - file
           - directory
-    ContentsSave:
-      type: object
-      description: Request body for saving content.
-      properties:
-        name:
-          type: string
-          description: Name of the file.
-        path:
-          type: string
-          description: Path of the file.
-        type:
-          type: string
-          description: Type of content.
-          enum:
-          - notebook
-          - file
-          - directory
-        format:
-          type: string
-          description: Format of the content field.
-          enum:
-          - json
-          - text
-          - base64
-        content:
-          description: The content to save.
-      required:
-      - type
   securitySchemes:
     token:
       type: apiKey
