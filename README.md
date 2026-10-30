@@ -1,4 +1,4 @@
-# Jupyter Notebook (jupyter-notebook)
+# Jupyter Notebook
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,144 +66,183 @@
 
 Jupyter Notebook is the original open-source web application for creating and sharing computational documents that contain live code, equations, visualizations, and narrative text. The Jupyter Notebook server exposes a REST API for managing notebooks, files, kernels, sessions, and terminals, and uses the WebSocket-based Jupyter messaging protocol to communicate with kernels.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/jupyter-notebook/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/jupyter-notebook/refs/heads/main/apis.yml)
+**Areas:** Data Science · Interactive Computing · Jupyter · Machine Learning · Notebooks · Python · Real-Time
 
-## Scope
+## Jupyter Notebook on APIs.io
 
-- **Type:** Index
+Everything profiled for Jupyter Notebook is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/jupyter-notebook/](https://apis.io/providers/jupyter-notebook/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (14)
 
-- Data Science
-- Interactive Computing
-- Jupyter
-- Machine Learning
-- Notebooks
-- Python
+- [Jupyter Kernel Messaging Protocol](https://apis.io/apis/jupyter-notebook/jupyter-kernel-messaging/) — WebSocket-based messaging protocol for communication between Jupyter clients and computational kernels. Supports code execution, introspection, completion,…
+- [Jupyter Notebook Authorization API](https://apis.io/apis/jupyter-notebook/jupyter-notebook-authorization-api/) — Token verification and authorization checks.
+- [Jupyter Notebook Config API](https://apis.io/apis/jupyter-notebook/jupyter-notebook-config-api/) — Server configuration section management.
+- [Jupyter Notebook Contents API](https://apis.io/apis/jupyter-notebook/jupyter-notebook-contents-api/) — File and directory management including notebooks, files, directories, and checkpoints.
+- [Jupyter Notebook General API](https://apis.io/apis/jupyter-notebook/jupyter-notebook-general-api/) — General gateway information.
+- [Jupyter Notebook Groups API](https://apis.io/apis/jupyter-notebook/jupyter-notebook-groups-api/) — Group management for organizing users.
+- [Jupyter Notebook Hub API](https://apis.io/apis/jupyter-notebook/jupyter-notebook-hub-api/) — Hub lifecycle management.
+- [Jupyter Notebook Kernels API](https://apis.io/apis/jupyter-notebook/jupyter-notebook-kernels-api/) — Kernel lifecycle management on the gateway. The gateway may enforce kernel limits and seed kernels.
+- [Jupyter Notebook Kernelspecs API](https://apis.io/apis/jupyter-notebook/jupyter-notebook-kernelspecs-api/) — Kernel specification listing and retrieval.
+- [Jupyter Notebook Proxy API](https://apis.io/apis/jupyter-notebook/jupyter-notebook-proxy-api/) — Configurable HTTP proxy routing table management.
+- [Jupyter Notebook Services API](https://apis.io/apis/jupyter-notebook/jupyter-notebook-services-api/) — The Services API from Jupyter Notebook — 2 operation(s) for services.
+- [Jupyter Notebook Sessions API](https://apis.io/apis/jupyter-notebook/jupyter-notebook-sessions-api/) — Session management for associating notebooks with running kernels.
+- [Jupyter Notebook Terminals API](https://apis.io/apis/jupyter-notebook/jupyter-notebook-terminals-api/) — Terminal session management on the server.
+- [Jupyter Notebook Users API](https://apis.io/apis/jupyter-notebook/jupyter-notebook-users-api/) — User management including creation, deletion, server management, and token management.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2024-01-15
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### Jupyter Notebook REST API
+Event-driven and webhook contracts.
 
-REST API for managing and interacting with Jupyter Notebook servers, including kernels, sessions, contents (notebooks and files), terminals, and kernel specifications.
+- [Jupyter Kernel Messaging Protocol](https://apis.io/asyncapis/jupyter-notebook/jupyter-kernel-messaging-asyncapi/)
 
-- **Human URL:** [https://jupyter-notebook.readthedocs.io/](https://jupyter-notebook.readthedocs.io/)
-- **Base URL:** `http://localhost:8888/api`
+#### Event channels (1)
 
-#### Tags
+Individual events and webhooks the provider emits.
 
-- Contents
-- Files
-- Kernels
-- Notebooks
-- REST API
-- Sessions
+- [/api/kernels/{kernel_id}/channels](https://apis.io/channels/jupyter-notebook/api-kernels-kernel-id-channels/)
 
-#### Properties
+#### Agentic access (1)
 
-- [Documentation](https://jupyter-notebook.readthedocs.io/en/stable/rest_api.html)
-- [Repository](https://github.com/jupyter/notebook)
-- [OpenAPI](openapi/jupyter-notebook-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/jupyter-notebook-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/jupyter-notebook-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/jupyter-notebook-document.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/jupyter-contents-model.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/jupyter-kernel-spec.json) — [JSON Schema](https://json-schema.org/specification)
-- [J S O N L D Context](json-ld/jupyter-notebook-context.jsonld)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### Jupyter Kernel Gateway API
+- [Jupyter Notebook Agentic Access](https://apis.io/agentic-access/jupyter-notebook/jupyter-notebook-agentic-access/)
 
-Web server that provides headless access to Jupyter kernels for remote execution of code, with kernel and notebook HTTP modes.
+#### JSON Schema (4)
 
-- **Human URL:** [https://jupyter-kernel-gateway.readthedocs.io/](https://jupyter-kernel-gateway.readthedocs.io/)
-- **Base URL:** `http://localhost:8888`
+The data models the API reads and writes.
 
-#### Tags
+- [Jupyter Contents Model](https://apis.io/schemas/jupyter-notebook/jupyter-contents-model/)
+- [Jupyter Kernel Message](https://apis.io/schemas/jupyter-notebook/jupyter-kernel-message/)
+- [Jupyter Kernel Specification](https://apis.io/schemas/jupyter-notebook/jupyter-kernel-spec/)
+- [Jupyter Notebook Document](https://apis.io/schemas/jupyter-notebook/jupyter-notebook-document/)
 
-- Execution
-- Gateway
-- Headless
-- Kernels
+#### JSON-LD (1)
 
-#### Properties
+Linked-data contexts for the provider's vocabulary.
 
-- [Documentation](https://jupyter-kernel-gateway.readthedocs.io/en/latest/)
-- [Repository](https://github.com/jupyter-server/kernel_gateway)
-- [OpenAPI](openapi/jupyter-kernel-gateway-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/jupyter-kernel-gateway-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/jupyter-kernel-gateway-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Jupyter Notebook Context](https://apis.io/jsonld/jupyter-notebook/jupyter-notebook-context/)
 
-### JupyterHub REST API
+#### Collections (16)
 
-Multi-user server management API for spawning, managing, and proxying multiple instances of single-user Jupyter notebook servers.
+Postman and Open Collection request collections.
 
-- **Human URL:** [https://jupyterhub.readthedocs.io/](https://jupyterhub.readthedocs.io/)
-- **Base URL:** `http://localhost:8000/hub/api`
+- [Jupyter Notebook Jupyter Kernel Gateway API](https://apis.io/collections/jupyter-notebook/open-jupyter-kernel-gateway-api/)
+- [Jupyter Notebook Jupyter Kernel Gateway Authorization API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-authorization-api/)
+- [Jupyter Notebook Jupyter Kernel Gateway Authorization Config API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-config-api/)
+- [Jupyter Notebook Jupyter Kernel Gateway Authorization Contents API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-contents-api/)
+- [Jupyter Notebook Jupyter Kernel Gateway Authorization General API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-general-api/)
+- [Jupyter Notebook Jupyter Kernel Gateway Authorization Groups API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-groups-api/)
+- [Jupyter Notebook Jupyter Kernel Gateway Authorization Hub API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-hub-api/)
+- [Jupyter Notebook Jupyter Kernel Gateway Authorization Kernels API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-kernels-api/)
+- [Jupyter Notebook Jupyter Kernel Gateway Authorization Kernelspecs API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-kernelspecs-api/)
+- [Jupyter Notebook Jupyter Kernel Gateway Authorization Proxy API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-proxy-api/)
+- [Jupyter Notebook REST API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-rest-api/)
+- [Jupyter Notebook Jupyter Kernel Gateway Authorization Services API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-services-api/)
+- [Jupyter Notebook Jupyter Kernel Gateway Authorization Sessions API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-sessions-api/)
+- [Jupyter Notebook Jupyter Kernel Gateway Authorization Terminals API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-terminals-api/)
+- [Jupyter Notebook Jupyter Kernel Gateway Authorization Users API](https://apis.io/collections/jupyter-notebook/open-jupyter-notebook-users-api/)
+- [Jupyter Notebook JupyterHub REST API](https://apis.io/collections/jupyter-notebook/open-jupyterhub-rest-api/)
 
-#### Tags
+#### Governance rules (2)
 
-- Authentication
-- Hub
-- Multi-User
-- REST API
+Spectral rulesets for the provider's contracts.
 
-#### Properties
+- [Jupyter Notebook — asyncapi rules](https://apis.io/rules/jupyter-notebook/jupyter-notebook-asyncapi-spectral-rules/)
+- [Jupyter Notebook — jsonschema rules](https://apis.io/rules/jupyter-notebook/jupyter-notebook-jsonschema-spectral-rules/)
 
-- [Documentation](https://jupyterhub.readthedocs.io/en/stable/reference/rest-api.html)
-- [Repository](https://github.com/jupyterhub/jupyterhub)
-- [OpenAPI](openapi/jupyterhub-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/jupyterhub-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/jupyterhub-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Security (3)
 
-### Jupyter Kernel Messaging Protocol
+Authentication, trust centre, and vulnerability disclosure.
 
-WebSocket-based messaging protocol for communication between Jupyter clients and computational kernels. Supports code execution, introspection, completion, and rich output over shell, IOPub, stdin, and control channels.
+- [Jupyter Notebook Authentication](https://apis.io/security/jupyter-notebook/jupyter-notebook-authentication/)
+- [Jupyter Notebook Domain Security](https://apis.io/security/jupyter-notebook/jupyter-notebook-domain-security/)
+- [Jupyter Notebook Vulnerability Disclosure](https://apis.io/security/jupyter-notebook/jupyter-notebook-vulnerability-disclosure/)
 
-- **Human URL:** [https://jupyter-client.readthedocs.io/en/stable/messaging.html](https://jupyter-client.readthedocs.io/en/stable/messaging.html)
-- **Base URL:** `ws://localhost:8888`
+#### Plans and pricing (1)
 
-#### Tags
+Published plans, tiers and prices.
 
-- Kernels
-- Messaging
-- Real-Time
-- WebSocket
+- [Jupyter Notebook Plans Pricing](https://apis.io/plans/jupyter-notebook/jupyter-notebook-plans-pricing/)
 
-#### Properties
+#### Rate limits (1)
 
-- [Documentation](https://jupyter-client.readthedocs.io/en/stable/messaging.html)
-- [Repository](https://github.com/jupyter/jupyter_client)
-- [AsyncAPI](asyncapi/jupyter-kernel-messaging-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
-- [JSON Schema](json-schema/jupyter-kernel-message.json) — [JSON Schema](https://json-schema.org/specification)
-- [J S O N L D Context](json-ld/jupyter-notebook-context.jsonld)
-- [Postman Collection](collections/jupyter-kernel-gateway-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/jupyter-kernel-gateway-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/jupyter-notebook-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/jupyter-notebook-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/jupyterhub-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/jupyterhub-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Published request limits.
 
-## Common Properties
+- [Jupyter Notebook Rate Limits](https://apis.io/rate-limits/jupyter-notebook/jupyter-notebook-rate-limits/)
 
-- [LinkedIn](https://www.linkedin.com/company/project-jupyter)
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Jupyter Notebook Finops](https://apis.io/finops/jupyter-notebook/jupyter-notebook-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://jupyter.org)
 - [Documentation](https://docs.jupyter.org/en/latest/)
-- [Getting Started](https://docs.jupyter.org/en/latest/start/index.html)
-- [Blog](https://blog.jupyter.org/)
-- [GitHub Organization](https://github.com/jupyter)
-- [Community](https://jupyter.org/community)
+- [Getting started](https://docs.jupyter.org/en/latest/start/index.html)
 - [Support](https://discourse.jupyter.org/)
+- [Blog](https://blog.jupyter.org/)
 - [Security](https://jupyter.org/security)
-- [YouTube](https://www.youtube.com/@ProjectJupyter)
-- [Stack Overflow](https://stackoverflow.com/questions/tagged/jupyter-notebook)
+- [GitHub](https://github.com/jupyter)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
-**URL:** https://apievangelist.com
+**Kin Score 40.6** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 62.5 |
+| Contract quality | 64.8 |
+| Contract governance | 13.6 |
+| Operational transparency | 34.2 |
+| Developer ergonomics | 40.5 |
+| Access clarity | 5.3 |
+
+**Agent readiness 20.0** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 20.9** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/jupyter-notebook/](https://apis.io/providers/jupyter-notebook/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Jupyter Notebook: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/jupyter-notebook/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
